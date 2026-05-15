@@ -3,14 +3,14 @@
 //     Caption = 'Posted Work Completion Certificate';
 //     layout
 //     {
-      
+
 //     }
-    
+
 //     actions
 //     {
 //         // Add changes to page actions here
 //     }
-    
+
 //     var
 //         myInt: Integer;
 // }

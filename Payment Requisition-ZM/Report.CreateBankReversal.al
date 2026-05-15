@@ -81,7 +81,7 @@ report 50029 "Create Bank Reversal"
             }
         }
 
-       
+
     }
     trigger OnInitReport()
     begin
@@ -112,7 +112,7 @@ report 50029 "Create Bank Reversal"
         GenJournalLine.Validate("Bal. Account No.", DestinationBankNo);
         GenJournalLine."Shortcut Dimension 1 Code" := "Bank Account Ledger Entry"."Global Dimension 1 Code";
         GenJournalLine."Shortcut Dimension 2 Code" := "Bank Account Ledger Entry"."Global Dimension 2 Code";
-        GenJournalLine.Validate( "Dimension Set ID", "Bank Account Ledger Entry"."Dimension Set ID");
+        GenJournalLine.Validate("Dimension Set ID", "Bank Account Ledger Entry"."Dimension Set ID");
         GenJournalLine.Modify();
     end;
 

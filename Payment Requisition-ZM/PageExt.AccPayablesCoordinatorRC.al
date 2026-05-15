@@ -116,7 +116,7 @@ pageextension 50000 AccPayablesCoordinatorRCExt extends "Acc. Payables Coordinat
 
 
         }
-        addafter("Purchase &Credit Memo Nos.")
+        addafter("Purchase Credit &Memo")
         {
 
             action(AgedAccountsReceivable)

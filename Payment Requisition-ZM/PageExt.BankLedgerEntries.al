@@ -2,7 +2,8 @@ pageextension 50022 BankLedgerEntries extends "Bank Account Ledger Entries"
 {
     layout
     {
-        modify(Open){
+        modify(Open)
+        {
             Visible = false;
         }
         addafter(Amount)

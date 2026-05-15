@@ -445,11 +445,11 @@ table 60009 "Payment Voucher Header"
             // if ("Source Type" = filter("Pension Fund Administrator")) "Pension Administrator";
         }
         field(50065; "Payment ID"; Code[20]) { }
-        field(50066; "Schedule Amount"; Decimal)
-        {
-            FieldClass = FlowField;
-            CalcFormula = sum("Payment Schedule".Amount where("Source Document No." = field("No.")));
-        }
+        // field(50066; "Schedule Amount"; Decimal)
+        // {
+        //     FieldClass = FlowField;
+        //     CalcFormula = sum("Payment Schedule".Amount where("Source Document No." = field("No.")));
+        // }
         field(50067; "Voucher Amount"; Decimal)
         {
             FieldClass = FlowField;

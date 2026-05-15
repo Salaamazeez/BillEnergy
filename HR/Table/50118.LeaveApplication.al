@@ -628,15 +628,13 @@ table 50118 LeaveApplication
 
     procedure AssistEdit(OldLeaveApp: Record LeaveApplication): Boolean
     begin
-        with LeavAppRec do begin
-            LeavAppRec := Rec;
-            HRMSetup.GET;
-            HRMSetup.TESTFIELD(HRMSetup."Leave Nos");
-            if NoSeriesMgt.LookupRelatedNoSeries(HRMSetup."Leave Nos", xRec."No. Series", "No. Series") then begin
-                NoSeriesMgt.GetNextNo("Leave Code");
-                Rec := LeavAppRec;
-                exit(true);
-            end;
+        LeavAppRec := Rec;
+        HRMSetup.GET;
+        HRMSetup.TESTFIELD(HRMSetup."Leave Nos");
+        if NoSeriesMgt.LookupRelatedNoSeries(HRMSetup."Leave Nos", xRec."No. Series", LeavAppRec."No. Series") then begin
+            NoSeriesMgt.GetNextNo(LeavAppRec."Leave Code");
+            Rec := LeavAppRec;
+            exit(true);
         end;
     end;
 

@@ -9,15 +9,7 @@ pageextension 50012 VendorExt extends "Vendor Card"
                 ApplicationArea = All;
 
             }
-            field("Sectorial Purpose Code"; Rec."Sectorial Purpose Code")
-            {
-                ApplicationArea = All;
-            }
-            field("Payment Category Code"; Rec."Payment Category Code")
-            {
-                Visible = false;
-                ApplicationArea = All;
-            }
+
         }
     }
 

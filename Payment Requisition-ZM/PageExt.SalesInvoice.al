@@ -6,28 +6,28 @@ pageextension 50123 SalesInvoiceExt extends "Sales Invoice"
         {
             trigger OnBeforeAction()
             begin
-                TestField()
+                // Rec.TestField()
             end;
         }
         modify(PostAndNew)
         {
             trigger OnBeforeAction()
             begin
-                TestField()
+                // Rec.TestField()
             end;
         }
         modify(SendApprovalRequest)
         {
             trigger OnBeforeAction()
             begin
-                TestField()
+                // Rec.TestField()
             end;
         }
         modify(Release)
         {
             trigger OnBeforeAction()
             begin
-                TestField()
+                // Rec.TestField()
             end;
         }
     }

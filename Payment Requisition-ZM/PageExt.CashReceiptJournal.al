@@ -13,7 +13,7 @@ pageextension 50018 CashRcptJournalExt extends "Cash Receipt Journal"
         modify("Account No.")
         {
             Visible = false;
-    
+
         }
         addafter("Account Type")
         {

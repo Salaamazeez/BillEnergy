@@ -10,25 +10,25 @@ XmlPort 80000 "Bank Recon Import"
     {
         textelement(Root)
         {
-            tableelement("Bank Acc. Reconc Line";"Bank Acc. Reconciliation Line")
+            tableelement("Bank Acc. Reconc Line"; "Bank Acc. Reconciliation Line")
             {
                 XmlName = 'StockItems';
-                fieldelement(AcctNo;"Bank Acc. Reconc Line"."Bank Account No.")
+                fieldelement(AcctNo; "Bank Acc. Reconc Line"."Bank Account No.")
                 {
                 }
-                fieldelement(StatementNo;"Bank Acc. Reconc Line"."Statement No.")
+                fieldelement(StatementNo; "Bank Acc. Reconc Line"."Statement No.")
                 {
                 }
-                fieldelement(LineNo;"Bank Acc. Reconc Line"."Statement Line No.")
+                fieldelement(LineNo; "Bank Acc. Reconc Line"."Statement Line No.")
                 {
                 }
-                fieldelement(Date;"Bank Acc. Reconc Line"."Transaction Date")
+                fieldelement(Date; "Bank Acc. Reconc Line"."Transaction Date")
                 {
                 }
-                fieldelement(Description;"Bank Acc. Reconc Line".Description)
+                fieldelement(Description; "Bank Acc. Reconc Line".Description)
                 {
                 }
-                fieldelement(Amount;"Bank Acc. Reconc Line"."Statement Amount")
+                fieldelement(Amount; "Bank Acc. Reconc Line"."Statement Amount")
                 {
                 }
             }

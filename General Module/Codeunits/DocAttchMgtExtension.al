@@ -180,41 +180,41 @@ codeunit 50001 "DocAttchMgt Extension"
         DeleteAttachedDocuments(RecRef);
     end;
 
-    [EventSubscriber(ObjectType::Page, Page::"Doc. Attachment List Factbox", 'OnBeforeDrillDown', '', false, false)]
-    local procedure OnBeforeDrillDown(DocumentAttachment: Record "Document Attachment"; var RecRef: RecordRef);
-    var
-        CashAdvance: Record "Cash Advance";
-        PaymentReq: Record "Payment Requisition";
-        Retirement: Record Retirement;
-        PmntVoucher: Record "Payment Voucher Header";
-    begin
-        CASE DocumentAttachment."Table ID" OF
-            DATABASE::"Cash Advance":
-                begin
-                    RecRef.Open(DATABASE::"Cash Advance");
-                    if CashAdvance.Get(DocumentAttachment."No.") then
-                        RecRef.GetTable(CashAdvance);
-                end;
-            DATABASE::"Payment Requisition":
-                begin
-                    RecRef.Open(DATABASE::"Cash Advance");
-                    if PaymentReq.Get(DocumentAttachment."No.") then
-                        RecRef.GetTable(PaymentReq);
-                end;
-            DATABASE::Retirement:
-                begin
-                    RecRef.Open(DATABASE::"Cash Advance");
-                    if Retirement.Get(DocumentAttachment."No.") then
-                        RecRef.GetTable(Retirement);
-                end;
-            DATABASE::"Payment Voucher Header":
-                begin
-                    RecRef.Open(DATABASE::"Payment Voucher Header");
-                    if PmntVoucher.Get(DocumentAttachment."No.") then
-                        RecRef.GetTable(PmntVoucher);
-                end;
-        end;
-    end;
+    // [EventSubscriber(ObjectType::Page, Page::"Doc. Attachment List Factbox", 'OnBeforeDrillDown', '', false, false)]
+    // local procedure OnBeforeDrillDown(DocumentAttachment: Record "Document Attachment"; var RecRef: RecordRef);
+    // var
+    //     CashAdvance: Record "Cash Advance";
+    //     PaymentReq: Record "Payment Requisition";
+    //     Retirement: Record Retirement;
+    //     PmntVoucher: Record "Payment Voucher Header";
+    // begin
+    //     CASE DocumentAttachment."Table ID" OF
+    //         DATABASE::"Cash Advance":
+    //             begin
+    //                 RecRef.Open(DATABASE::"Cash Advance");
+    //                 if CashAdvance.Get(DocumentAttachment."No.") then
+    //                     RecRef.GetTable(CashAdvance);
+    //             end;
+    //         DATABASE::"Payment Requisition":
+    //             begin
+    //                 RecRef.Open(DATABASE::"Cash Advance");
+    //                 if PaymentReq.Get(DocumentAttachment."No.") then
+    //                     RecRef.GetTable(PaymentReq);
+    //             end;
+    //         DATABASE::Retirement:
+    //             begin
+    //                 RecRef.Open(DATABASE::"Cash Advance");
+    //                 if Retirement.Get(DocumentAttachment."No.") then
+    //                     RecRef.GetTable(Retirement);
+    //             end;
+    //         DATABASE::"Payment Voucher Header":
+    //             begin
+    //                 RecRef.Open(DATABASE::"Payment Voucher Header");
+    //                 if PmntVoucher.Get(DocumentAttachment."No.") then
+    //                     RecRef.GetTable(PmntVoucher);
+    //             end;
+    //     end;
+    // end;
 
 
 

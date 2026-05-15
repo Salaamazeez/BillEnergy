@@ -38,5 +38,5 @@ pageextension 50210 CustLedEntExt extends "Customer Ledger Entries"
         {
             Visible = false;
         }
-    }   
+    }
 }

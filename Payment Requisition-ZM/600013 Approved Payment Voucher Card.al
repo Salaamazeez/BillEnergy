@@ -1,4 +1,4 @@
-page 50004 "Approved Payment Voucher Card"
+page 50504 "Approved Payment Voucher Card"
 {//Created by Akande
     PageType = Card;
     ApplicationArea = All;

@@ -34,7 +34,7 @@ pageextension 50015 PurchInvoiceSubform extends "Purch. Invoice Subform"
         {
             Editable = false;
         }
-       
+
         addbefore("Direct Unit Cost")
         {
             field("Base Unit Cost"; Rec."Base Unit Cost")
@@ -61,24 +61,24 @@ pageextension 50015 PurchInvoiceSubform extends "Purch. Invoice Subform"
     actions
     {
 
-        addafter("&Line")
-        {
-            group(WHTVAT)
-            {
-                Caption = 'WHT/VAT';
-                action(WHTVATEntries)
-                {
-                    Caption = 'WHT/VAT Entries';
-                    ApplicationArea = All;
-                    Image = VATEntries;
+        // addafter("&Line")
+        // {
+        //     group(WHTVAT)
+        //     {
+        //         Caption = 'WHT/VAT';
+        //         action(WHTVATEntries)
+        //         {
+        //             Caption = 'WHT/VAT Entries';
+        //             ApplicationArea = All;
+        //             Image = VATEntries;
 
-                    trigger OnAction()
-                    begin
-                        GeneralCodeunit.PurchaseVATEntry(Rec)
-                    end;
-                }
-            }
-        }
+        //             trigger OnAction()
+        //             begin
+        //                 GeneralCodeunit.PurchaseVATEntry(Rec)
+        //             end;
+        //         }
+        //     }
+        // }
     }
     var
         GeneralCodeunit: Codeunit GeneralCodeunit;

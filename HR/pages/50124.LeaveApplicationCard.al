@@ -278,9 +278,9 @@ page 50124 LeaveApplicationCard
                         ApprovalsMgmt.DelegateRecordApprovalRequest(Rec.RecordId);
                     end;
                 }
-                
+
             }
-               action(manualRelease)
+            action(manualRelease)
             {
                 Caption = 'Release';
                 Image = ReleaseDoc;
@@ -401,7 +401,7 @@ page 50124 LeaveApplicationCard
 
     trigger OnAfterGetRecord()
     begin
-       SetControlAppearance();
+        SetControlAppearance();
         iF (Rec.Status <> Rec.Status::Open) then
             CurrPage.Editable := false
         else

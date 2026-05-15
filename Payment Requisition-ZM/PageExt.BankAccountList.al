@@ -4,14 +4,14 @@ pageextension 50041 BankAccountListExt extends "Bank Account List"
     {
         addafter(Name)
         {
-            field("Bank Account No. ";Rec."Bank Account No.")
+            field("Bank Account No. "; Rec."Bank Account No.")
             {
                 ApplicationArea = All;
             }
         }
-         addafter(Name)
+        addafter(Name)
         {
-            field("Name 2";Rec."Name 2")
+            field("Name 2"; Rec."Name 2")
             {
                 ApplicationArea = All;
 

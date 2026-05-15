@@ -1,4 +1,4 @@
-page 50028 "Pending Payment Voucher Card"
+page 50528 "Pending Payment Voucher Card"
 {//Created by Akande
     PageType = Card;
     ApplicationArea = All;

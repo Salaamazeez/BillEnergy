@@ -13,6 +13,7 @@ codeunit 50102 GeneralCodeunit
     begin
         GenJnlLine."Description 2" := TempInvoicePostingBuffer."Description 2"
     end;
+
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Sales Post Invoice Events", OnPrepareLineOnAfterFillInvoicePostingBuffer, '', false, false)]
     local procedure "Sales Post Invoice Events_OnPrepareLineOnAfterFillInvoicePostingBuffer"(var InvoicePostingBuffer: Record "Invoice Posting Buffer" temporary; SalesLine: Record "Sales Line")
     begin

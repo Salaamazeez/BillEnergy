@@ -11,7 +11,7 @@ pageextension 50040 BankAccountExt extends "Bank Account Card"
         }
         addafter(Name)
         {
-             field("Name 2";Rec."Name 2")
+            field("Name 2"; Rec."Name 2")
             {
                 ApplicationArea = All;
 

@@ -35,8 +35,8 @@ page 50002 "Payment Mgt Setup"
                 field("Store Return Nos."; Rec."Store Return Nos.") { ApplicationArea = All; }
                 field("Retirement Nos."; Rec."Retirement Nos.") { ApplicationArea = All; }
                 field("Cash Receipt Nos."; Rec."Cash Receipt Nos.") { ApplicationArea = All; }
-                field("Journal Template Name";Rec."Journal Template Name") { ApplicationArea = All; }
-                field("Journal Batch Name";Rec."Journal Batch Name") { ApplicationArea = All; }
+                field("Journal Template Name"; Rec."Journal Template Name") { ApplicationArea = All; }
+                field("Journal Batch Name"; Rec."Journal Batch Name") { ApplicationArea = All; }
                 field("Dummy Vendor"; Rec."Dummy Vendor")
                 {
                     ApplicationArea = All;

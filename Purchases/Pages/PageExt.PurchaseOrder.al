@@ -38,12 +38,13 @@ pageextension 50207 PurchaseOrderExt extends "Purchase Order"
                 Rec.TestField()
             end;
         }
-        modify(Release) {  
+        modify(Release)
+        {
             trigger OnBeforeAction()
             begin
                 Rec.CheckPurchaseAmount();
                 Rec.TestField()
             end;
-        }      
+        }
     }
 }

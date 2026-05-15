@@ -1,4 +1,4 @@
-page 50027 "Pending Payment Voucher List"
+page 50527 "Pending Payment Voucher List"
 {
     //Created by Akande
     PageType = List;

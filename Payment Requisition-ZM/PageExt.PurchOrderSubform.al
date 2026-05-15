@@ -2,11 +2,11 @@ pageextension 50050 PurchOrderSubform extends "Purchase Order Subform"
 {
     layout
     {
-        modify("Description 2")
-        {
-            Caption = 'Narration';
-            Visible = true;
-        }
+        // modify("Description 2")
+        // {
+        //     Caption = 'Narration';
+        //     Visible = true;
+        // }
         addbefore("Shortcut Dimension 1 Code")
         {
             field("Gen. Bus. Posting Group "; Rec."Gen. Bus. Posting Group") { ApplicationArea = All; }
@@ -88,21 +88,22 @@ pageextension 50050 PurchOrderSubform extends "Purchase Order Subform"
 
         addafter("O&rder")
         {
-            group(WHTVAT)
-            {
-                Caption = 'WHT/VAT';
-                action(WHTVATEntries)
-                {
-                    Caption = 'WHT/VAT Entries';
-                    ApplicationArea = All;
-                    Image = VATEntries;
+            // group(WHTVAT)
+            // {
+            //     Caption = 'WHT/VAT';
+            //     action(WHTVATEntries)
+            //     {
+            //         Caption = 'WHT/VAT Entries';
+            //         ApplicationArea = All;
+            //         Image = VATEntries;
 
-                    trigger OnAction()
-                    begin
-                        GeneralCodeunit.PurchaseVATEntry(Rec)
-                    end;
-                }
-            }
+            //         trigger OnAction()
+            //         begin
+            //             GeneralCodeunit.PurchaseVATEntry(Rec)
+            //         end;
+            //     }
+            // }
+
         }
     }
     // local procedure PurchaseVATEntry(Rec: Record "Purchase Line")

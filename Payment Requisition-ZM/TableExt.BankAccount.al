@@ -9,7 +9,7 @@ tableextension 50021 BankAccountExt extends "Bank Account"
         field(60002; "Bank Code"; Code[20])
         {
             DataClassification = EndUserIdentifiableInformation;
-            TableRelation = Bank.Code;
+            //TableRelation = Bank.Code;
         }
         field(60003; "Bank Name"; Text[100])
         {

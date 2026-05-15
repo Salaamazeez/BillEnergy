@@ -1,4 +1,4 @@
-page 50003 "Approved Payment Voucher List"
+page 50753 "Approved Payment Voucher List"
 {
     PageType = List;
     ApplicationArea = All;

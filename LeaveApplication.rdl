@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="DataSource">
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString />
+      </ConnectionProperties>
+      <rd:SecurityType>None</rd:SecurityType>
+    </DataSource>
+  </DataSources>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <Height>2in</Height>
+        <Style />
+      </Body>
+      <Width>6.5in</Width>
+      <Page>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <Code>Public Function BlankZero(ByVal Value As Decimal)
+    if Value = 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankPos(ByVal Value As Decimal)
+    if Value &gt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankZeroAndPos(ByVal Value As Decimal)
+    if Value &gt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNeg(ByVal Value As Decimal)
+    if Value &lt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNegAndZero(ByVal Value As Decimal)
+    if Value &lt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+</Code>
+  <Language>=User!Language</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>0eeb6585-38ae-40f1-885b-8d50088d51b4</rd:ReportID>
+  <DataSets>
+    <DataSet Name="DataSet_Result">
+      <Fields>
+        <Field Name="Employee_No_">
+          <DataField>Employee_No_</DataField>
+        </Field>
+        <Field Name="Employee_Name">
+          <DataField>Employee_Name</DataField>
+        </Field>
+        <Field Name="Employee_Zone">
+          <DataField>Employee_Zone</DataField>
+        </Field>
+        <Field Name="DateOfEmp">
+          <DataField>DateOfEmp</DataField>
+        </Field>
+        <Field Name="ManagerName">
+          <DataField>ManagerName</DataField>
+        </Field>
+        <Field Name="First_Day_of_Vacation">
+          <DataField>First_Day_of_Vacation</DataField>
+        </Field>
+        <Field Name="Leave_End_Date">
+          <DataField>Leave_End_Date</DataField>
+        </Field>
+        <Field Name="Leave_Type">
+          <DataField>Leave_Type</DataField>
+        </Field>
+        <Field Name="Requested_Days">
+          <DataField>Requested_Days</DataField>
+        </Field>
+        <Field Name="Leave_Year">
+          <DataField>Leave_Year</DataField>
+        </Field>
+        <Field Name="Resumption_Date">
+          <DataField>Resumption_Date</DataField>
+        </Field>
+        <Field Name="No__of_Leave_Days_Entitled">
+          <DataField>No__of_Leave_Days_Entitled</DataField>
+        </Field>
+        <Field Name="Current_Leave_Balance">
+          <DataField>Current_Leave_Balance</DataField>
+        </Field>
+        <Field Name="On_Leave_Contact_Address">
+          <DataField>On_Leave_Contact_Address</DataField>
+        </Field>
+        <Field Name="Created_By">
+          <DataField>Created_By</DataField>
+        </Field>
+        <Field Name="CompInfoLogo">
+          <DataField>CompInfoLogo</DataField>
+        </Field>
+        <Field Name="CompInfoName">
+          <DataField>CompInfoName</DataField>
+        </Field>
+        <Field Name="Leave_Code">
+          <DataField>Leave_Code</DataField>
+        </Field>
+        <Field Name="Supervisor_Name">
+          <DataField>Supervisor_Name</DataField>
+        </Field>
+        <Field Name="Balance_After_Current_Leave">
+          <DataField>Balance_After_Current_Leave</DataField>
+        </Field>
+        <Field Name="No__of_Days_Taken">
+          <DataField>No__of_Days_Taken</DataField>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText />
+      </Query>
+    </DataSet>
+  </DataSets>
+</Report>

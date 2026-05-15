@@ -31,5 +31,5 @@ reportextension 50004 PurchaseInvoiceExt extends "Purchase - Invoice"
         }
     }
     var
-        //CompanyInfo: Record "Company Information";
+    //CompanyInfo: Record "Company Information";
 }

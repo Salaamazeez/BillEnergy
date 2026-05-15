@@ -29,35 +29,37 @@ PageExtension 50202 TeamMemberRoleCenterExt extends "Team Member Role Center"
                     ToolTip = 'Accept or reject other users'' requests to create or change certain documents, cards, or journal lines that you must approve before they can proceed. The list is filtered to requests where you are set up as the approver.';
                 }
             }
-            group(OilGas)
-            {
-                Caption = 'Oil & Gas';
-                ToolTip = 'Oil and Gas data uploads';
-                action(DailyAllocation)
-                {
-                    ApplicationArea = All;
-                    Caption = 'Daily Allocation OilWaterGas';
-                    Image = ImportExcel;
-                    RunObject = Page DailyAllocationOilWaterGas;
-                    ToolTip = 'View the Daily Allocation for Oil, Water & Gas';
-                }
-                action(MonthlyAllocation)
-                {
-                    ApplicationArea = All;
-                    Caption = 'Monthly Allocation OilWaterGas';
-                    Image = ImportExcel;
-                    RunObject = Page SalesByDrainaigePoint;
-                    ToolTip = 'View the Monthly Allocation for Oil, Water & Gas';
-                }
-                action(MonthlyReconciliation)
-                {
-                    ApplicationArea = All;
-                    Caption = 'Monthly Reconciliation';
-                    Image = ImportExcel;
-                    RunObject = Page MonthlyReconData;
-                    ToolTip = 'View the Monthly Reconciliation data';
-                }
-            }
+
+            // group(OilGas)
+            // {
+            //     Caption = 'Oil & Gas';
+            //     ToolTip = 'Oil and Gas data uploads';
+            //     action(DailyAllocation)
+            //     {
+            //         ApplicationArea = All;
+            //         Caption = 'Daily Allocation OilWaterGas';
+            //         Image = ImportExcel;
+            //         RunObject = Page DailyAllocationOilWaterGas;
+            //         ToolTip = 'View the Daily Allocation for Oil, Water & Gas';
+            //     }
+            //     action(MonthlyAllocation)
+            //     {
+            //         ApplicationArea = All;
+            //         Caption = 'Monthly Allocation OilWaterGas';
+            //         Image = ImportExcel;
+            //         RunObject = Page SalesByDrainaigePoint;
+            //         ToolTip = 'View the Monthly Allocation for Oil, Water & Gas';
+            //     }
+            //     action(MonthlyReconciliation)
+            //     {
+            //         ApplicationArea = All;
+            //         Caption = 'Monthly Reconciliation';
+            //         Image = ImportExcel;
+            //         RunObject = Page MonthlyReconData;
+            //         ToolTip = 'View the Monthly Reconciliation data';
+            //     }
+            // }
+
             group(EmployeeSelfService)
             {
                 Caption = 'Employee Self Service';

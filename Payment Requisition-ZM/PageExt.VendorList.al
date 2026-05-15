@@ -8,8 +8,8 @@ pageextension 50013 VendorListExt extends "Vendor List"
             {
                 ApplicationArea = All;
             }
-        } 
-    } 
+        }
+    }
     actions
     {
         // Add changes to page actions here
