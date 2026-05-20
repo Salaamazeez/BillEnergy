@@ -25,12 +25,6 @@ codeunit 50500 "ESS Management"
         ShortcutDimCode1: Code[20];
         ShortcutDimCode2: Code[20];
     begin
-        if PaymentReqLines = '' then
-            Error('No lines provided');
-
-        if not JsonArray.ReadFrom(PaymentReqLines) then
-            Error('Invalid JSON format');
-
         if DocumentNo <> '' then begin
             if not Header.Get(DocumentNo) then
                 Error('Payment Requisition %1 not found', DocumentNo);
@@ -71,6 +65,12 @@ codeunit 50500 "ESS Management"
             Header."Loan ID" := LoanId;
             Header.Insert(true);
         end;
+
+        if not JsonArray.ReadFrom(PaymentReqLines) then
+            Error('Invalid JSON format');
+
+        if JsonArray.Count = 0 then
+            Error('No Lines Provided');
 
         LineNo := 0;
         LineCount := 0;
@@ -715,7 +715,6 @@ codeunit 50500 "ESS Management"
         if LeaveCode <> '' then begin
             if not Header.Get(LeaveCode) then
                 Error('Leave Application %1 not found', LeaveCode);
-
             Header.Validate("Applying Type", ApplyingType);
             Header.Validate("Employee No.", EmployeeNo);
             Header.Validate("Employee Name", EmployeeName);

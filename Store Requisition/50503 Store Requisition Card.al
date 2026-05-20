@@ -131,6 +131,29 @@ page 50503 "Store REquisition Card"
                 end;
             }
 
+            action(TestCreateStore)
+            {
+                ApplicationArea = All;
+                Caption = 'Test Create Store req';
+                Image = TestFile;
+                Promoted = true;
+                PromotedCategory = Process;
+
+                trigger OnAction()
+                var
+                    ESSManagement: Codeunit "ESS Management";
+                    StoreReqLines: Text;
+                    ResponseText: Text;
+                begin
+                    StoreReqLines := '[{"Type": 0, "StockCode": "ITEM-0001", "Description": "TEST", "UnitOfIssue": "PCS", "LocationCode": "TEST", "RequestedQty": 10, "UnitPrice": 4500, "GenBusPostingGroup": "DOMESTIC"}]';
+
+                    // ResponseText := ESSManagement.CreateOrEditCashAdvance('', '2026-05-18', 'TRIBASE', 'test', '2026-05-18', 0, '101040', '', 'LAGOS', 'ENGR', 1, '', CashAdvLines);
+                    ResponseText := ESSManagement.CreateOrEditStoreRequisition('', '2026-05-18', 'TRIBASE', 'TEST', '', '', StoreReqLines);
+
+                    Message(ResponseText);
+                end;
+            }
+
             // action("Cancel Approval Request")
             // {
             //     ApplicationArea = All;

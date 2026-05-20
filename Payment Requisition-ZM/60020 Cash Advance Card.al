@@ -324,6 +324,29 @@ page 60020 "Cash Advance Card"
                     end;
                 }
 
+                
+                action(TestCreateCashAdv)
+                {
+                    ApplicationArea = All;
+                    Caption = 'Test Create Cash Advance';
+                    Image = TestFile;
+                    Promoted = true;
+                    PromotedCategory = Process;
+
+                    trigger OnAction()
+                    var
+                        ESSManagement: Codeunit "ESS Management";
+                        CashAdvLines: Text;
+                        ResponseText: Text;
+                    begin
+                        CashAdvLines := '[{"ExpenseCode": "TEST", "PaymentDetails": "Flight ticket to Abuja", "Amount": 150000, "AccountNo": "101040", "BalAccountNo": "101050", "ShortcutDimension1Code": "LAGOS", "shortcutDimension2Code": "ENGR"}]';
+
+                        ResponseText := ESSManagement.CreateOrEditCashAdvance('', '2026-05-18', 'TRIBASE', 'test', '2026-05-18', 0, '101040', '', 'LAGOS', 'ENGR', 1, '', CashAdvLines);
+
+                        Message(ResponseText);
+                    end;
+                }
+
             }
         }
         area(Navigation)

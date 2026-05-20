@@ -25,7 +25,10 @@ page 50000 "Cash Advance Subform"
 
                 }
 
-                field("Account Type"; REC."Account Type") { Editable = false; }
+                field("Account Type"; REC."Account Type") 
+                {
+                    //  Editable = false;
+                      }
                 // field("Expense Code"; "Expense Code")
                 // {
 
@@ -36,7 +39,7 @@ page 50000 "Cash Advance Subform"
                 }
                 field("Account No."; REC."Account No.")
                 {
-                    Editable = false;
+                    // Editable = false;
                 }
                 field("Currency Code"; Rec."Currency Code") { }
                 field(Amount; REC.Amount)
