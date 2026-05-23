@@ -45,7 +45,7 @@ table 60021 "Cash Advance"
         }
         field(11; Posted; Boolean)
         {
-            Editable = false;
+            // Editable = false;
             Caption = 'Voucher Posted';
         }
         field(3; "Total Amount"; Decimal)
@@ -184,7 +184,7 @@ table 60021 "Cash Advance"
         }
         field(29; "Shortcut Dimension 1 Code"; Code[20])
         {
-            Editable = false;
+            // Editable = false;
             CaptionClass = '1,2,1';
             Caption = 'Shortcut Dimension 1 Code';
             TableRelation = "Dimension Value".Code where("Global Dimension No." = const(1),
@@ -197,7 +197,7 @@ table 60021 "Cash Advance"
         }
         field(30; "Shortcut Dimension 2 Code"; Code[20])
         {
-            Editable = false;
+            // Editable = false;
             CaptionClass = '1,2,2';
             Caption = 'Shortcut Dimension 2 Code';
             TableRelation = "Dimension Value".Code where("Global Dimension No." = const(2),

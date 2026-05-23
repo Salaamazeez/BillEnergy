@@ -5,7 +5,7 @@ page 60023 "Approved Cash Advance Card"
     ApplicationArea = All;
     UsageCategory = Administration;
     SourceTable = "Cash Advance";
-    Editable = false;
+    // Editable = false;
     DeleteAllowed = false;
     InsertAllowed = false;
     SourceTableView = where(Status = const(Approved));

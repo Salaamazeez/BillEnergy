@@ -398,6 +398,45 @@ page 50026 "Retirement Card"
                         Rec.PostRetirement;
                     end;
                 }
+
+                action(TestCreateRetirement)
+                {
+                    ApplicationArea = All;
+                    Caption = 'Test Create Retirement';
+                    Image = TestFile;
+                    Promoted = true;
+                    PromotedCategory = Process;
+
+                    trigger OnAction()
+                    var
+                        ESSManagement: Codeunit "ESS Management";
+                        RetirementLines: Text;
+                        ResponseText: Text;
+                    begin
+                        RetirementLines :=
+                        '[{"ExpenseCode":"TEST","TransactionDetails":"Hotel accommodation","AccountType":0,"AccountNo":"102112","AccountName":"Travel Expenses","Amount":150000,"ShortcutDim1":"LAGOS","ShortcutDim2":"ADMIN"},' +
+                        '{"ExpenseCode":"TEST","TransactionDetails":"Transportation","AccountType":0,"AccountNo":"102112","AccountName":"Transport Expenses","Amount":100000,"ShortcutDim1":"LAGOS","ShortcutDim2":"ADMIN"}]';
+
+                        ResponseText := ESSManagement.CreateOrEditRetirement(
+                            '',
+                            2,
+                            '',
+                            '2026-05-20',
+                            'TRIBASE',
+                            'CAD-000001',
+                            0,
+                            '102112',
+                            'LAGOS',
+                            'ADMIN',
+                            '',
+                            'Retirement of staff advance for project expenses',
+                            '',
+                            RetirementLines
+                        );
+
+                        Message(ResponseText);
+                    end;
+                }
             }
             group(Action13)
             {

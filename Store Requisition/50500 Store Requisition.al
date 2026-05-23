@@ -6,7 +6,7 @@ table 50500 "Store Requisition"
     LookupPageId = "Store Requisition List Dummy";
     fields
     {
-        field(1; "No."; Code[10])
+        field(1; "No."; Code[20])
         {
             DataClassification = ToBeClassified;
             Editable = true;
@@ -162,7 +162,7 @@ table 50500 "Store Requisition"
 
 
         }
-           
+
 
     }
 
@@ -216,7 +216,7 @@ table 50500 "Store Requisition"
         IF "No." = '' THEN BEGIN
             InventSetup.Get();
             InventSetup.TESTFIELD("Store Requisition Nos.");
-"No." := NoSeriesMgt.GetNextNo(InventSetup."Store Requisition Nos.");
+            "No." := NoSeriesMgt.GetNextNo(InventSetup."Store Requisition Nos.");
         end;
     end;
 
@@ -402,7 +402,7 @@ table 50500 "Store Requisition"
 
     procedure AssitEdit(OldStore: Record "Store Requisition"): Boolean
     var
-    StoreReq : Record "Store Requisition";
+        StoreReq: Record "Store Requisition";
     begin
         StoreReq := Rec;
         InventSetup.GET;

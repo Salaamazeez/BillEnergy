@@ -1,5 +1,7 @@
 codeunit 50500 "ESS Management"
 {
+    Permissions =
+     tabledata "Item Ledger Entry" = RIMD;
     trigger OnRun()
     begin
 
@@ -262,11 +264,14 @@ codeunit 50500 "ESS Management"
             Line.Insert(true);
         end;
 
+
+        Clear(DataObject);
+        Clear(ResponseObject);
+
         DataObject.Add('No', Header."No.");
         DataObject.Add('processedLines', LineCount);
         ResponseObject.Add('success', true);
         ResponseObject.Add('message', StrSubstNo(ResponseLbl, LineCount));
-        ResponseObject.Add('documentNo', Header."No.");
         ResponseObject.Add('data', DataObject);
         ResponseObject.WriteTo(ResponseText);
         exit(ResponseText);
@@ -497,17 +502,17 @@ codeunit 50500 "ESS Management"
             if JsonObject.Get('RequestedQty', JsonToken) then
                 RequestedQty := JsonToken.AsValue().AsDecimal();
 
-            if JsonObject.Get('ReturnedQty', JsonToken) then
-                ReturnedQty := JsonToken.AsValue().AsDecimal();
+            // if JsonObject.Get('ReturnedQty', JsonToken) then
+            //     ReturnedQty := JsonToken.AsValue().AsDecimal();
 
             if JsonObject.Get('QtyToReturn', JsonToken) then
                 QtyToReturn := JsonToken.AsValue().AsDecimal();
 
-            if JsonObject.Get('QtyReturned', JsonToken) then
-                QtyReturned := JsonToken.AsValue().AsDecimal();
+            // if JsonObject.Get('QtyReturned', JsonToken) then
+            //     QtyReturned := JsonToken.AsValue().AsDecimal();
 
-            if JsonObject.Get('IssuedQty', JsonToken) then
-                IssuedQty := JsonToken.AsValue().AsDecimal();
+            // if JsonObject.Get('IssuedQty', JsonToken) then
+            //     IssuedQty := JsonToken.AsValue().AsDecimal();
 
             if JsonObject.Get('UnitPrice', JsonToken) then
                 UnitPrice := JsonToken.AsValue().AsDecimal();
@@ -546,7 +551,7 @@ codeunit 50500 "ESS Management"
     end;
 
 
-    procedure CreateOrEditRetirement(DocumentNo: Code[20]; TransType: Option " ",Loan,"Staff Adv"; LoanID: Code[20]; RetirementDate: Text; RetiringOfficer: Code[50]; RetirementRef: Code[50]; DebitAccountType: Option "G/L Account",Vendor,Staff,"Bank Account"; DebitAccountNo: Code[20]; Dim1: Code[20]; Dim2: Code[20]; CurrencyCode: Code[10]; Amount: Decimal; AmountLCY: Decimal; Purpose: Text[250]; CashReceiptNo: Code[50]; RetirementLines: Text): Text
+    procedure CreateOrEditRetirement(DocumentNo: Code[20]; TransType: Option " ",Loan,"Staff Adv"; LoanID: Code[20]; RetirementDate: Text; RetiringOfficer: Code[50]; RetirementRef: Code[50]; DebitAccountType: Option "G/L Account",Vendor,Staff,"Bank Account"; DebitAccountNo: Code[20]; Dim1: Code[20]; Dim2: Code[20]; CurrencyCode: Code[10]; Purpose: Text[250]; CashReceiptNo: Code[50]; RetirementLines: Text): Text
     var
         Header: Record Retirement;
         Line: Record "Retirement Line";
@@ -589,8 +594,6 @@ codeunit 50500 "ESS Management"
             Header.Validate("Shortcut Dimension 1 Code", Dim1);
             Header.Validate("Shortcut Dimension 2 Code", Dim2);
             Header.Validate("Currency Code", CurrencyCode);
-            Header.Validate(Amount, Amount);
-            Header.Validate("Amount (LCY)", AmountLCY);
             Header.Validate(Purpose, Purpose);
             Header.Validate("Cash Recpt No./Pmt Voucher", CashReceiptNo);
             Header.Modify(true);
@@ -600,6 +603,7 @@ codeunit 50500 "ESS Management"
             Line.DeleteAll();
         end else begin
             Header.Init();
+            Header.Validate("No.", '');
             Header.Insert(true);
             Header.Validate("Transaction type", TransType);
             Header.Validate("Loan ID", LoanID);
@@ -611,8 +615,6 @@ codeunit 50500 "ESS Management"
             Header.Validate("Shortcut Dimension 1 Code", Dim1);
             Header.Validate("Shortcut Dimension 2 Code", Dim2);
             Header.Validate("Currency Code", CurrencyCode);
-            Header.Validate(Amount, Amount);
-            Header.Validate("Amount (LCY)", AmountLCY);
             Header.Validate(Purpose, Purpose);
             Header.Validate("Cash Recpt No./Pmt Voucher", CashReceiptNo);
             Header.Modify(true);
@@ -704,8 +706,7 @@ codeunit 50500 "ESS Management"
         exit(ResponseText);
     end;
 
-    procedure CreateOrEditLeaveApplication(LeaveCode: Code[20]; ApplyingType: Option " ",Self,Surbodinate; EmployeeNo: Code[20]; EmployeeName: Text[100]; Description: Text[250]; Dim1: Code[20]; Dim2: Code[20]; ApprovalStatus: Text[30]; RecalledDays: Decimal; EntitledDays: Decimal; TakenDays: Decimal; CurrentBalance: Decimal; RequestedDays: Decimal; BalanceAfterLeave: Decimal;
-        StartDate: Text; EndDate: Text; ResumptionDate: Text; LeaveType: Code[20]; LeaveYear: Integer; ResidentialAddress: Text[250]; ContactAddress: Text[250]; SupervisorApprovalDate: Text; SupervisorName: Text[100]; SupervisorComment: Text[250]; HRComment: Text[250]): Text
+    procedure CreateOrEditLeaveApplication(LeaveCode: Code[20]; ApplyingType: Option " ",Self,Surbodinate; EmployeeNo: Code[20]; Description: Text[250]; StartDate: Text; EndDate: Text; LeaveType: Code[20]): Text
     var
         Header: Record LeaveApplication;
         ResponseObject: JsonObject;
@@ -717,28 +718,10 @@ codeunit 50500 "ESS Management"
                 Error('Leave Application %1 not found', LeaveCode);
             Header.Validate("Applying Type", ApplyingType);
             Header.Validate("Employee No.", EmployeeNo);
-            Header.Validate("Employee Name", EmployeeName);
             Header.Validate(Description, Description);
-            Header.Validate("Global Dimension 1 Code", Dim1);
-            Header.Validate("Global Dimension 2 Code", Dim2);
-            Evaluate(Header.Status, ApprovalStatus);
-            Header.Validate("No. of Days Recalled", RecalledDays);
-            Header.Validate("No. of Leave Days Entitled", EntitledDays);
-            Header.Validate("No. of Days Taken", TakenDays);
-            Header.Validate("Current Leave Balance", CurrentBalance);
-            Header.Validate("Requested Days", RequestedDays);
-            Header.Validate("Balance After Current Leave", BalanceAfterLeave);
             Evaluate(Header."First Day of Vacation", StartDate);
             Evaluate(Header."Leave End Date", EndDate);
-            Evaluate(Header."Resumption Date", ResumptionDate);
             Header.Validate("Leave Type", LeaveType);
-            Header.Validate("Leave Year", LeaveYear);
-            Header.Validate("Current Residential Address", ResidentialAddress);
-            Header.Validate("On Leave Contact Address", ContactAddress);
-            Evaluate(Header."Supervisor Approval Date", SupervisorApprovalDate);
-            Header.Validate("Supervisor Name", SupervisorName);
-            Header.Validate("Supervisor Comment", SupervisorComment);
-            Header.Validate("HR Comment", HRComment);
             Header.Modify(true);
         end else begin
             Header.Init();
@@ -746,28 +729,10 @@ codeunit 50500 "ESS Management"
             Header.Insert(true);
             Header.Validate("Applying Type", ApplyingType);
             Header.Validate("Employee No.", EmployeeNo);
-            Header.Validate("Employee Name", EmployeeName);
             Header.Validate(Description, Description);
-            Header.Validate("Global Dimension 1 Code", Dim1);
-            Header.Validate("Global Dimension 2 Code", Dim2);
-            Evaluate(Header.Status, ApprovalStatus);
-            Header.Validate("No. of Days Recalled", RecalledDays);
-            Header.Validate("No. of Leave Days Entitled", EntitledDays);
-            Header.Validate("No. of Days Taken", TakenDays);
-            Header.Validate("Current Leave Balance", CurrentBalance);
-            Header.Validate("Requested Days", RequestedDays);
-            Header.Validate("Balance After Current Leave", BalanceAfterLeave);
             Evaluate(Header."First Day of Vacation", StartDate);
             Evaluate(Header."Leave End Date", EndDate);
-            Evaluate(Header."Resumption Date", ResumptionDate);
             Header.Validate("Leave Type", LeaveType);
-            Header.Validate("Leave Year", LeaveYear);
-            Header.Validate("Current Residential Address", ResidentialAddress);
-            Header.Validate("On Leave Contact Address", ContactAddress);
-            Evaluate(Header."Supervisor Approval Date", SupervisorApprovalDate);
-            Header.Validate("Supervisor Name", SupervisorName);
-            Header.Validate("Supervisor Comment", SupervisorComment);
-            Header.Validate("HR Comment", HRComment);
             Header.Modify(true);
         end;
 

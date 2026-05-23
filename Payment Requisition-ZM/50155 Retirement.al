@@ -105,8 +105,9 @@ table 50155 Retirement
                 END ELSE
                     "Currency Factor" := 0;
                 if PaymentVoucherLinesExist() then
-                    IF CONFIRM('Do you want to recalcute the lcy amount?', FALSE) THEN
-                        UpdateAllLineCurrencyCode()
+                    if GuiAllowed then
+                        IF CONFIRM('Do you want to recalcute the lcy amount?', FALSE) THEN
+                            UpdateAllLineCurrencyCode()
             end;
         }
         field(17; "Currency Factor"; Decimal)
@@ -447,8 +448,9 @@ table 50155 Retirement
         IF "No." = '' THEN BEGIN
             PaymentMgtSetup.GET;
             PaymentMgtSetup.TESTFIELD("Retirement Nos.");
-            If NoSeriesMgt.AreRelated(PaymentMgtSetup."Retirement Nos.", xRec."No. Series") then
-                "No. Series" := xRec."No. Series";
+            "No." := NoSeriesMgt.GetNextNo(PaymentMgtSetup."Retirement Nos.", WorkDate());
+            // If NoSeriesMgt.AreRelated(PaymentMgtSetup."Retirement Nos.", xRec."No. Series") then
+            //     "No. Series" := xRec."No. Series";
             "Retiring Officer" := UserId;
         END;
 
