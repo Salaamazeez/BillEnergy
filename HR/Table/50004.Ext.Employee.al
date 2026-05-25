@@ -38,6 +38,8 @@ tableextension 50004 EmployeeExt extends Employee
             Caption = 'Payroll Bank';
 
         }
+
+
         modify("Bank Account No.")
         {
             Caption = 'Bank Code';
