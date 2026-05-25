@@ -170,7 +170,7 @@ table 50551 "Stores Return Line"
 
     trigger OnInsert()
     begin
-        TestStatusOpenLine;
+        // TestStatusOpenLine;
         // DimMgt.UpdateDefaultDim(DATABASE::"Stores Requisition Line", "Stock Code", "Shortcut Dimension 1 Code", "Shortcut Dimension 2 Code");
 
     END;
@@ -182,7 +182,7 @@ table 50551 "Stores Return Line"
 
     trigger OnDelete()
     begin
-        TestStatusOpenLine;
+        // TestStatusOpenLine;
     end;
 
     trigger OnRename()
@@ -190,11 +190,11 @@ table 50551 "Stores Return Line"
 
     end;
 
-    PROCEDURE TestStatusOpenLine();
-    BEGIN
-        StoresRequisition.GET("Document No.");
-        StoresRequisition.TESTFIELD(Status, StoresRequisition.Status::Open);
-    END;
+    // PROCEDURE TestStatusOpenLine();
+    // BEGIN
+    //     StoresRequisition.GET("Document No.");
+    //     StoresRequisition.TESTFIELD(Status, StoresRequisition.Status::Open);
+    // END;
 
     LOCAL PROCEDURE ValidateShortcutDimCode(FieldNumber: Integer; VAR ShortcutDimCode: Code[20]);
 

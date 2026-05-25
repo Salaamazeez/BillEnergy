@@ -5,7 +5,7 @@ table 50156 "Retirement Line"
 
     fields
     {
-        field(1; "Document No."; Code[10])
+        field(1; "Document No."; Code[20])
         {
             DataClassification = CustomerContent;
 

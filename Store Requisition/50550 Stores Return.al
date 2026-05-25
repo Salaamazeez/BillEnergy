@@ -207,7 +207,7 @@ table 50550 "Stores Return"
             InventSetup.Get();
             InventSetup.TestField("Store Return Nos.");
             // NoSeriesMgt.InitSeries(CustomSetup."Store Return Nos.", xRec."No. Series", 0D, "No.", "No. Series");
-            NoSeriesMgt.GetNextNo(InventSetup."Store Return Nos.", WorkDate());
+            "No." := NoSeriesMgt.GetNextNo(InventSetup."Store Return Nos.", WorkDate());
         END;
 
     end;

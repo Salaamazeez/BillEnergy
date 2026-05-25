@@ -242,7 +242,7 @@ table 60020 "Cash Advance Line"
         }
         field(40; "Shortcut Dimension 1 Code"; Code[20])
         {
-            Editable = false;
+            // Editable = false;
             CaptionClass = '1,2,1';
             Caption = 'Shortcut Dimension 1 Code';
             TableRelation = "Dimension Value".Code where("Global Dimension No." = const(1),
@@ -255,7 +255,7 @@ table 60020 "Cash Advance Line"
         }
         field(41; "Shortcut Dimension 2 Code"; Code[20])
         {
-            Editable = false;
+            // Editable = false;
             CaptionClass = '1,2,2';
             Caption = 'Shortcut Dimension 2 Code';
             TableRelation = "Dimension Value".Code where("Global Dimension No." = const(2),

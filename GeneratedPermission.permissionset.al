@@ -120,7 +120,6 @@ permissionset 50000 GeneratedPermission
         page "Cash Advance Subform"=X,
         page "Cash Receipt Card"=X,
         page "Cash Receipt List"=X,
-        page "Chart of Accounts-VANNILA"=X,
         page "Document Approval Entries"=X,
         page EmployeeLeaveSetup=X,
         page "Expense Code"=X,
