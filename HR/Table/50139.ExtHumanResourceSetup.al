@@ -99,6 +99,48 @@ tableextension 50139 ExtHumanResourceSetup extends "Human Resources Setup"
             Caption = 'Appraisal Year';
             DataClassification = ToBeClassified;
         }
+
+        field(50150; "Rig Basic %"; Decimal)
+        {
+            Caption = 'Rig Basic %';
+            DataClassification = ToBeClassified;
+        }
+        field(50151; "Rig House %"; Decimal)
+        {
+            Caption = 'Rig House %';
+            DataClassification = ToBeClassified;
+        }
+        field(50152; "Rig Transport %"; Decimal)
+        {
+            Caption = 'Rig Transport %';
+            DataClassification = ToBeClassified;
+        }
+        field(50153; "Rig Utility %"; Decimal)
+        {
+            Caption = 'Rig Utility %';
+            DataClassification = ToBeClassified;
+        }
+
+        field(50154; "Office Basic %"; Decimal)
+        {
+            Caption = 'Office Basic %';
+            DataClassification = ToBeClassified;
+        }
+        field(50155; "Office House %"; Decimal)
+        {
+            Caption = 'Office House %';
+            DataClassification = ToBeClassified;
+        }
+        field(50156; "Office Transport %"; Decimal)
+        {
+            Caption = 'Office Transport %';
+            DataClassification = ToBeClassified;
+        }
+        field(50157; "Working Hours"; Decimal)
+        {
+            Caption = 'Working Hours';
+            DataClassification = ToBeClassified;
+        }
     }
 
 }

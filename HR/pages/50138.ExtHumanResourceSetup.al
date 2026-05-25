@@ -104,6 +104,52 @@ pageextension 50138 ExtHumanResourceSetup extends "Human Resources Setup"
                     ApplicationArea = All;
                 }
             }
+            group(Payroll)
+            {
+                Caption = 'Payroll';
+
+                field("Working Hours"; Rec."Working Hours")
+                {
+                    Caption = 'Working Hours';
+                    ApplicationArea = All;
+                }
+                field("Rig Basic %"; Rec."Rig Basic %")
+                {
+                    Caption = 'Rig Basic %';
+                    ApplicationArea = All;
+                }
+                field("Rig House %"; Rec."Rig House %")
+                {
+                    Caption = 'Rig House %';
+                    ApplicationArea = All;
+                }
+                field("Rig Transport %"; Rec."Rig Transport %")
+                {
+                    Caption = 'Rig Transport %';
+                    ApplicationArea = All;
+                }
+
+                field("Rig Utility %"; Rec."Rig Utility %")
+                {
+                    Caption = 'Rig Utility %';
+                    ApplicationArea = All;
+                }
+                field("Office Basic %"; Rec."Office Basic %")
+                {
+                    Caption = 'Office Basic %';
+                    ApplicationArea = All;
+                }
+                field("Office House %"; Rec."Office House %")
+                {
+                    Caption = 'Office House %';
+                    ApplicationArea = All;
+                }
+                field("Office Transport %"; Rec."Office Transport %")
+                {
+                    Caption = 'Office Transport %';
+                    ApplicationArea = All;
+                }
+            }
 
         }
     }

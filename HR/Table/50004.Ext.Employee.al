@@ -36,13 +36,13 @@ tableextension 50004 EmployeeExt extends Employee
         {
             DataClassification = ToBeClassified;
             Caption = 'Payroll Bank';
+            TableRelation = PayrollBank."Bank Code";
 
         }
 
-
         modify("Bank Account No.")
         {
-            Caption = 'Bank Code';
+            //Caption = 'Bank Code';
             trigger OnAfterValidate()
             begin
                 TestField("Payroll Bank");
