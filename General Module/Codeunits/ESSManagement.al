@@ -7,7 +7,7 @@ codeunit 50500 "ESS Management"
 
     end;
 
-    procedure CreateorEditPaymentRequest(DocumentNo: Code[20]; PostingDate: Text; Requester: Code[20]; Beneficiary: Code[20]; BalAccType: Option "G/L Account",Vendor,Staff,"Bank Account"; BalAccNo: Code[20]; CurrencyCode: Code[10]; Description: Text; PurchReqNo: Code[20]; ReqAmount: Decimal; ShortcutDim1: Code[20]; ShortcutDim2: Code[20]; VoucherCreated: Boolean; TransactionType: Option " ",Loan,"Staff Adv"; LoanId: Code[20]; PaymentReqLines: Text): Text
+    procedure CreateorEditPaymentRequest(DocumentNo: Code[20]; PostingDate: Text; Requester: Code[20]; Beneficiary: Code[20]; BalAccType: Option "G/L Account",Vendor,Staff,"Bank Account"; CurrencyCode: Code[10]; Description: Text; PurchReqNo: Code[20]; ReqAmount: Decimal; ShortcutDim1: Code[20]; ShortcutDim2: Code[20]; VoucherCreated: Boolean; TransactionType: Option " ",Loan,"Staff Adv"; LoanId: Code[20]; PaymentReqLines: Text): Text
     var
         Header: Record "Payment Requisition";
         Line: Record "Payment Requisition Line";
@@ -34,7 +34,7 @@ codeunit 50500 "ESS Management"
             Header.Validate(Requester, Requester);
             Header.Validate(Beneficiary, Beneficiary);
             Header.Validate("Bal Account Type", BalAccType);
-            Header.Validate("Bal Account No.", BalAccNo);
+            //Header.Validate("Bal Account No.", BalAccNo);
             Header.Validate("Currency Code", CurrencyCode);
             Header.Validate("Request Description", Description);
             Header.Validate("Purchase Requisition No.", PurchReqNo);
@@ -56,7 +56,7 @@ codeunit 50500 "ESS Management"
             Header.Validate(Requester, Requester);
             Header.Validate(Beneficiary, Beneficiary);
             Header.Validate("Bal Account Type", BalAccType);
-            Header.Validate("Bal Account No.", BalAccNo);
+            //Header.Validate("Bal Account No.", BalAccNo);
             Header.Validate("Currency Code", CurrencyCode);
             Header.Validate("Request Description", Description);
             Header.Validate("Purchase Requisition No.", PurchReqNo);
