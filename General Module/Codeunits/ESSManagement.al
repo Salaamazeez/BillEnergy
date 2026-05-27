@@ -744,7 +744,7 @@ codeunit 50500 "ESS Management"
         exit(ResponseText);
     end;
 
-    procedure CreateOrEditPerformanceAppraisal(EmployeeNo: Code[20]; LineManagerNo: Code[20]; AppraisalYear: Integer; JobTitle: Text[100]; StatusValue: Text[30]; NoOfObjectives: Integer; Dim1: Code[20]; Dim2: Code[20]; Closed: Boolean; EmpArea: Text[100]; LeaveActions: Text[250]; ExpectedCompletionDate: Text; EmpProgressUpdate: Text; EmpDevPlanUpdate: Text; MgrProgressUpdate: Text; MgrDevPlanUpdate: Text; EmpRatingPct: Decimal; EmpFinalRating: Decimal; EmpFinalComment: Text[250]; EmpSignOff: Option ,Accepted,Rejected; MgrRatingPct: Decimal; MgrFinalRating: Decimal; MgrFinalComment: Text[250]; AppraisalLines: Text): Text
+    procedure CreateOrEditPerformanceAppraisal(EmployeeNo: Code[20]; AppraisalYear: Integer; AppraisalLines: Text): Text
     var
         Header: Record PerformanceAppraisalHeader;
         Line: Record PerformanceAppraiserLine;
@@ -767,73 +767,11 @@ codeunit 50500 "ESS Management"
         ErrorInvalidJson: Label 'Invalid JSON format';
         ResponseLbl: Label 'Performance Appraisal processed successfully with %1 lines';
     begin
-        if EmployeeNo <> '' then begin
-            if not Header.Get(EmployeeNo, AppraisalYear) then
-                Error('Performance Appraisal %1 (%2) not found', EmployeeNo, AppraisalYear);
-
-            Evaluate(Header.Status, StatusValue);
-
-            Header.Validate("Line Manager No.", LineManagerNo);
-            Header.Validate("Job Title", JobTitle);
-            Header.Validate("No. of Objectives", NoOfObjectives);
-            Header.Validate("Shortcut Dimension 1 Code", Dim1);
-            Header.Validate("Shortcut Dimension 2 Code", Dim2);
-            Header.Validate(Closed, Closed);
-
-            Header.Validate("Area", EmpArea);
-            Header.Validate("Actions", LeaveActions);
-            Evaluate(Header."Expected Completon Date", ExpectedCompletionDate);
-
-            Header.Validate("Employee Progress update", EmpProgressUpdate);
-            Header.Validate("Emp. Mid-Year Dev. Plan Update", EmpDevPlanUpdate);
-            Header.Validate("Manager Progress Update", MgrProgressUpdate);
-            Header.Validate("Mgr. Mid-Year Dev. Plan Update", MgrDevPlanUpdate);
-
-            Header.Validate("Employee Rating%", EmpRatingPct);
-            Header.Validate("Employee Final Rating", EmpFinalRating);
-            Header.Validate("Employee Final Comment", EmpFinalComment);
-            Header.Validate("Employee Sign-off", EmpSignOff);
-
-            Header.Validate("Manager Rating%", MgrRatingPct);
-            Header.Validate("Manager Final Rating", MgrFinalRating);
-            Header.Validate("Manager Final Comment", MgrFinalComment);
-
-            Header.Modify(true);
-
-        end else begin
+        if not Header.Get(EmployeeNo, AppraisalYear) then begin
             Header.Init();
             Header.Validate("Employee No.", EmployeeNo);
             Header.Validate("Appraisal Year", AppraisalYear);
             Header.Insert(true);
-
-            Evaluate(Header.Status, StatusValue);
-
-            Header.Validate("Line Manager No.", LineManagerNo);
-            Header.Validate("Job Title", JobTitle);
-            Header.Validate("No. of Objectives", NoOfObjectives);
-            Header.Validate("Shortcut Dimension 1 Code", Dim1);
-            Header.Validate("Shortcut Dimension 2 Code", Dim2);
-            Header.Validate(Closed, Closed);
-
-            Header.Validate("Area", EmpArea);
-            Header.Validate("Actions", LeaveActions);
-            Evaluate(Header."Expected Completon Date", ExpectedCompletionDate);
-
-            Header.Validate("Employee Progress update", EmpProgressUpdate);
-            Header.Validate("Emp. Mid-Year Dev. Plan Update", EmpDevPlanUpdate);
-            Header.Validate("Manager Progress Update", MgrProgressUpdate);
-            Header.Validate("Mgr. Mid-Year Dev. Plan Update", MgrDevPlanUpdate);
-
-            Header.Validate("Employee Rating%", EmpRatingPct);
-            Header.Validate("Employee Final Rating", EmpFinalRating);
-            Header.Validate("Employee Final Comment", EmpFinalComment);
-            Header.Validate("Employee Sign-off", EmpSignOff);
-
-            Header.Validate("Manager Rating%", MgrRatingPct);
-            Header.Validate("Manager Final Rating", MgrFinalRating);
-            Header.Validate("Manager Final Comment", MgrFinalComment);
-
-            Header.Modify(true);
         end;
 
         if AppraisalLines <> '' then begin
@@ -914,7 +852,7 @@ codeunit 50500 "ESS Management"
         exit(ResponseText);
     end;
 
-    procedure CreateOrEditPurchaseRequisition(DocumentNo: Code[20]; DocumentDate: Text; Requester: Code[50]; RequestDescription: Text[250]; RequisitionAmount: Decimal; StatusValue: Text; PurchOrderCreated: Boolean; PurchOrderPosted: Boolean; SRQRefNo: Code[50]; PurchaseReqLines: Text): Text
+    procedure CreateOrEditPurchaseRequisition(DocumentNo: Code[20]; DocumentDate: Text; Requester: Code[50]; RequestDescription: Text[250]; PurchaseReqLines: Text): Text
     var
         Header: Record "Purch. Requistion";
         Line: Record "Purchase Requisition Line";
@@ -934,6 +872,7 @@ codeunit 50500 "ESS Management"
         Quantity: Decimal;
         UnitCost: Decimal;
         ShortcutDim1: Code[20];
+        ShortcutDim2: Code[20];
         Amount: Decimal;
         AmountLCY: Decimal;
         VendorNo: Code[20];
@@ -947,13 +886,9 @@ codeunit 50500 "ESS Management"
                 Error('Purchase Requisition %1 not found', DocumentNo);
 
             Evaluate(Header.Date, DocumentDate);
-            Header.Validate(Requester, Requester);
+            if Requester <> '' then
+                Header.Validate(Requester, Requester);
             Header.Validate("Request Description", RequestDescription);
-            Header.Validate("Requisition Amount", RequisitionAmount);
-            Evaluate(Header.Status, StatusValue);
-            Header.Validate("Purch. Order Created?", PurchOrderCreated);
-            Header.Validate("Purchase Order Posted", PurchOrderPosted);
-            Header.Validate("SRQ Ref.No.", SRQRefNo);
             Header.Modify(true);
 
             Line.Reset();
@@ -964,14 +899,9 @@ codeunit 50500 "ESS Management"
             Header.Validate("No.", '');
             Header.Insert(true);
             Evaluate(Header.Date, DocumentDate);
-            Header.Validate(Requester, Requester);
+            if Requester <> '' then
+                Header.Validate(Requester, Requester);
             Header.Validate("Request Description", RequestDescription);
-            Header.Validate("Requisition Amount", RequisitionAmount);
-            Evaluate(Header.Status, StatusValue);
-            Header.Validate("Purch. Order Created?", PurchOrderCreated);
-            Header.Validate("Purchase Order Posted", PurchOrderPosted);
-            Header.Validate("SRQ Ref.No.", SRQRefNo);
-
             Header.Modify(true);
         end;
 
@@ -1030,11 +960,11 @@ codeunit 50500 "ESS Management"
             if JsonObject.Get('ShortcutDimension1', JsonToken) then
                 ShortcutDim1 := JsonToken.AsValue().AsCode();
 
+            if JsonObject.Get('ShortcutDimension2', JsonToken) then
+                ShortcutDim2 := JsonToken.AsValue().AsCode();
+
             if JsonObject.Get('Amount', JsonToken) then
                 Amount := JsonToken.AsValue().AsDecimal();
-
-            if JsonObject.Get('AmountLCY', JsonToken) then
-                AmountLCY := JsonToken.AsValue().AsDecimal();
 
             if JsonObject.Get('VendorNo', JsonToken) then
                 VendorNo := JsonToken.AsValue().AsCode();
@@ -1055,11 +985,15 @@ codeunit 50500 "ESS Management"
             Line.Validate("Required Item/Service", RequiredItemService);
             Line.Validate(Quantity, Quantity);
             Line.Validate("Unit Cost", UnitCost);
-            Line.Validate("Shortcut Dimension 1 Code", ShortcutDim1);
+            if ShortcutDim1 <> '' then
+                Line.Validate("Shortcut Dimension 1 Code", ShortcutDim1);
+            if ShortcutDim2 <> '' then
+                Line.Validate("Shortcut Dimension 2 Code", ShortcutDim2);
             Line.Validate(Amount, Amount);
-            Line.Validate("Amount (LCY)", AmountLCY);
-            Line.Validate("Vendor No.", VendorNo);
-            Line.Validate("Vendor Name", VendorName);
+            if VendorNo <> '' then
+                Line.Validate("Vendor No.", VendorNo);
+            if VendorName <> '' then
+                Line.Validate("Vendor Name", VendorName);
             Line.Insert(true);
         end;
 
@@ -1074,8 +1008,344 @@ codeunit 50500 "ESS Management"
         exit(ResponseText);
     end;
 
+    procedure GetPaymentRequests(DocumentNo: Code[20]; Beneficiary: Code[20]): Text
+    var
+        Header: Record "Payment Requisition";
+        Line: Record "Payment Requisition Line";
+        ResponseObject: JsonObject;
+        HeaderObject: JsonObject;
+        LineObject: JsonObject;
+        JsonArray: JsonArray;
+        LinesArray: JsonArray;
+        ResponseText: Text;
+        JsonText: Text;
+    begin
+        if Beneficiary <> '' then
+            Header.SetRange(Beneficiary, Beneficiary);
+        if DocumentNo <> '' then
+            Header.SetRange("No.", DocumentNo);
 
+        if Header.FindSet() then
+            repeat
+                Clear(HeaderObject);
+                Clear(LinesArray);
+                HeaderObject.Add('documentNo', Header."No.");
+                HeaderObject.Add('postingDate', Format(Header.Date));
+                HeaderObject.Add('requester', Header.Requester);
+                HeaderObject.Add('beneficiary', Header.Beneficiary);
+                HeaderObject.Add('currencyCode', Header."Currency Code");
+                HeaderObject.Add('description', Header."Request Description");
 
+                Line.Reset();
+                Line.SetRange("Document No.", Header."No.");
+                if Line.FindSet() then
+                    repeat
+                        Clear(LineObject);
+                        LineObject.Add('expenseCode', Line."Expense Code");
+                        LineObject.Add('paymentDetails', Line."Payment Details");
+                        LineObject.Add('amount', Line.Amount);
+                        LineObject.Add('accountNo', Line."Account No.");
+                        LinesArray.Add(LineObject);
+                    until Line.Next() = 0;
+                HeaderObject.Add('lines', LinesArray);
+                JsonArray.Add(HeaderObject);
+            until Header.Next() = 0;
+        JsonArray.WriteTo(JsonText);
+        exit(JsonText);
+    end;
+
+    procedure GetCashAdvances(DocumentNo: Code[20]; Requester: code[20]): Text
+    var
+        Header: Record "Cash Advance";
+        Line: Record "Cash Advance Line";
+        ResponseObject: JsonObject;
+        HeaderObject: JsonObject;
+        LineObject: JsonObject;
+        JsonArray: JsonArray;
+        LinesArray: JsonArray;
+        ResponseText: Text;
+        JsonText: Text;
+    begin
+        if Requester <> '' then
+            Header.SetRange(Requester, Requester);
+        if DocumentNo <> '' then
+            Header.SetRange("No.", DocumentNo);
+
+        if Header.FindSet() then
+            repeat
+                Clear(HeaderObject);
+                Clear(LinesArray);
+                HeaderObject.Add('documentNo', Header."No.");
+                HeaderObject.Add('documentDate', Format(Header.Date));
+                HeaderObject.Add('requester', Header.Requester);
+                HeaderObject.Add('description', Header.Description);
+
+                Line.Reset();
+                Line.SetRange("Document No.", Header."No.");
+                if Line.FindSet() then
+                    repeat
+                        Clear(LineObject);
+                        LineObject.Add('expenseCode', Line."Expense Code");
+                        LineObject.Add('paymentDetails', Line."Payment Details");
+                        LineObject.Add('amount', Line.Amount);
+                        LinesArray.Add(LineObject);
+                    until Line.Next() = 0;
+                HeaderObject.Add('lines', LinesArray);
+                JsonArray.Add(HeaderObject);
+            until Header.Next() = 0;
+        JsonArray.WriteTo(JsonText);
+        exit(JsonText);
+    end;
+
+    procedure GetStoreRequisitions(DocumentNo: Code[20]; Requester: Code[20]): Text
+    var
+        Header: Record "Store Requisition";
+        Line: Record "Store Requisition Line";
+        ResponseObject: JsonObject;
+        HeaderObject: JsonObject;
+        LineObject: JsonObject;
+        JsonArray: JsonArray;
+        LinesArray: JsonArray;
+        JsonText: Text;
+    begin
+        if Requester <> '' then
+            Header.SetRange(Requester, Requester);
+        if DocumentNo <> '' then
+            Header.SetRange("No.", DocumentNo);
+
+        if Header.FindSet() then
+            repeat
+                Clear(HeaderObject);
+                Clear(LinesArray);
+                HeaderObject.Add('documentNo', Header."No.");
+                HeaderObject.Add('documentDate', Format(Header.Date));
+                HeaderObject.Add('requester', Header.Requester);
+                HeaderObject.Add('location', Header.Location);
+
+                Line.Reset();
+                Line.SetRange("Document No.", Header."No.");
+                if Line.FindSet() then
+                    repeat
+                        Clear(LineObject);
+                        LineObject.Add('stockCode', Line."Stock Code");
+                        LineObject.Add('description', Line.Description);
+                        LineObject.Add('requestedQty', Line."Requested Qty.");
+                        LineObject.Add('unitPrice', Line."Unit Price");
+                        LinesArray.Add(LineObject);
+                    until Line.Next() = 0;
+                HeaderObject.Add('lines', LinesArray);
+                JsonArray.Add(HeaderObject);
+            until Header.Next() = 0;
+        JsonArray.WriteTo(JsonText);
+        exit(JsonText);
+    end;
+
+    procedure GetStoresReturns(DocumentNo: Code[20]; Requester: Code[20]): Text
+    var
+        Header: Record "Stores Return";
+        Line: Record "Stores Return Line";
+        ResponseObject: JsonObject;
+        HeaderObject: JsonObject;
+        LineObject: JsonObject;
+        JsonArray: JsonArray;
+        LinesArray: JsonArray;
+        JsonText: Text;
+    begin
+        if Requester <> '' then
+            Header.SetRange(Requester, Requester);
+        if DocumentNo <> '' then
+            Header.SetRange("No.", DocumentNo);
+
+        if Header.FindSet() then
+            repeat
+                Clear(HeaderObject);
+                Clear(LinesArray);
+                HeaderObject.Add('documentNo', Header."No.");
+                HeaderObject.Add('documentDate', Format(Header.Date));
+                HeaderObject.Add('requester', Header.Requester);
+
+                Line.Reset();
+                Line.SetRange("Document No.", Header."No.");
+                if Line.FindSet() then
+                    repeat
+                        Clear(LineObject);
+                        LineObject.Add('stockCode', Line."Stock Code");
+                        LineObject.Add('description', Line.Description);
+                        LineObject.Add('qtyToReturn', Line."Qty to Return");
+                        LinesArray.Add(LineObject);
+                    until Line.Next() = 0;
+                HeaderObject.Add('lines', LinesArray);
+                JsonArray.Add(HeaderObject);
+            until Header.Next() = 0;
+        JsonArray.WriteTo(JsonText);
+        exit(JsonText);
+    end;
+
+    procedure GetRetirements(DocumentNo: Code[20]): Text
+    var
+        Header: Record Retirement;
+        Line: Record "Retirement Line";
+        ResponseObject: JsonObject;
+        HeaderObject: JsonObject;
+        LineObject: JsonObject;
+        JsonArray: JsonArray;
+        LinesArray: JsonArray;
+        JsonText: Text;
+    begin
+        if DocumentNo <> '' then
+            Header.SetRange("No.", DocumentNo);
+
+        if Header.FindSet() then
+            repeat
+                Clear(HeaderObject);
+                Clear(LinesArray);
+                HeaderObject.Add('documentNo', Header."No.");
+                HeaderObject.Add('retirementDate', Format(Header.Date));
+                HeaderObject.Add('retiringOfficer', Header."Retiring Officer");
+                HeaderObject.Add('purpose', Header.Purpose);
+
+                Line.Reset();
+                Line.SetRange("Document No.", Header."No.");
+
+                if Line.FindSet() then
+                    repeat
+                        Clear(LineObject);
+                        LineObject.Add('expenseCode', Line."Expense Code");
+                        LineObject.Add('transactionDetails', Line."Transaction Details");
+                        LineObject.Add('amount', Line.Amount);
+                        LinesArray.Add(LineObject);
+                    until Line.Next() = 0;
+                HeaderObject.Add('lines', LinesArray);
+                JsonArray.Add(HeaderObject);
+            until Header.Next() = 0;
+        JsonArray.WriteTo(JsonText);
+        exit(JsonText);
+    end;
+
+    procedure GetLeaveApplications(LeaveCode: Code[20]; EmployeeNo: Code[20]): Text
+    var
+        Header: Record LeaveApplication;
+        ResponseObject: JsonObject;
+        DataObject: JsonObject;
+        JsonArray: JsonArray;
+        ResponseText: Text;
+    begin
+        if LeaveCode <> '' then
+            Header.SetRange("Leave Code", LeaveCode);
+
+        if EmployeeNo <> '' then
+            Header.SetRange("Employee No.", EmployeeNo);
+
+        if Header.FindSet() then
+            repeat
+                Clear(DataObject);
+
+                DataObject.Add('leaveCode', Header."Leave Code");
+                DataObject.Add('employeeNo', Header."Employee No.");
+                DataObject.Add('description', Header.Description);
+                DataObject.Add('startDate', Format(Header."First Day of Vacation"));
+                DataObject.Add('endDate', Format(Header."Leave End Date"));
+                DataObject.Add('leaveType', Header."Leave Type");
+
+                JsonArray.Add(DataObject);
+
+            until Header.Next() = 0;
+
+        ResponseObject.Add('success', true);
+        ResponseObject.Add('data', JsonArray);
+
+        ResponseObject.WriteTo(ResponseText);
+
+        exit(ResponseText);
+    end;
+
+    procedure GetPerformanceAppraisals(EmployeeNo: Code[20]; AppraisalYear: Integer): Text
+    var
+        Header: Record PerformanceAppraisalHeader;
+        Line: Record PerformanceAppraiserLine;
+        ResponseObject: JsonObject;
+        HeaderObject: JsonObject;
+        LineObject: JsonObject;
+        JsonArray: JsonArray;
+        LinesArray: JsonArray;
+        JsonText: Text;
+    begin
+        if EmployeeNo <> '' then
+            Header.SetRange("Employee No.");
+        if AppraisalYear <> 0 then
+            Header.SetRange("Appraisal Year", AppraisalYear);
+
+        if Header.FindSet() then
+            repeat
+                Clear(HeaderObject);
+                Clear(LinesArray);
+                HeaderObject.Add('employeeNo', Header."Employee No.");
+                HeaderObject.Add('appraisalYear', Header."Appraisal Year");
+
+                Line.Reset();
+                Line.SetRange("Employee No.", EmployeeNo);
+                Line.SetRange("Appraisaer Year", AppraisalYear);
+                if Line.FindSet() then
+                    repeat
+                        Clear(LineObject);
+                        LineObject.Add('objectiveSettings', Line."Objective Settings");
+                        LineObject.Add('objectiveSummary', Line."Objective Summary");
+                        LineObject.Add('measure', Line.Measure);
+                        LineObject.Add('weight', Line.Weight);
+                        LineObject.Add('employeeScore', Line."Employee Score");
+                        LineObject.Add('managerScore', Line."Manager Score");
+                        LinesArray.Add(LineObject);
+                    until Line.Next() = 0;
+                HeaderObject.Add('lines', LinesArray);
+                JsonArray.Add(HeaderObject);
+            until Header.Next() = 0;
+        JsonArray.WriteTo(JsonText);
+        exit(JsonText);
+    end;
+
+    procedure GetPurchaseRequisitions(DocumentNo: Code[20]; Requester: Code[20]): Text
+    var
+        Header: Record "Purch. Requistion";
+        Line: Record "Purchase Requisition Line";
+        ResponseObject: JsonObject;
+        HeaderObject: JsonObject;
+        LineObject: JsonObject;
+        JsonArray: JsonArray;
+        LinesArray: JsonArray;
+        JsonText: Text;
+    begin
+        if Requester <> '' then
+            Header.SetRange(Requester, Requester);
+        if DocumentNo <> '' then
+            Header.SetRange("No.", DocumentNo);
+
+        if Header.FindSet() then
+            repeat
+                Clear(HeaderObject);
+                Clear(LinesArray);
+                HeaderObject.Add('documentNo', Header."No.");
+                HeaderObject.Add('documentDate', Format(Header.Date));
+                HeaderObject.Add('requester', Header.Requester);
+                HeaderObject.Add('requestDescription', Header."Request Description");
+
+                Line.Reset();
+                Line.SetRange("Document No.", Header."No.");
+                if Line.FindSet() then
+                    repeat
+                        Clear(LineObject);
+                        LineObject.Add('type', Format(Line.Type));
+                        LineObject.Add('no', Line."No.");
+                        LineObject.Add('description', Line.Description);
+                        LineObject.Add('quantity', Line.Quantity);
+                        LineObject.Add('unitCost', Line."Unit Cost");
+                        LinesArray.Add(LineObject);
+                    until Line.Next() = 0;
+                HeaderObject.Add('lines', LinesArray);
+                JsonArray.Add(HeaderObject);
+            until Header.Next() = 0;
+        JsonArray.WriteTo(JsonText);
+        exit(JsonText);
+    end;
 
     var
         myInt: Integer;

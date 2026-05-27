@@ -141,6 +141,22 @@ tableextension 50139 ExtHumanResourceSetup extends "Human Resources Setup"
             Caption = 'Working Hours';
             DataClassification = ToBeClassified;
         }
+        field(50158; "Pension Employee %"; Decimal)
+        {
+            Caption = 'Pension Employee %';
+            DataClassification = ToBeClassified;
+        }
+        field(50159; "Pension Employer %"; Decimal)
+        {
+            Caption = 'Pension Employer %';
+            DataClassification = ToBeClassified;
+        }
+        field(50160; "NHF %"; Decimal)
+        {
+            Caption = 'NHF %';
+            DataClassification = ToBeClassified;
+        }
+
     }
 
 }

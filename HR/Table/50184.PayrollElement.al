@@ -38,6 +38,10 @@ table 50184 PayrollElement
         {
             Caption = 'Appear in Payslip';
         }
+        field(9; "Appear in Salary Setup"; Boolean)
+        {
+            Caption = 'Appear in Salary Setup';
+        }
 
         field(11; "G/L Account"; Code[20])
         {
