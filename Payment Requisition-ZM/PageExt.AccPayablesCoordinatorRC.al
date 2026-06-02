@@ -34,11 +34,31 @@ pageextension 50000 AccPayablesCoordinatorRCExt extends "Acc. Payables Coordinat
             {
                 Caption = 'Employee Self Service';
                 Image = HumanResources;
-                Visible = false;
+                Visible = true;
                 separator(Action1000000052)
                 {
                     Caption = 'Employee';
                 }
+                   action("Purchase Requisition List")
+                {
+                    ApplicationArea = All;
+                    Image = CashFlow;
+                    RunObject = Page "Purchase Requisition List";
+
+                }
+                action("Store Requisition List")
+                {
+                    ApplicationArea = All;
+                    Image = CashFlow;
+                    RunObject = Page "Store Requisition List";
+                }
+                action("Stores Return Lists")
+                {
+                    ApplicationArea = All;
+                    Image = CashFlow;
+                    RunObject = Page "Stores Return Lists";
+                }
+
                 action(CashReceipts)
                 {
                     ApplicationArea = Basic;

@@ -329,7 +329,7 @@ table 50118 LeaveApplication
         field(19; Status; Option)
         {
             Caption = 'Approval Status';
-            OptionMembers = Open,"Pending Approval",Approved,Posted;
+            OptionMembers = Open,Approved,"Pending Approval",Rejected,Posted;
             Editable = false;
         }
         field(20; "Resumption Date"; Date)

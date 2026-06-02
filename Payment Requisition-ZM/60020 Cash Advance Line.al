@@ -28,15 +28,15 @@ table 60020 "Cash Advance Line"
                 if ExpenseCode.GET("Expense Code") then;
                 if ExpenseCode."Account Type" = ExpenseCode."Account Type"::"Bank Account" then begin
                     "Account Type" := "Account Type"::"Bank Account";
-                    //Validate("Account No.", ExpenseCode."Account No.");
+                    Validate("Account No.", ExpenseCode."Account No.");
                 end;
                 if ExpenseCode."Account Type" = ExpenseCode."Account Type"::"G/L Account" then begin
                     "Account Type" := "Account Type"::"G/L Account";
-                    //Validate("Account No.", ExpenseCode."Account No.");
+                    Validate("Account No.", ExpenseCode."Account No.");
                 end;
                 if ExpenseCode."Account Type" = ExpenseCode."Account Type"::Customer then begin
                     "Account Type" := "Account Type"::Customer;
-                    //Validate("Account No.", ExpenseCode."Account No.");
+                    Validate("Account No.", ExpenseCode."Account No.");
                 end;
                 GetHeaderData()
             end;

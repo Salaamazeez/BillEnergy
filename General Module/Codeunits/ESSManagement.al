@@ -117,8 +117,8 @@ codeunit 50500 "ESS Management"
             Line."Line No." := LineNo;
             Line.Validate("Expense Code", ExpenseCode);
             Line.Validate("Payment Details", PaymentDetails);
-            Line.Validate("Account Type", AccType);
-            Line.Validate("Account No.", AccountNo);
+            // Line.Validate("Account Type", AccType);
+            // Line.Validate("Account No.", AccountNo);
             Line.Validate(Amount, Amount);
             Line.Validate("Shortcut Dimension 1 Code", ShortcutDimCode1);
             Line.Validate("Shortcut Dimension 2 Code", ShortcutDimCode2);
@@ -180,7 +180,7 @@ codeunit 50500 "ESS Management"
             Header.Validate("Shortcut Dimension 1 Code", ShortcutDim1);
             Header.Validate("Shortcut Dimension 2 Code", ShortcutDim2);
             Header.Validate("Transaction type", TransactionType);
-            Header.Validate("Loan ID", LoanID);
+            //Header.Validate("Loan ID", LoanID);
             Header.Modify(true);
 
             Line.Reset();
@@ -199,7 +199,7 @@ codeunit 50500 "ESS Management"
             Header.Validate("Currency Code", CurrencyCode);
             Header.Validate("Shortcut Dimension 1 Code", ShortcutDim1);
             Header.Validate("Shortcut Dimension 2 Code", ShortcutDim2);
-            Header.Validate("Transaction type", TransactionType);
+            //Header.Validate("Transaction type", TransactionType);
 
             if LoanID <> '' then
                 Header.Validate("Loan ID", LoanID);
@@ -256,8 +256,8 @@ codeunit 50500 "ESS Management"
             Line."Line No." := LineNo;
             Line.Validate("Expense Code", ExpenseCode);
             Line.Validate("Payment Details", PaymentDetails);
-            Line.Validate("Account No.", AccountNo);
-            Line.Validate("Bal. Account No.", BalAccountNo);
+            //Line.Validate("Account No.", AccountNo);
+            //Line.Validate("Bal. Account No.", BalAccountNo);
             Line.Validate("Shortcut Dimension 1 Code", Dim1);
             Line.Validate("Shortcut Dimension 2 Code", Dim2);
             Line.Validate(Amount, Amount);
@@ -383,8 +383,8 @@ codeunit 50500 "ESS Management"
             Line."Line No." := LineNo;
             Line.Validate(Type, LineType);
             Line.Validate("Stock Code", StockCode);
-            Line.Validate(Description, Description);
-            Line.Validate("Unit of Issue", UnitOfIssue);
+            // Line.Validate(Description, Description);
+            // Line.Validate("Unit of Issue", UnitOfIssue);
             Line.Validate("Location Code", LocationCode);
             Line.Validate("Requested Qty.", RequestedQty);
             Line.Validate("Unit Price", UnitPrice);
@@ -490,11 +490,11 @@ codeunit 50500 "ESS Management"
             if JsonObject.Get('StockCode', JsonToken) then
                 StockCode := JsonToken.AsValue().AsCode();
 
-            if JsonObject.Get('Description', JsonToken) then
-                Description := JsonToken.AsValue().AsText();
+            // if JsonObject.Get('Description', JsonToken) then
+            //     Description := JsonToken.AsValue().AsText();
 
-            if JsonObject.Get('UnitOfIssue', JsonToken) then
-                UnitOfIssue := JsonToken.AsValue().AsCode();
+            // if JsonObject.Get('UnitOfIssue', JsonToken) then
+            //     UnitOfIssue := JsonToken.AsValue().AsCode();
 
             if JsonObject.Get('LocationCode', JsonToken) then
                 LocationCode := JsonToken.AsValue().AsCode();

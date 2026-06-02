@@ -89,7 +89,7 @@ table 50122 PerformanceAppraisalHeader
         field(9; Status; Option)
         {
             Caption = 'Approval Status';
-            OptionMembers = Open,"Pending Approval",Approved;
+            OptionMembers = Open,Approved,"Pending Approval",Rejected;
             Editable = false;
         }
         field(10; "Area"; Text[100])

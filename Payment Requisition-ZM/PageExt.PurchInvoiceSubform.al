@@ -18,11 +18,6 @@ pageextension 50015 PurchInvoiceSubform extends "Purch. Invoice Subform"
         }
         addafter("Line Amount")
         {
-            field("Tax Type"; Rec."Tax Type")
-            {
-                Visible = false;
-                ApplicationArea = All;
-            }
             field("Unit Cost b/f Adjusted"; Rec."Unit Cost b/f Adjusted")
             {
                 Visible = false;

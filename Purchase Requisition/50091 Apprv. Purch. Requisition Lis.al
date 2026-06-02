@@ -1,13 +1,14 @@
-page 50507 "Pending Store Requisitions"
+page 50091 "Apprv. Purch. Requisition Lis"
 {
     //Created by Salaam Azeez
     PageType = List;
     ApplicationArea = All;
+    Caption = 'Apprv. Purch. Requisition List';
     UsageCategory = Lists;
-    SourceTable = "Store Requisition";
-    SourceTableView = where(Status = const("Pending Approval"));
-    CardPageId = "Pending Store Requisition Card";
-
+    SourceTable = "Purch. Requistion";
+    SourceTableView = WHERE(Status = CONST(Approved), "Purch. Order Created?" = CONST(false));
+    CardPageId = "Appr. Purch. Requisition Cards";
+    Editable = false;
     layout
     {
         area(Content)
@@ -22,24 +23,20 @@ page 50507 "Pending Store Requisitions"
                 field(Date; Rec.Date)
                 {
                     ApplicationArea = All;
-
                 }
                 field(Requester; Rec.Requester)
                 {
                     ApplicationArea = All;
-
-                }
-                field(Location; Rec.Location)
-                {
-                    ApplicationArea = All;
-
-                }
-                field("Project/Job Description"; Rec."Project/Job Description")
-                {
-                    ApplicationArea = All;
-
                 }
                 field(Status; Rec.Status)
+                {
+                    ApplicationArea = All;
+                }
+                field("Shortcut Dimension 1 Code"; Rec."Shortcut Dimension 1 Code")
+                {
+                    ApplicationArea = All;
+                }
+                field("Shortcut Dimension 2 Code"; Rec."Shortcut Dimension 2 Code")
                 {
                     ApplicationArea = All;
 
@@ -56,13 +53,18 @@ page 50507 "Pending Store Requisitions"
     {
         area(Processing)
         {
-            action(ActionName)
+            action("Print")
             {
                 ApplicationArea = All;
 
-                trigger OnAction();
+                trigger OnAction()
+                var
+                    PurRequisition: Record "Purch. Requistion";
                 begin
-
+                    PurRequisition.SetRange("No.", Rec."No.");
+                    if PurRequisition.FindFirst() then
+                        //Report.Run(50130,);
+                        Report.Run(50102, true, true, PurRequisition);
                 end;
             }
         }

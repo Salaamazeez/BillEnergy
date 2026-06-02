@@ -145,6 +145,7 @@ page 60020 "Cash Advance Card"
     {
         area(Processing)
         {
+
             group(Approval)
             {
                 Caption = 'Approval';
@@ -324,7 +325,7 @@ page 60020 "Cash Advance Card"
                     end;
                 }
 
-                
+
                 action(TestCreateCashAdv)
                 {
                     ApplicationArea = All;
@@ -341,7 +342,7 @@ page 60020 "Cash Advance Card"
                     begin
                         CashAdvLines := '[{"ExpenseCode": "TEST", "PaymentDetails": "Flight ticket to Abuja", "Amount": 150000, "AccountNo": "101040", "BalAccountNo": "101050", "ShortcutDimension1Code": "LAGOS", "shortcutDimension2Code": "ENGR"}]';
 
-                        ResponseText := ESSManagement.CreateOrEditCashAdvance('', '2026-05-18', 'TRIBASE', 'test', '2026-05-18', 0, '101040', '', 'LAGOS', 'ENGR', 1, '', CashAdvLines);
+                        //ResponseText := ESSManagement.CreateOrEditCashAdvance('', '2026-05-18', 'TRIBASE', 'test', '2026-05-18', 0, '101040', '', 'LAGOS', 'ENGR', 1, '', CashAdvLines);
 
                         Message(ResponseText);
                     end;

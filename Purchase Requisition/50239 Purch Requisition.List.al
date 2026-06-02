@@ -1,12 +1,14 @@
-page 50507 "Pending Store Requisitions"
+page 50239 "Purchase Requisition List"
 {
     //Created by Salaam Azeez
+
     PageType = List;
     ApplicationArea = All;
-    UsageCategory = Lists;
-    SourceTable = "Store Requisition";
-    SourceTableView = where(Status = const("Pending Approval"));
-    CardPageId = "Pending Store Requisition Card";
+    UsageCategory = Administration;
+    SourceTable = "Purch. Requistion";
+    SourceTableView = WHERE(Status = filter(Open | Rejected));
+    CardPageId = "Purch. Requisition Card";
+    Editable = false;
 
     layout
     {
@@ -22,28 +24,24 @@ page 50507 "Pending Store Requisitions"
                 field(Date; Rec.Date)
                 {
                     ApplicationArea = All;
-
-                }
-                field(Requester; Rec.Requester)
-                {
-                    ApplicationArea = All;
-
-                }
-                field(Location; Rec.Location)
-                {
-                    ApplicationArea = All;
-
-                }
-                field("Project/Job Description"; Rec."Project/Job Description")
-                {
-                    ApplicationArea = All;
-
                 }
                 field(Status; Rec.Status)
                 {
                     ApplicationArea = All;
-
                 }
+                field("Shortcut Dimension 1 Code"; Rec."Shortcut Dimension 1 Code")
+                {
+                    ApplicationArea = All;
+                }
+                field("Requester"; Rec."Requester")
+                {
+                    ApplicationArea = All;
+                }
+                field("Shortcut Dimension 2 Code"; Rec."Shortcut Dimension 2 Code")
+                {
+                    ApplicationArea = All;
+                }
+
             }
         }
         area(Factboxes)

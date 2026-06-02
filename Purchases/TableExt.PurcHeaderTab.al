@@ -116,7 +116,6 @@ tableextension 50140 PurchHeader extends "Purchase Header"
 
     var
 
-        TCode: Record "Tariff Codes";
         PurchHeader: Record "Purchase Header";
 
 }

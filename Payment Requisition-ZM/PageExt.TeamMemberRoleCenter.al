@@ -63,14 +63,13 @@ PageExtension 50202 TeamMemberRoleCenterExt extends "Team Member Role Center"
             group(EmployeeSelfService)
             {
                 Caption = 'Employee Self Service';
-                Visible = false;
-                /*
-                Image = HumanResources;
-                separator(Action136)
-                {
-                    Caption = 'Employee';
-                }
-                */
+                Visible = true;
+                /*Image = HumanResources;
+separator(Action136)
+{
+    Caption = 'Employee';
+}
+*/
                 action("Payment Requests")
                 {
                     ApplicationArea = All;
@@ -102,6 +101,26 @@ PageExtension 50202 TeamMemberRoleCenterExt extends "Team Member Role Center"
                     Image = CashFlow;
                     RunObject = Page "Cash Advance List";
                 }
+                action("Purchase Requisition List")
+                {
+                    ApplicationArea = All;
+                    Image = CashFlow;
+                    RunObject = Page "Purchase Requisition List";
+
+                }
+                action("Store Requisition List")
+                {
+                    ApplicationArea = All;
+                    Image = CashFlow;
+                    RunObject = Page "Store Requisition List";
+                }
+                action("Stores Return Lists")
+                {
+                    ApplicationArea = All;
+                    Image = CashFlow;
+                    RunObject = Page "Stores Return Lists";
+                }
+
             }
 
             group(PostedDocuments)

@@ -773,8 +773,8 @@ DimMgt.EditDimensionSet(
     begin
         CashAdvance.Get("Retirement Ref.");
         "Debit  Account Type" := CashAdvance."Debit  Account Type";
-        "Debit Account No." := CashAdvance."Debit Account No.";
-        "Debit Account Name" := CashAdvance."Debit Account Name";
+        Validate("Debit Account No.", CashAdvance."Debit Account No.");
+        //"Debit Account Name" := CashAdvance."Debit Account Name";
         "Currency Code" := CashAdvance."Currency Code";
         "Currency Factor" := CashAdvance."Currency Factor";
         Purpose := CashAdvance.Description;
@@ -797,7 +797,7 @@ DimMgt.EditDimensionSet(
                 RetirementLine."Document No." := "No.";
                 RetirementLine."Line No." := LineNo;
                 RetirementLine."Account Type" := RetirementLine."Account Type"::"G/L Account";
-                //RetirementLine.VALIDATE("Account No.", CAImprestMgtLine."Account No.");
+                RetirementLine.VALIDATE("Account No.", CAImprestMgtLine."Account No.");
                 RetirementLine.Validate("Currency Code", CAImprestMgtLine."Currency Code");
                 RetirementLine.Validate(Amount, CAImprestMgtLine.Amount);
                 RetirementLine."Transaction Details" := CAImprestMgtLine."Payment Details";

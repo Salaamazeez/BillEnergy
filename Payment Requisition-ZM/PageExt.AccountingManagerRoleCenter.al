@@ -131,7 +131,7 @@ PageExtension 50200 AccountingManagerRoleCenterExt extends "Accounting Manager R
             }
             group("Employee Self Service")
             {
-                Visible = false;
+                Visible = true;
                 Image = HumanResources;
                 separator(Action136)
                 {
@@ -163,15 +163,31 @@ PageExtension 50200 AccountingManagerRoleCenterExt extends "Accounting Manager R
                     Caption = 'Cash Adv. Retirements';
                     RunObject = Page "Retirement List";
                 }
-
-
-
                 action("Cash Advance List")
                 {
                     ApplicationArea = All;
                     Image = CashFlow;
                     RunObject = Page "Cash Advance List";
 
+                }
+                action("Purchase Requisition List")
+                {
+                    ApplicationArea = All;
+                    Image = CashFlow;
+                    RunObject = Page "Purchase Requisition List";
+
+                }
+                action("Store Requisition List")
+                {
+                    ApplicationArea = All;
+                    Image = CashFlow;
+                    RunObject = Page "Store Requisition List";
+                }
+                action("Stores Return Lists")
+                {
+                    ApplicationArea = All;
+                    Image = CashFlow;
+                    RunObject = Page "Stores Return Lists";
                 }
 
             }

@@ -55,7 +55,7 @@ table 50550 "Stores Return"
         field(8; Status; Option)
         {
             Editable = false;
-            OptionMembers = Open,"Pending Approval",Approved,Rejected;
+           OptionMembers = Open,Approved,"Pending Approval",Rejected;
         }
         field(9; Posted; Boolean)
         {

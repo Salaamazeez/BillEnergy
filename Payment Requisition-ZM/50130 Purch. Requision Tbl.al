@@ -16,8 +16,8 @@ table 50130 "Purch. Requistion"
             trigger OnValidate()
             BEGIN
                 IF "No." <> xRec."No." THEN BEGIN
-                    PaymentMgtSetup.GET;
-                    NoSeriesMgt.TestManual(PaymentMgtSetup."Purchase Requisition Nos.");
+                    PurchaseSetup.GET;
+                    NoSeriesMgt.TestManual(PurchaseSetup."Purchase Requisition Nos.");
                     "No. Series" := '';
                 END;
             END;
@@ -363,11 +363,11 @@ table 50130 "Purch. Requistion"
         // TestField("User Code");
         //TestField("User Code 2");
         IF "No." = '' THEN BEGIN
-            PaymentMgtSetup.GET;
-            PaymentMgtSetup.TESTFIELD("Payment Requisition Nos.");
-            If NoSeriesMgt.AreRelated(PaymentMgtSetup."Purchase Requisition Nos.", xRec."No. Series") then
+            PurchaseSetup.GET;
+            PurchaseSetup.TESTFIELD("Purchase Requisition Nos.");
+            If NoSeriesMgt.AreRelated(PurchaseSetup."Purchase Requisition Nos.", xRec."No. Series") then
                 "No. Series" := xRec."No. Series";
-            "No." := NoSeriesMgt.GetNextNo(PaymentMgtSetup."Purchase Requisition Nos.");
+            "No." := NoSeriesMgt.GetNextNo(PurchaseSetup."Purchase Requisition Nos.");
             "Requester No." := UserId;
             Requester := UserId;
         END;
@@ -713,7 +713,7 @@ table 50130 "Purch. Requistion"
     end;
 
     var
-        PaymentMgtSetup: Record "Payment Mgt Setup";
+        //PaymentMgtSetup: Record "Payment Mgt Setup";
         PurchaseSetup: Record "Purchases & Payables Setup";
         PurchaseSetup2: Record "Purchases & Payables Setup";
         NoSeriesMgt: Codeunit "No. Series";

@@ -227,6 +227,13 @@ table 60021 "Cash Advance"
         field(37; "Payee No."; Code[20])
         {
             TableRelation = Customer;
+            trigger OnValidate()
+            var
+                Customer: Record Customer;
+            begin
+                Customer.get("Payee No.");
+
+            end;
         }
         field(50000; Description; Text[100]) { }
         field(50001; "Due Date"; Date) { }

@@ -132,7 +132,7 @@ PageExtension 50201 AccountingRoleCenterExt extends "Accountant Role Center"
             group("Employee Self Service")
             {
                 Image = HumanResources;
-                Visible = false;
+                Visible = true;
                 separator(Action136)
                 {
                     Caption = 'Employee';
@@ -156,16 +156,12 @@ PageExtension 50201 AccountingRoleCenterExt extends "Accountant Role Center"
                     Caption = 'Approved Payment Req. List';
                     RunObject = Page "Approved Payment Req. List";
                 }
-
                 action("Cash Adv. Retirements")
                 {
                     ApplicationArea = Basic;
                     Caption = 'Cash Adv. Retirements';
                     RunObject = Page "Retirement List";
                 }
-
-
-
                 action("Cash Advance List")
                 {
                     ApplicationArea = All;
@@ -173,6 +169,26 @@ PageExtension 50201 AccountingRoleCenterExt extends "Accountant Role Center"
                     RunObject = Page "Cash Advance List";
 
                 }
+                action("Purchase Requisition List")
+                {
+                    ApplicationArea = All;
+                    Image = CashFlow;
+                    RunObject = Page "Purchase Requisition List";
+
+                }
+                action("Store Requisition List")
+                {
+                    ApplicationArea = All;
+                    Image = CashFlow;
+                    RunObject = Page "Store Requisition List";
+                }
+                action("Stores Return Lists")
+                {
+                    ApplicationArea = All;
+                    Image = CashFlow;
+                    RunObject = Page "Stores Return Lists";
+                }
+
 
             }
 

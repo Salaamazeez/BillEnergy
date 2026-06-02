@@ -25,10 +25,10 @@ page 50000 "Cash Advance Subform"
 
                 }
 
-                field("Account Type"; REC."Account Type") 
+                field("Account Type"; REC."Account Type")
                 {
                     //  Editable = false;
-                      }
+                }
                 // field("Expense Code"; "Expense Code")
                 // {
 

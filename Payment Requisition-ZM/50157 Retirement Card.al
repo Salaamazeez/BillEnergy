@@ -139,6 +139,7 @@ page 50026 "Retirement Card"
     {
         area(Processing)
         {
+
             group(Approv)
             {
                 Caption = 'Approve';
@@ -448,8 +449,8 @@ page 50026 "Retirement Card"
                     {
                         ApplicationArea = Basic;
                         Image = ReleaseDoc;
-                        //Promoted = true;
-                        ////PromotedCategory = Process;
+                        Promoted = true;
+                        PromotedCategory = Process;
                         ShortCutKey = 'Ctrl+F9';
 
                         trigger OnAction()
@@ -467,8 +468,8 @@ page 50026 "Retirement Card"
                     {
                         ApplicationArea = Basic;
                         Image = ReOpen;
-                        //Promoted = true;
-                        ////PromotedCategory = Process;
+                        Promoted = true;
+                        PromotedCategory = Process;
 
                         trigger OnAction()
                         var
