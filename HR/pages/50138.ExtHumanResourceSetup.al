@@ -149,6 +149,12 @@ pageextension 50138 ExtHumanResourceSetup extends "Human Resources Setup"
                     Caption = 'Office Transport %';
                     ApplicationArea = All;
                 }
+
+                field("Overtime Rate"; Rec."Overtime Rate")
+                {
+                    Caption = 'Overtime Rate';
+                    ApplicationArea = All;
+                }
             }
 
         }

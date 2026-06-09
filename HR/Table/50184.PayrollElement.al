@@ -108,6 +108,10 @@ table 50184 PayrollElement
         {
             Caption = 'Is EVC';
         }
+        field(31; "Is Reimbursable"; Boolean)
+        {
+            Caption = 'Is Reimbursable';
+        }
 
         field(32; "Is Gross"; Boolean)
         {

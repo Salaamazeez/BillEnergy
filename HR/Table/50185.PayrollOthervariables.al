@@ -42,11 +42,19 @@ table 50188 PayrollOthervariables
             begin
                 if "Element Code" = '' then
                     Clear("Element Name");
+                Clear(Deduction);
+                Clear(Earning);
 
                 PayElement.Reset();
                 PayElement.SetRange("Element Code", "Element Code");
                 if PayElement.FindFirst() then begin
                     "Element Name" := PayElement."Element Name";
+
+                    if PayElement.Earning then
+                        Earning := true;
+
+                    if PayElement.Deduction then
+                        Deduction := true;
                 end;
             end;
         }
@@ -64,6 +72,19 @@ table 50188 PayrollOthervariables
             Caption = 'Employee Name';
             Editable = false;
         }
+
+        field(7; Earning; Boolean)
+        {
+            Caption = 'Earning';
+            Editable = false;
+        }
+
+        field(8; Deduction; Boolean)
+        {
+            Caption = 'Deduction';
+            Editable = false;
+        }
+
 
         field(9; "Global Dimension 1 Code"; Code[20])
         {

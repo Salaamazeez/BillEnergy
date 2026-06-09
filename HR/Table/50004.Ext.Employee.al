@@ -51,6 +51,17 @@ tableextension 50004 EmployeeExt extends Employee
                 TestField("Termination Date");
             end;
         }
+        field(50009; "Reimbursable Amount"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Reimbursable Amount';
+        }
+
+        field(50010; "Rent Amount"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Rent Amount';
+        }
 
         modify("Bank Account No.")
         {

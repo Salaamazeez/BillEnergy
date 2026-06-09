@@ -156,6 +156,12 @@ tableextension 50139 ExtHumanResourceSetup extends "Human Resources Setup"
             Caption = 'NHF %';
             DataClassification = ToBeClassified;
         }
+        field(50161; "Overtime Rate"; Decimal)
+        {
+            Caption = 'Overtime Rate';
+            DataClassification = ToBeClassified;
+        }
+
 
     }
 

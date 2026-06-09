@@ -86,6 +86,14 @@ table 50187 PayrollLine
             Caption = 'Employment Date';
             Editable = false;
         }
+        field(23; "Employment Contract Code"; Code[50])
+        {
+            Caption = 'Employment Contract Code';
+            Editable = false;
+        }
+
+
+
     }
     keys
     {

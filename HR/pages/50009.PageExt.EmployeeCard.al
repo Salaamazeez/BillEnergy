@@ -41,6 +41,13 @@ pageextension 50009 EmployeeExt extends "Employee Card"
                 Caption = 'PAYER ID';
 
             }
+
+            field("Rent Relief Amount"; Rec."Rent Amount")
+            {
+                Caption = 'Rent Amount';
+
+            }
+
             field(PFA; Rec.PFA)
             {
                 Caption = 'PFA';

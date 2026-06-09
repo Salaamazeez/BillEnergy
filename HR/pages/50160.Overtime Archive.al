@@ -36,11 +36,11 @@ page 50160 OvertimeArchive
                 {
                     ToolTip = 'Specifies the value of the Element Name field.', Comment = '%';
                 }
-                field("Branch Code"; Rec."Branch Code")
+                field("Branch Code"; Rec."Global Dimension 1 Code")
                 {
                     ToolTip = 'Specifies the value of the Branch Code field.', Comment = '%';
                 }
-                field("Department code"; Rec."Department code")
+                field("Department code"; Rec."Global Dimension 2 Code")
                 {
                     ToolTip = 'Specifies the value of the Department code field.', Comment = '%';
                 }

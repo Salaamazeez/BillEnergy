@@ -149,6 +149,11 @@ table 50189 PayrollDetailLine
             Caption = 'No of Days In the Month';
             Editable = false;
         }
+        field(35; " Employment Contract Code"; Code[50])
+        {
+            Caption = ' Employment Contract Code';
+            Editable = false;
+        }
 
     }
     keys

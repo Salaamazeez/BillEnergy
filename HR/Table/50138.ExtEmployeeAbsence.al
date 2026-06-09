@@ -55,18 +55,7 @@ tableextension 50138 ExtEmployeeAbsence extends "Employee Absence"
             DataClassification = ToBeClassified;
             TableRelation = "Dimension Value".Code where("Global Dimension No." = const(2));
         }
-        field(50110; "Shortcut Dimension 3 Code"; Code[20])
-        {
-            Caption = 'Shortcut Dimension 3 Code';
-            DataClassification = ToBeClassified;
-            TableRelation = "Dimension Value".Code where("Global Dimension No." = const(3));
-        }
-        field(50111; "Shortcut Dimension 4 Code"; Code[20])
-        {
-            Caption = 'Shortcut Dimension 4 Code';
-            DataClassification = ToBeClassified;
-            TableRelation = "Dimension Value".Code where("Global Dimension No." = const(4));
-        }
+
         modify("Employee No.")
         {
             trigger OnAfterValidate()
@@ -77,8 +66,6 @@ tableextension 50138 ExtEmployeeAbsence extends "Employee Absence"
 
                 "Global Dimension 1 Code" := Employee."Global Dimension 1 Code";
                 "Global Dimension 2 Code" := Employee."Global Dimension 2 Code";
-                //"Shortcut Dimension 3 Code" := Employee."Shortcut Dimension 3 Code";
-                //"Shortcut Dimension 4 Code" := Employee."Shortcut Dimension 4 Code";
             end;
         }
     }
