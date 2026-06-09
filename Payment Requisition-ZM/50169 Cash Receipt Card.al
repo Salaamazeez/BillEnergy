@@ -25,7 +25,7 @@ page 50169 "Cash Receipt Card"
                 field("Transaction type"; Rec."Transaction type")
                 {
                     ApplicationArea = All;
-                    Editable = true;
+                    Visible = true;
                 }
                 field("Loan ID"; Rec."Loan ID")
                 {
@@ -154,8 +154,8 @@ page 50169 "Cash Receipt Card"
                         RecRef: RecordRef;
                         ApprovalsMgmt: Codeunit "Approval Mgt";
                     begin
-                        if Rec."Transaction type" = Rec."Transaction type"::Loan then
-                            Rec.TestField("Loan ID");
+                        // if Rec."Transaction type" = Rec."Transaction type"::Loan then
+                        //     Rec.TestField("Loan ID");
                         RecRef.GetTable(Rec);
                         if ApprovalsMgmt.CheckGenericApprovalsWorkflowEnabled(RecRef) then
                             ApprovalsMgmt.OnSendGenericDocForApproval(RecRef);

@@ -17,12 +17,13 @@ pageextension 50018 CashRcptJournalExt extends "Cash Receipt Journal"
         }
         addafter("Account Type")
         {
-            field("Suspense/Clearing"; Rec."Suspense/Clearing")
-            {
-                ApplicationArea = All;
-            }
+            // field("Suspense/Clearing"; Rec."Suspense/Clearing")
+            // {
+            //     ApplicationArea = All;
+            // }
             field("KBS-Account No."; Rec."KBS-Account No.")
             {
+                Visible= false;
                 ApplicationArea = All;
             }
         }

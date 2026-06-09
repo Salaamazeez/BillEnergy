@@ -33,6 +33,7 @@ page 60020 "Cash Advance Card"
                     ApplicationArea = All;
                     Editable = false;
                 }
+               
                 field(Description; Rec.Description)
                 {
                     ApplicationArea = All;
@@ -47,18 +48,6 @@ page 60020 "Cash Advance Card"
                     ApplicationArea = All;
 
                 }
-
-                field("Transaction type"; Rec."Transaction type")
-                {
-                    ApplicationArea = All;
-                    Editable = true;
-                }
-                field("Loan ID"; Rec."Loan ID")
-                {
-                    ApplicationArea = All;
-                    Editable = false;
-                }
-
                 field(Treated; Rec.Treated)
                 {
                     ApplicationArea = All;

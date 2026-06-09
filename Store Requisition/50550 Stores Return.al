@@ -93,8 +93,8 @@ table 50550 "Stores Return"
                     "Shortcut Dimension 1 Code" := StoresRequisition."Shortcut Dimension 1 Code";
                     "Shortcut Dimension 2 Code" := StoresRequisition."Shortcut Dimension 2 Code";
                     Location := StoresRequisition.Location;
-                    //  "Staff No." := StoresRequisition."Staff No.";
-                    // "Staff Name" := StoresRequisition."Staff Name";
+                     "Staff No." := StoresRequisition."Staff No.";
+                    "Staff Name" := StoresRequisition."Staff Name";
                     "Project/Job Description" := StoresRequisition."Project/Job Description";
                     "Sanction No./Allocation Code" := StoresRequisition."Sanction No./Allocation Code";
                     "Work Order No." := StoresRequisition."Work Order No.";
@@ -155,14 +155,29 @@ table 50550 "Stores Return"
         {
             DataClassification = ToBeClassified;
         }
-        // field(492; "Staff Name"; Text[50])
-        // {
-        //     DataClassification = ToBeClassified;
-        // }
-        // field(493; "Staff No."; Code[50])
-        // {
-        //     DataClassification = ToBeClassified;
-        // }
+      field(492; "Staff Name"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Beneficiary Name';
+        }
+        field(493; "Staff No."; Code[20])
+        {
+            Caption = 'Beneficiary';
+            DataClassification = ToBeClassified;
+            TableRelation = Employee;
+
+            trigger OnValidate()
+            var
+                Employee: Record Employee;
+            begin
+                begin
+                    Employee.GET("Staff No.");
+                    "Staff Name" := Employee.FullName();
+                    Validate("Shortcut Dimension 1 Code", Employee."Global Dimension 1 Code");
+                    Validate("Shortcut Dimension 2 Code", Employee."Global Dimension 2 Code");
+                end;
+            end;
+        }
     }
 
     keys

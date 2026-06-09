@@ -150,17 +150,28 @@ table 50500 "Store Requisition"
         {
             DataClassification = ToBeClassified;
         }
-        field(492; "Staff Name"; Text[50])
+        field(492; "Staff Name"; Text[100])
         {
             DataClassification = ToBeClassified;
-
-
+            Caption = 'Beneficiary Name';
         }
-        field(493; "Staff No."; Code[50])
+        field(493; "Staff No."; Code[20])
         {
+            Caption = 'Beneficiary';
             DataClassification = ToBeClassified;
+            TableRelation = Employee;
 
-
+            trigger OnValidate()
+            var
+                Employee: Record Employee;
+            begin
+                begin
+                    Employee.GET("Staff No.");
+                    "Staff Name" := Employee.FullName();
+                    Validate("Shortcut Dimension 1 Code", Employee."Global Dimension 1 Code");
+                    Validate("Shortcut Dimension 2 Code", Employee."Global Dimension 2 Code");
+                end;
+            end;
         }
 
 

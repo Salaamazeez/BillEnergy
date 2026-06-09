@@ -142,8 +142,8 @@ page 50007 "Approved Payment Req. Card"
                 begin
                     Rec.TestMandatoryFields();
                     Rec.TestField(Status, Rec.Status::Approved);
-                    if Rec."Transaction type" = Rec."Transaction type"::Loan then
-                        Rec.TestField("Loan ID");
+                    // if Rec."Transaction type" = Rec."Transaction type"::Loan then
+                    //     Rec.TestField("Loan ID");
                     if Rec."Voucher Created?" then
                         Error('Voucher cannot be created more than once for each Payment Requisition');
                     //Transfer Payment Requisition Header to Payment Voucher Header

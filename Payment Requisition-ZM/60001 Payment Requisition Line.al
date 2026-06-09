@@ -163,10 +163,10 @@ table 60001 "Payment Requisition Line"
                 END;
                 PaymentRequisition.Get("Document No.");
                 "Dimension Set ID" := PaymentRequisition."Dimension Set ID";
-                "Shortcut Dimension 1 Code" := PaymentRequisition."Shortcut Dimension 1 Code";
-                "Shortcut Dimension 2 Code" := PaymentRequisition."Shortcut Dimension 2 Code";
                 "Payment Details" := PaymentRequisition."Request Description";
                 Validate("Currency Code", PaymentRequisition."Currency Code");
+                "Shortcut Dimension 1 Code" := PaymentRequisition."Shortcut Dimension 1 Code";
+                "Shortcut Dimension 2 Code" := PaymentRequisition."Shortcut Dimension 2 Code";
 
             end;
         }

@@ -46,6 +46,23 @@ page 50123 LeaveApplicationList
             }
         }
     }
+    actions
+    {
+        area(Processing)
+        {
+            action(TestApp)
+            {
+                ApplicationArea = All;
+                trigger OnAction()
+                var
+                    ESSPortalMgt: Codeunit "ESS Management";
+                //{ "leaveCode": "", "applyingType": 1, "employeeNo": "102014", "description": "Annual leave request", "startDate": "2026-06-01", "endDate": "2026-06-04", "leaveType": "SICK" }
+                begin
+                    ESSPortalMgt.CreateOrEditLeaveApplication('', 1, '102001', 'Annual leave request', '2026-06-01', '2026-06-04', 'SICK')
+                end;
+            }
+        }
+    }
     trigger OnAfterGetRecord()
     begin
         /*
@@ -63,4 +80,6 @@ page 50123 LeaveApplicationList
         END;
         */
     end;
+
+
 }

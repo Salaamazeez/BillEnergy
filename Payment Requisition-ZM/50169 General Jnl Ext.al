@@ -14,13 +14,13 @@ tableextension 50169 "Gen Jnl Ext" extends "Gen. Journal Line"
             var
                 BankAcc: Record "Bank Account";
             begin
-                if "Bal. Account Type" = "Bal. Account Type"::"Bank Account" then begin
-                    if BankAcc.Get("Bal. Account No.") then
-                        if BankAcc."Suspense/Clearing" = BankAcc."Suspense/Clearing"::"Main Bank" then
-                            "KBS Closed" := true;
-                    if BankAcc."Suspense/Clearing" = BankAcc."Suspense/Clearing"::"Bank Receipts" then
-                        "Suspense/Clearing" := BankAcc."Suspense/Clearing"::"Bank Receipts"
-                end;
+                // if "Bal. Account Type" = "Bal. Account Type"::"Bank Account" then begin
+                //     if BankAcc.Get("Bal. Account No.") then
+                //         if BankAcc."Suspense/Clearing" = BankAcc."Suspense/Clearing"::"Main Bank" then
+                //             "KBS Closed" := true;
+                //     if BankAcc."Suspense/Clearing" = BankAcc."Suspense/Clearing"::"Bank Receipts" then
+                //         "Suspense/Clearing" := BankAcc."Suspense/Clearing"::"Bank Receipts"
+                // end;
             end;
         }
         modify("Account No.")
@@ -29,10 +29,10 @@ tableextension 50169 "Gen Jnl Ext" extends "Gen. Journal Line"
             var
                 BankAcc: Record "Bank Account";
             begin
-                if "Account Type" = "Account Type"::"Bank Account" then begin
-                    if BankAcc.Get("Account No.") then
-                        "Suspense/Clearing" := BankAcc."Suspense/Clearing";
-                end;
+                // if "Account Type" = "Account Type"::"Bank Account" then begin
+                //     if BankAcc.Get("Account No.") then
+                //         "Suspense/Clearing" := BankAcc."Suspense/Clearing";
+                // end;
             end;
         }
         field(50004; "Transaction type"; Option)
@@ -109,10 +109,10 @@ tableextension 50169 "Gen Jnl Ext" extends "Gen. Journal Line"
         field(50003; "Cashier Name"; Code[100])
         {
         }
-        field(50006; "Suspense/Clearing"; Option)
-        {
-            OptionMembers = " ","Bank Payment","Bank Receipts";
-        }
+        // field(50006; "Suspense/Clearing"; Option)
+        // {
+        //     OptionMembers = " ","Bank Payment","Bank Receipts";
+        // }
 
         field(50007; "KBS-Account No."; Code[20])
         {
@@ -124,7 +124,7 @@ tableextension 50169 "Gen Jnl Ext" extends "Gen. Journal Line"
             else
             if ("Account Type" = const(Vendor)) Vendor
             else
-            if ("Account Type" = const("Bank Account")) "Bank Account" where("Suspense/Clearing" = field("Suspense/Clearing"))
+            if ("Account Type" = const("Bank Account")) "Bank Account"
             else
             if ("Account Type" = const("Fixed Asset")) "Fixed Asset"
             else

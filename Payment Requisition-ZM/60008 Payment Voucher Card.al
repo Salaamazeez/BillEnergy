@@ -76,10 +76,10 @@ page 60002 "Payment Voucher Card"
                 {
 
                 }
-                field("Suspense/Clearing"; Rec."Suspense/Clearing")
-                {
-                    ApplicationArea = All;
-                }
+                // field("Suspense/Clearing"; Rec."Suspense/Clearing")
+                // {
+                //     ApplicationArea = All;
+                // }
                 // field("Purchase Requisition Amount";Rec."Purchase Requisition Amount")
                 // {
                 //     ApplicationArea = All;
@@ -296,7 +296,7 @@ page 60002 "Payment Voucher Card"
                             TestMandatoryFields;
                             RecRef.GetTable(Rec);
                             ReleaseDocument.PerformanualManualDocRelease(RecRef);
-                            CurrPage.Update;
+                            //CurrPage.Update;
                         end;
                     }
                     action("Re&open")
@@ -547,8 +547,8 @@ page 60002 "Payment Voucher Card"
         Rec.TestField(Status, Rec.Status::Open);
         // if Rec."Transaction type" = Rec."Transaction type"::" " then
         //     Error(Err001, Rec.FieldCaption("Transaction type"));
-        if Rec."Transaction type" = Rec."Transaction type"::Loan then
-            Rec.TestField("Loan ID");
+        // if Rec."Transaction type" = Rec."Transaction type"::Loan then
+        //     Rec.TestField("Loan ID");
         Rec.TestField("Request Description");
         // Rec.TestField(Beneficiary);
         //Rec.TestField("Payment Method");

@@ -108,7 +108,7 @@ table 60009 "Payment Voucher Header"
         {
             OptionMembers = "G/L Account",Vendor,Staff,"Bank Account","Fixed Asset";
             InitValue = "Bank Account";
-            Editable = false;
+            Editable = true;
         }
 
         field(25; "Bal Account No."; Code[20])
@@ -120,7 +120,7 @@ table 60009 "Payment Voucher Header"
             IF ("Bal Account Type" = CONST(Vendor)) Vendor else
             if ("Bal Account Type" = const(Staff)) Customer where(Type = const(Staff))
             else
-            if ("Bal Account Type" = const("Bank Account")) "Bank Account" where("Suspense/Clearing" = field("Suspense/Clearing"));
+            if ("Bal Account Type" = const("Bank Account")) "Bank Account";
 
             trigger OnValidate()
             var
@@ -406,11 +406,11 @@ table 60009 "Payment Voucher Header"
             DataClassification = CustomerContent;
             Editable = false;
         }
-        field(50060; "Suspense/Clearing"; Option)
-        {
-            OptionMembers = " ","Bank Payment","Bank Receipts","Main Bank";
-            InitValue = "Bank Payment";
-        }
+        // field(50060; "Suspense/Clearing"; Option)
+        // {
+        //     OptionMembers = " ","Bank Payment","Bank Receipts","Main Bank";
+        //     InitValue = "Bank Payment";
+        // }
         field(50061; "Journal Template Name"; Code[10])
         {
             Caption = 'Journal Template Name';
@@ -537,10 +537,10 @@ table 60009 "Payment Voucher Header"
         SignRegulator := 1;
         if Posted then
             Error('This Voucher has been posted already');
-        // GenJournalLine2.SETRANGE("Journal Template Name", 'SCB');
-        // GenJournalLine2.SETRANGE("Journal Batch Name", 'SCB');
-        // IF GenJournalLine2.FINDFIRST THEN
-        //     GenJournalLine2.DELETEALL;
+        GenJournalLine2.SETRANGE("Journal Template Name", 'GENERAL');
+        GenJournalLine2.SETRANGE("Journal Batch Name", 'DEFAULT');
+        IF GenJournalLine2.FINDFIRST THEN
+            GenJournalLine2.DELETEALL;
 
         PaymentVoucherLine.SETCURRENTKEY("Document No.", "Line No.");
         PaymentVoucherLine.SETRANGE("Document No.", "No.");
@@ -548,8 +548,8 @@ table 60009 "Payment Voucher Header"
             REPEAT
 
                 GenJournalLine.INIT;
-                // GenJournalLine."Journal Template Name" := 'SCB';
-                // GenJournalLine."Journal Batch Name" := 'SCB';
+                GenJournalLine."Journal Template Name" := 'GENERAL';
+                GenJournalLine."Journal Batch Name" := 'DEFAULT';
                 GenJournalLine."Line No." := PaymentVoucherLine."Line No.";
                 GenJournalLine."Posting Date" := Date;
                 GenJournalLine."Document No." := "No.";

@@ -20,12 +20,13 @@ page 50026 "Retirement Card"
                 field("Transaction type"; Rec."Transaction type")
                 {
                     ApplicationArea = All;
-                    Editable = true;
+                    Visible = false;
                 }
                 field("Loan ID"; Rec."Loan ID")
                 {
                     ApplicationArea = All;
                     Editable = true;
+                    Visible = false;
                 }
                 field("Date"; Rec."Date")
                 {
@@ -93,6 +94,17 @@ page 50026 "Retirement Card"
                     ApplicationArea = All;
                 }
                 field("Cash Recpt No./Pmt Voucher"; Rec."Cash Recpt No./Pmt Voucher")
+                {
+                    ApplicationArea = All;
+                }
+            }
+            group(Payee)
+            {
+                field(Beneficiary; Rec.Beneficiary)
+                {
+                    ApplicationArea = All;
+                }
+                field("Beneficiary Name"; Rec."Beneficiary Name")
                 {
                     ApplicationArea = All;
                 }
@@ -420,18 +432,13 @@ page 50026 "Retirement Card"
 
                         ResponseText := ESSManagement.CreateOrEditRetirement(
                             '',
+                            '2026-05-22',
                             2,
+                            '102001',
+                            '102001',
+                            'CAD-000013',
                             '',
-                            '2026-05-20',
-                            'TRIBASE',
-                            'CAD-000001',
-                            0,
-                            '102112',
-                            'LAGOS',
-                            'ADMIN',
-                            '',
-                            'Retirement of staff advance for project expenses',
-                            '',
+                            'Retiment of CAD-000013',
                             RetirementLines
                         );
 

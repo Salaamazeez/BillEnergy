@@ -239,10 +239,10 @@ page 60008 "Payment Req. Card"
                         PaymentReqLines := '[{"AccType":0,' + '"ExpenseCode":"TEST",' + '"PaymentDetails":"Transport Reimbursement",' + '"Amount":250000,' +
                                 '"AccountNo":"101050",' + '"ShortcutDimension1Code":"LAGOS",' + '"ShortcutDimension2Code":"ENGR"}]';
 
-                        ResponseText := ESSManagement.CreateorEditPaymentRequest('', '2026-05-18', 'TRIBASE', '102001', 3, '', 'Payment for logistics', '', 250000, 'LAGOS', 'ENGR', false, 1, '', PaymentReqLines);
+                        //ResponseText := ESSManagement.CreateorEditPaymentRequest('', '2026-05-18', 'TRIBASE', '102001', 3, '', 'Payment for logistics', '', 250000, 'LAGOS', 'ENGR', false, 1, '', PaymentReqLines);
 
                         Message(ResponseText);
-                    end;
+                    end; 
                 }
 
             }

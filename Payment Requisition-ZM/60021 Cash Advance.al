@@ -256,7 +256,10 @@ table 60021 "Cash Advance"
         {
             Editable = false;
         }
+        
+
         field(50100; "Retired Amount"; Decimal) { }
+
 
     }
 
@@ -440,8 +443,8 @@ DimMgt.EditDimensionSet(
         Rec.TestField(Status, Rec.Status::Open);
         // if Rec."Transaction type" = Rec."Transaction type"::" " then
         //     Error(Err001, Rec.FieldCaption("Transaction type"));
-        if Rec."Transaction type" = Rec."Transaction type"::Loan then
-            TestField("Loan ID");
+        // if Rec."Transaction type" = Rec."Transaction type"::Loan then
+        //     TestField("Loan ID");
         Rec.TestField(Description);
         //Rec.TestField("Debit Account No.");
         Rec.TestField("Shortcut Dimension 1 Code");

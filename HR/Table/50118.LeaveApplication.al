@@ -161,7 +161,7 @@ table 50118 LeaveApplication
 
                 if ("Leave Type" <> '') then begin
                     IF EmployeeRec.GET("Employee No.") THEN BEGIN
-                        EmployeeRec.TestField("Leave Setup Code");
+                        //EmployeeRec.TestField("Leave Setup Code");
                     END;
 
                     LeaveApp.RESET;
