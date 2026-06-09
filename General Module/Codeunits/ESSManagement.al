@@ -7,7 +7,7 @@ codeunit 50500 "ESS Management"
 
     end;
 
-    procedure CreateorEditPaymentRequest(DocumentNo: Code[20]; PostingDate: Text; Requester: Code[20]; Beneficiary: Code[20]; BalAccType: Option "G/L Account",Vendor,Staff,"Bank Account"; CurrencyCode: Code[10]; Description: Text; PurchReqNo: Code[20]; ReqAmount: Decimal; ShortcutDim1: Code[20]; ShortcutDim2: Code[20]; VoucherCreated: Boolean; TransactionType: Option " ",Loan,"Staff Adv"; LoanId: Code[20]; PaymentReqLines: Text): Text
+    procedure CreateorEditPaymentRequest(DocumentNo: Code[20]; PostingDate: Text; Requester: Code[20]; Beneficiary: Code[20]; BalAccType: Option "G/L Account",Vendor,Staff,"Bank Account"; CurrencyCode: Code[10]; Description: Text; PurchReqNo: Code[20]; ReqAmount: Decimal; VoucherCreated: Boolean; TransactionType: Option " ",Loan,"Staff Adv"; LoanId: Code[20]; PaymentReqLines: Text): Text
     var
         Header: Record "Payment Requisition";
         Line: Record "Payment Requisition Line";
@@ -38,8 +38,8 @@ codeunit 50500 "ESS Management"
             Header.Validate("Currency Code", CurrencyCode);
             Header.Validate("Request Description", Description);
             Header.Validate("Purchase Requisition No.", PurchReqNo);
-            Header.Validate("Shortcut Dimension 1 Code", ShortcutDim1);
-            Header.Validate("Shortcut Dimension 2 Code", ShortcutDim2);
+            // Header.Validate("Shortcut Dimension 1 Code", ShortcutDim1);
+            // Header.Validate("Shortcut Dimension 2 Code", ShortcutDim2);
             Header."Voucher Created?" := VoucherCreated;
             Header."Transaction type" := TransactionType;
             Header."Loan ID" := LoanId;
@@ -60,8 +60,8 @@ codeunit 50500 "ESS Management"
             Header.Validate("Currency Code", CurrencyCode);
             Header.Validate("Request Description", Description);
             Header.Validate("Purchase Requisition No.", PurchReqNo);
-            Header.Validate("Shortcut Dimension 1 Code", ShortcutDim1);
-            Header.Validate("Shortcut Dimension 2 Code", ShortcutDim2);
+            // Header.Validate("Shortcut Dimension 1 Code", ShortcutDim1);
+            // Header.Validate("Shortcut Dimension 2 Code", ShortcutDim2);
             Header."Voucher Created?" := VoucherCreated;
             Header."Transaction type" := TransactionType;
             Header."Loan ID" := LoanId;
@@ -117,8 +117,8 @@ codeunit 50500 "ESS Management"
             Line."Line No." := LineNo;
             Line.Validate("Expense Code", ExpenseCode);
             Line.Validate("Payment Details", PaymentDetails);
-            Line.Validate("Account Type", AccType);
-            Line.Validate("Account No.", AccountNo);
+            // Line.Validate("Account Type", AccType);
+            // Line.Validate("Account No.", AccountNo);
             Line.Validate(Amount, Amount);
             Line.Validate("Shortcut Dimension 1 Code", ShortcutDimCode1);
             Line.Validate("Shortcut Dimension 2 Code", ShortcutDimCode2);
@@ -140,7 +140,7 @@ codeunit 50500 "ESS Management"
         exit(ResponseText);
     end;
 
-    procedure CreateOrEditCashAdvance(DocumentNo: Code[20]; DocumentDate: Text; Requester: Code[50]; Description: Text[100]; DueDate: Text; DebitAccountType: Option "G/L Account",Vendor,Staff,"Bank Account"; DebitAccountNo: Code[20]; CurrencyCode: Code[10]; ShortcutDim1: Code[20]; ShortcutDim2: Code[20]; TransactionType: Option " ",Loan,"Staff Adv"; LoanID: Code[20]; CashAdvanceLines: Text): Text
+    procedure CreateOrEditCashAdvance(DocumentNo: Code[20]; DocumentDate: Text; requester: Text[50]; Description: Text[100]; DueDate: Text; DebitAccountType: Option "G/L Account",Vendor,Staff,"Bank Account"; DebitAccountNo: Code[20]; CurrencyCode: Code[10]; TransactionType: Option " ",Loan,"Staff Adv"; LoanID: Code[20]; CashAdvanceLines: Text): Text
     var
         Header: Record "Cash Advance";
         Line: Record "Cash Advance Line";
@@ -172,15 +172,15 @@ codeunit 50500 "ESS Management"
 
             Evaluate(Header.Date, DocumentDate);
             Evaluate(Header."Due Date", DueDate);
-            Header.Validate(Requester, Requester);
+            //Header.Validate("Payee No.", beneficiary);
             Header.Validate(Description, Description);
             Header.Validate("Debit  Account Type", DebitAccountType);
             Header.Validate("Debit Account No.", DebitAccountNo);
             Header.Validate("Currency Code", CurrencyCode);
-            Header.Validate("Shortcut Dimension 1 Code", ShortcutDim1);
-            Header.Validate("Shortcut Dimension 2 Code", ShortcutDim2);
+            // Header.Validate("Shortcut Dimension 1 Code", ShortcutDim1);
+            // Header.Validate("Shortcut Dimension 2 Code", ShortcutDim2);
             Header.Validate("Transaction type", TransactionType);
-            Header.Validate("Loan ID", LoanID);
+            //Header.Validate("Loan ID", LoanID);
             Header.Modify(true);
 
             Line.Reset();
@@ -188,17 +188,17 @@ codeunit 50500 "ESS Management"
             Line.DeleteAll();
         end else begin
             Header.Init();
-            Header.Validate("No.", '');
+            Header."No." := '';
             Header.Insert(true);
             Evaluate(Header.Date, DocumentDate);
             Evaluate(Header."Due Date", DueDate);
-            Header.Validate(Requester, Requester);
+            // Header.Validate(Beneficiary, beneficiary);
             Header.Validate(Description, Description);
             Header.Validate("Debit  Account Type", DebitAccountType);
             Header.Validate("Debit Account No.", DebitAccountNo);
             Header.Validate("Currency Code", CurrencyCode);
-            Header.Validate("Shortcut Dimension 1 Code", ShortcutDim1);
-            Header.Validate("Shortcut Dimension 2 Code", ShortcutDim2);
+            // Header.Validate("Shortcut Dimension 1 Code", ShortcutDim1);
+            // Header.Validate("Shortcut Dimension 2 Code", ShortcutDim2);
             Header.Validate("Transaction type", TransactionType);
 
             if LoanID <> '' then
@@ -254,14 +254,15 @@ codeunit 50500 "ESS Management"
 
             Line."Document No." := Header."No.";
             Line."Line No." := LineNo;
+            Line.Insert();
             Line.Validate("Expense Code", ExpenseCode);
             Line.Validate("Payment Details", PaymentDetails);
-            Line.Validate("Account No.", AccountNo);
-            Line.Validate("Bal. Account No.", BalAccountNo);
+            //Line.Validate("Account No.", AccountNo);
+            //Line.Validate("Bal. Account No.", BalAccountNo);
             Line.Validate("Shortcut Dimension 1 Code", Dim1);
             Line.Validate("Shortcut Dimension 2 Code", Dim2);
             Line.Validate(Amount, Amount);
-            Line.Insert(true);
+            Line.Modify(true);
         end;
 
 
@@ -278,7 +279,7 @@ codeunit 50500 "ESS Management"
     end;
 
 
-    procedure CreateOrEditStoreRequisition(DocumentNo: Code[20]; DocumentDate: Text; Requester: Code[50]; Location: Code[20]; ProjectJobDescription: Text[100]; WorkOrderNo: Code[20]; StoreReqLines: Text): Text
+    procedure CreateOrEditStoreRequisition(DocumentNo: Code[20]; DocumentDate: Text; Requester: Code[50]; Beneficiary: Code[20]; Location: Code[20]; ProjectJobDescription: Text[100]; WorkOrderNo: Code[20]; StoreReqLines: Text): Text
     var
         Header: Record "Store Requisition";
         Line: Record "Store Requisition Line";
@@ -310,6 +311,7 @@ codeunit 50500 "ESS Management"
                 Error('Store Requisition %1 not found', DocumentNo);
             Evaluate(Header.Date, DocumentDate);
             Header.Validate(Requester, Requester);
+            Header.Validate("Staff No.", Beneficiary);
             Header.Validate(Location, Location);
             Header.Validate("Project/Job Description", ProjectJobDescription);
             Header.Validate("Work Order No.", WorkOrderNo);
@@ -323,6 +325,7 @@ codeunit 50500 "ESS Management"
             Header.Insert(true);
             Evaluate(Header.Date, DocumentDate);
             Header.Validate(Requester, Requester);
+            Header.Validate("Staff No.", Beneficiary);
             Header.Validate(Location, Location);
             Header.Validate("Project/Job Description", ProjectJobDescription);
             Header.Validate("Work Order No.", WorkOrderNo);
@@ -383,8 +386,11 @@ codeunit 50500 "ESS Management"
             Line."Line No." := LineNo;
             Line.Validate(Type, LineType);
             Line.Validate("Stock Code", StockCode);
-            Line.Validate(Description, Description);
-            Line.Validate("Unit of Issue", UnitOfIssue);
+            if ProjectJobDescription <> '' then
+                Line.Validate(Description, ProjectJobDescription)
+            else
+                Line.Validate(Description, Description);
+            // Line.Validate("Unit of Issue", UnitOfIssue);
             Line.Validate("Location Code", LocationCode);
             Line.Validate("Requested Qty.", RequestedQty);
             Line.Validate("Unit Price", UnitPrice);
@@ -402,10 +408,11 @@ codeunit 50500 "ESS Management"
         exit(ResponseText);
     end;
 
-    procedure CreateOrEditStoresReturn(DocumentNo: Code[20]; DocumentDate: Text; Requester: Code[50]; Location: Code[20]; IssueNo: Code[20]; ProjectJobDescription: Text[100]; WorkOrderNo: Code[20]; StoreReturnLines: Text): Text
+    procedure CreateOrEditStoresReturn(DocumentNo: Code[20]; DocumentDate: Text; Requester: Code[50]; Beneficiary: Code[20]; Location: Code[20]; IssueNo: Code[20]; ProjectJobDescription: Text[100]; WorkOrderNo: Code[20]; StoreReturnLines: Text): Text
     var
         Header: Record "Stores Return";
         Line: Record "Stores Return Line";
+        StoreReqLine: Record "Store Requisition Line";
         JsonArray: JsonArray;
         JsonObject: JsonObject;
         JsonToken: JsonToken;
@@ -438,6 +445,7 @@ codeunit 50500 "ESS Management"
 
             Evaluate(Header.Date, DocumentDate);
             Header.Validate(Requester, Requester);
+            Header.Validate("Staff No.", Beneficiary);
             Header.Validate(Location, Location);
             Header.Validate("Issue No.", IssueNo);
             Header.Validate("Project/Job Description", ProjectJobDescription);
@@ -490,11 +498,11 @@ codeunit 50500 "ESS Management"
             if JsonObject.Get('StockCode', JsonToken) then
                 StockCode := JsonToken.AsValue().AsCode();
 
-            if JsonObject.Get('Description', JsonToken) then
-                Description := JsonToken.AsValue().AsText();
+            // if JsonObject.Get('Description', JsonToken) then
+            //     Description := JsonToken.AsValue().AsText();
 
-            if JsonObject.Get('UnitOfIssue', JsonToken) then
-                UnitOfIssue := JsonToken.AsValue().AsCode();
+            // if JsonObject.Get('UnitOfIssue', JsonToken) then
+            //     UnitOfIssue := JsonToken.AsValue().AsCode();
 
             if JsonObject.Get('LocationCode', JsonToken) then
                 LocationCode := JsonToken.AsValue().AsCode();
@@ -511,32 +519,42 @@ codeunit 50500 "ESS Management"
             // if JsonObject.Get('QtyReturned', JsonToken) then
             //     QtyReturned := JsonToken.AsValue().AsDecimal();
 
-            // if JsonObject.Get('IssuedQty', JsonToken) then
-            //     IssuedQty := JsonToken.AsValue().AsDecimal();
+            if JsonObject.Get('IssuedQty', JsonToken) then
+                IssuedQty := JsonToken.AsValue().AsDecimal();
 
             if JsonObject.Get('UnitPrice', JsonToken) then
                 UnitPrice := JsonToken.AsValue().AsDecimal();
 
             if JsonObject.Get('GenBusPostingGroup', JsonToken) then
                 GenBusPostingGroup := JsonToken.AsValue().AsCode();
-
+            StoreReqLine.Reset();
+            StoreReqLine.SetRange("Document No.", IssueNo);
+            StoreReqLine.SetRange("Stock Code", StockCode);
+            StoreReqLine.SetFilter("Issued Qty.", '<=%1', QtyToReturn);
+            if not StoreReqLine.FindFirst() then
+                Error('Wrong line details not allowed! %1', QtyToReturn);
             Line.Init();
 
             Line."Document No." := Header."No.";
             Line."Line No." := LineNo;
 
             Line.Validate("Stock Code", StockCode);
-            Line.Validate(Description, Description);
-            Line.Validate("Unit of Issue", UnitOfIssue);
+
+            //Error('%1',Line."Requested Qty.");
+            //Line.Validate(Description, Description);
+            //Line.Validate("Unit of Issue", UnitOfIssue);
             Line.Validate("Location Code", LocationCode);
             Line.Validate("Requested Qty.", RequestedQty);
-            Line.Validate("Returned Qty.", ReturnedQty);
-            Line.Validate("Qty to Return", QtyToReturn);
-            Line.Validate("Qty Returned", QtyReturned);
+            //Line.Validate("Returned Qty.", ReturnedQty);
+
+
+            //Line.Validate("Qty Returned", QtyReturned);
             Line.Validate("Issued Qty", IssuedQty);
+            Line.Insert(true);
+            Line.Validate("Qty to Return", QtyToReturn);
             Line.Validate("Unit Price", UnitPrice);
             Line.Validate("Gen Bus. Posting Group", GenBusPostingGroup);
-            Line.Insert(true);
+            Line.Modify(true);
         end;
 
         DataObject.Add('No', Header."No.");
@@ -551,7 +569,7 @@ codeunit 50500 "ESS Management"
     end;
 
 
-    procedure CreateOrEditRetirement(DocumentNo: Code[20]; TransType: Option " ",Loan,"Staff Adv"; LoanID: Code[20]; RetirementDate: Text; RetiringOfficer: Code[50]; RetirementRef: Code[50]; DebitAccountType: Option "G/L Account",Vendor,Staff,"Bank Account"; DebitAccountNo: Code[20]; Dim1: Code[20]; Dim2: Code[20]; CurrencyCode: Code[10]; Purpose: Text[250]; CashReceiptNo: Code[50]; RetirementLines: Text): Text
+    procedure CreateOrEditRetirement(DocumentNo: Code[20]; retirementDate: Text; DebitAccountType: Option "G/L Account",Vendor,Staff,"Bank Account"; DebitAccountNo: Code[20]; Beneficiary: Code[20]; RetirementRef: Code[50]; CurrencyCode: Code[10]; Purpose: Text[250]; RetirementLines: Text): Text
     var
         Header: Record Retirement;
         Line: Record "Retirement Line";
@@ -584,18 +602,18 @@ codeunit 50500 "ESS Management"
             if not Header.Get(DocumentNo) then
                 Error('Retirement %1 not found', DocumentNo);
 
-            Header.Validate("Transaction type", TransType);
-            Header.Validate("Loan ID", LoanID);
+            // Header.Validate("Transaction type", TransType);
+            // Header.Validate("Loan ID", LoanID);
             Evaluate(Header.Date, RetirementDate);
-            Header.Validate("Retiring Officer", RetiringOfficer);
+            Header.Validate(Beneficiary, Beneficiary);
             Header.Validate("Retirement Ref.", RetirementRef);
             Header.Validate("Debit  Account Type", DebitAccountType);
             Header.Validate("Debit Account No.", DebitAccountNo);
-            Header.Validate("Shortcut Dimension 1 Code", Dim1);
-            Header.Validate("Shortcut Dimension 2 Code", Dim2);
-            Header.Validate("Currency Code", CurrencyCode);
+            // Header.Validate("Shortcut Dimension 1 Code", Dim1);
+            // Header.Validate("Shortcut Dimension 2 Code", Dim2);
+            // Header.Validate("Currency Code", CurrencyCode);
             Header.Validate(Purpose, Purpose);
-            Header.Validate("Cash Recpt No./Pmt Voucher", CashReceiptNo);
+            //Header.Validate("Cash Recpt No./Pmt Voucher", CashReceiptNo);
             Header.Modify(true);
 
             Line.Reset();
@@ -605,18 +623,19 @@ codeunit 50500 "ESS Management"
             Header.Init();
             Header.Validate("No.", '');
             Header.Insert(true);
-            Header.Validate("Transaction type", TransType);
-            Header.Validate("Loan ID", LoanID);
+            // Header.Validate("Transaction type", TransType);
+            // Header.Validate("Loan ID", LoanID);
+            // Evaluate(Header.Date, RetirementDate);
             Evaluate(Header.Date, RetirementDate);
-            Header.Validate("Retiring Officer", RetiringOfficer);
+            Header.Validate(Beneficiary, Beneficiary);
             Header.Validate("Retirement Ref.", RetirementRef);
             Header.Validate("Debit  Account Type", DebitAccountType);
             Header.Validate("Debit Account No.", DebitAccountNo);
-            Header.Validate("Shortcut Dimension 1 Code", Dim1);
-            Header.Validate("Shortcut Dimension 2 Code", Dim2);
+            // Header.Validate("Shortcut Dimension 1 Code", Dim1);
+            // Header.Validate("Shortcut Dimension 2 Code", Dim2);
             Header.Validate("Currency Code", CurrencyCode);
             Header.Validate(Purpose, Purpose);
-            Header.Validate("Cash Recpt No./Pmt Voucher", CashReceiptNo);
+            //Header.Validate("Cash Recpt No./Pmt Voucher", CashReceiptNo);
             Header.Modify(true);
         end;
 
@@ -686,13 +705,13 @@ codeunit 50500 "ESS Management"
             Line.Validate("Account Type", AccountType);
             Line.Validate("Account No.", AccountNo);
             Line.Validate("Account Name", AccountName);
-            Line.Validate(Amount, LineAmount);
-            Line.Validate("Amount (LCY)", LineAmountLCY);
+            //Line.Validate("Amount (LCY)", LineAmountLCY);
             Line.Validate("Shortcut Dimension 1 Code", ShortcutDim1);
             Line.Validate("Shortcut Dimension 2 Code", ShortcutDim2);
             Line.Validate("Currency Code", LineCurrency);
-
             Line.Insert(true);
+            Line.Validate(Amount, LineAmount);
+            Line.Modify(true);
         end;
 
         DataObject.Add('No', Header."No.");
@@ -725,7 +744,7 @@ codeunit 50500 "ESS Management"
             Header.Modify(true);
         end else begin
             Header.Init();
-            Header.Validate("Leave Code", '');
+            Header."Leave Code":= '';
             Header.Insert(true);
             Header.Validate("Applying Type", ApplyingType);
             Header.Validate("Employee No.", EmployeeNo);
@@ -1054,7 +1073,7 @@ codeunit 50500 "ESS Management"
         exit(JsonText);
     end;
 
-    procedure GetCashAdvances(DocumentNo: Code[20]; Requester: code[20]): Text
+    procedure GetCashAdvances(DocumentNo: Code[20]; Requester: code[20]; Paid: boolean): Text
     var
         Header: Record "Cash Advance";
         Line: Record "Cash Advance Line";
@@ -1070,7 +1089,8 @@ codeunit 50500 "ESS Management"
             Header.SetRange(Requester, Requester);
         if DocumentNo <> '' then
             Header.SetRange("No.", DocumentNo);
-
+        if Paid then
+            Header.SetRange(Posted, Paid);
         if Header.FindSet() then
             repeat
                 Clear(HeaderObject);
@@ -1085,6 +1105,7 @@ codeunit 50500 "ESS Management"
                 if Line.FindSet() then
                     repeat
                         Clear(LineObject);
+                        LineObject.Add('LineNo', Line."Line No.");
                         LineObject.Add('expenseCode', Line."Expense Code");
                         LineObject.Add('paymentDetails', Line."Payment Details");
                         LineObject.Add('amount', Line.Amount);

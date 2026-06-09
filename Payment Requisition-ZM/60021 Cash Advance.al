@@ -227,6 +227,13 @@ table 60021 "Cash Advance"
         field(37; "Payee No."; Code[20])
         {
             TableRelation = Customer;
+            trigger OnValidate()
+            var
+                Customer: Record Customer;
+            begin
+                Customer.get("Payee No.");
+
+            end;
         }
         field(50000; Description; Text[100]) { }
         field(50001; "Due Date"; Date) { }
@@ -249,7 +256,10 @@ table 60021 "Cash Advance"
         {
             Editable = false;
         }
+        
+
         field(50100; "Retired Amount"; Decimal) { }
+
 
     }
 
@@ -433,8 +443,8 @@ DimMgt.EditDimensionSet(
         Rec.TestField(Status, Rec.Status::Open);
         // if Rec."Transaction type" = Rec."Transaction type"::" " then
         //     Error(Err001, Rec.FieldCaption("Transaction type"));
-        if Rec."Transaction type" = Rec."Transaction type"::Loan then
-            TestField("Loan ID");
+        // if Rec."Transaction type" = Rec."Transaction type"::Loan then
+        //     TestField("Loan ID");
         Rec.TestField(Description);
         //Rec.TestField("Debit Account No.");
         Rec.TestField("Shortcut Dimension 1 Code");

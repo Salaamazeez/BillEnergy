@@ -108,7 +108,57 @@ page 50503 "Store REquisition Card"
 
             //     end;
             // }
+            group(Action13)
+            {
+                Caption = 'Release';
+                Image = ReleaseDoc;
+                group(Release)
+                {
+                    action("Re&lease")
+                    {
+                        ApplicationArea = Basic;
+                        Image = ReleaseDoc;
+                        Promoted = true;
+                        PromotedCategory = Process;
+                        ShortCutKey = 'Ctrl+F9';
 
+                        trigger OnAction()
+                        var
+                            RecRef: RecordRef;
+                            ReleaseDocument: Codeunit "Release Documents";
+                        begin
+                            IF NOT StoreRequisitionLineExist THEN
+                                ERROR(Text000, StoresRequisition."No.");
+                            StoresRequisitionLine.TESTFIELD("Stock Code");
+                            // StoresRequisitionLine.TESTFIELD(Type);
+
+                            StoresRequisition.SETRANGE("No.", Rec."No.");
+                            IF StoresRequisition.FINDFIRST THEN
+                                RecID := StoresRequisition.RECORDID;
+                            RecRef.GetTable(Rec);
+                            ReleaseDocument.PerformanualManualDocRelease(RecRef);
+                            CurrPage.Update;
+                        end;
+                    }
+                    action("Re&open")
+                    {
+                        ApplicationArea = Basic;
+                        Image = ReOpen;
+                        Promoted = true;
+                        PromotedCategory = Process;
+
+                        trigger OnAction()
+                        var
+                            RecRef: RecordRef;
+                            ReleaseDocument: Codeunit "Release Documents";
+                        begin
+                            RecRef.GetTable(Rec);
+                            ReleaseDocument.PerformManualReopen(RecRef);
+                            CurrPage.Update;
+                        end;
+                    }
+                }
+            }
             action("Send Approval Request")
             {
                 ApplicationArea = All;
@@ -147,7 +197,7 @@ page 50503 "Store REquisition Card"
                 begin
                     StoreReqLines := '[{"Type": 0, "StockCode": "ITEM-0001", "Description": "TEST", "UnitOfIssue": "PCS", "LocationCode": "TEST", "RequestedQty": 10, "UnitPrice": 4500, "GenBusPostingGroup": "DOMESTIC"}]';
 
-                    ResponseText := ESSManagement.CreateOrEditStoreRequisition('', '2026-05-18', 'TRIBASE', 'TEST', '', '', StoreReqLines);
+                    //ResponseText := ESSManagement.CreateOrEditStoreRequisition('', '2026-05-18', 'TRIBASE', 'TEST', '', '', StoreReqLines);
 
                     Message(ResponseText);
                 end;

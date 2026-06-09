@@ -318,10 +318,11 @@ table 50155 Retirement
             //DataClassification = ToBeClassified;
             // Description = 'Approved Purchase Requisition';
             DataClassification = ToBeClassified;
-            TableRelation = "Cash Advance" where(Status = filter(Approved), Requester = field("Retiring Officer"), "Transaction type" = field("Transaction type"), Retired = const(false), Posted = const(true));
+            TableRelation = "Cash Advance" where(Status = filter(Approved), "Debit Account No." = field(Beneficiary), Retired = const(false), Posted = const(true));
 
             trigger OnValidate()
             begin
+                if GuiAllowed then
                 GetCashAdvance
             END;
             //  end;
@@ -394,6 +395,25 @@ table 50155 Retirement
             OptionMembers = " ",Created,Posted;
         }
         field(50008; "Cash Recpt No./Pmt Voucher"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(50009; Beneficiary; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = Employee;
+            trigger OnValidate()
+            var
+                EmplRec: Record Employee;
+            begin
+                if EmplRec.Get(Beneficiary) then begin
+                    "Beneficiary Name" := EmplRec.FullName();
+                   Validate("Shortcut Dimension 1 Code" ,EmplRec."Global Dimension 1 Code");
+                   Validate("Shortcut Dimension 2 Code" ,EmplRec."Global Dimension 2 Code");
+                end;
+            end;
+        }
+        field(50010; "Beneficiary Name"; Text[100])
         {
             DataClassification = ToBeClassified;
         }
@@ -478,9 +498,9 @@ table 50155 Retirement
 
     procedure PostRetirement()
     begin
-        GenJournalLine2.SETRANGE("Journal Template Name", 'GENERAL');
-        GenJournalLine2.SETRANGE("Journal Batch Name", 'DEFAULT');
-        IF GenJournalLine2.FINDFIRST THEN
+        GenJournalLine2.SETRANGE("Journal Template Name", '');
+        GenJournalLine2.SETRANGE("Journal Batch Name", '');
+        //IF GenJournalLine2.FINDFIRST THEN
             GenJournalLine2.DELETEALL;
         //Error('a');
         RetirementLine.SETCURRENTKEY("Document No.", "Line No.");
@@ -488,8 +508,8 @@ table 50155 Retirement
         IF RetirementLine.FINDFIRST THEN BEGIN
             REPEAT
                 GenJournalLine.INIT;
-                GenJournalLine."Journal Template Name" := 'GENERAL';
-                GenJournalLine."Journal Batch Name" := 'DEFAULT';
+                GenJournalLine."Journal Template Name" := '';
+                GenJournalLine."Journal Batch Name" := '';
                 GenJournalLine."Line No." := RetirementLine."Line No.";
                 GenJournalLine."Posting Date" := Date;
                 GenJournalLine."Document No." := "No.";
@@ -771,10 +791,16 @@ DimMgt.EditDimensionSet(
 
     procedure GetCashAdvance()
     begin
+        TestField(Status, Status::Open);
+        if "Retirement Ref." = '' then begin
+            RetirementLine.SetRange("Document No.", "No.");
+            RetirementLine.DeleteAll(true);
+            exit;
+        end;
         CashAdvance.Get("Retirement Ref.");
         "Debit  Account Type" := CashAdvance."Debit  Account Type";
-        "Debit Account No." := CashAdvance."Debit Account No.";
-        "Debit Account Name" := CashAdvance."Debit Account Name";
+        Validate("Debit Account No.", CashAdvance."Debit Account No.");
+        //"Debit Account Name" := CashAdvance."Debit Account Name";
         "Currency Code" := CashAdvance."Currency Code";
         "Currency Factor" := CashAdvance."Currency Factor";
         Purpose := CashAdvance.Description;
@@ -797,9 +823,11 @@ DimMgt.EditDimensionSet(
                 RetirementLine."Document No." := "No.";
                 RetirementLine."Line No." := LineNo;
                 RetirementLine."Account Type" := RetirementLine."Account Type"::"G/L Account";
-                //RetirementLine.VALIDATE("Account No.", CAImprestMgtLine."Account No.");
+                RetirementLine.VALIDATE("Account No.", CAImprestMgtLine."Account No.");
                 RetirementLine.Validate("Currency Code", CAImprestMgtLine."Currency Code");
                 RetirementLine.Validate(Amount, CAImprestMgtLine.Amount);
+                // RetirementLine."Cash Advance Amount" := RetirementLine.Amount;
+                // RetirementLine."Cash Advance Amount(LCY)" := RetirementLine."Amount (LCY)";
                 RetirementLine."Transaction Details" := CAImprestMgtLine."Payment Details";
                 RetirementLine."Shortcut Dimension 1 Code" := CAImprestMgtLine."Shortcut Dimension 1 Code";
                 RetirementLine."Shortcut Dimension 2 Code" := CAImprestMgtLine."Shortcut Dimension 2 Code";
@@ -861,8 +889,8 @@ DimMgt.EditDimensionSet(
         //Rec.TestField(Status, Rec.Status::Approved);
         // if Rec."Transaction type" = Rec."Transaction type"::" " then
         //     Error(Err001, Rec.FieldCaption("Transaction type"));
-        if Rec."Transaction type" = Rec."Transaction type"::Loan then
-            TestField("Loan ID");
+        // if Rec."Transaction type" = Rec."Transaction type"::Loan then
+        //     TestField("Loan ID");
         Rec.TestField("Debit Account No.");
         Rec.TestField("Shortcut Dimension 1 Code");
         Rec.TestField("Shortcut Dimension 2 Code");

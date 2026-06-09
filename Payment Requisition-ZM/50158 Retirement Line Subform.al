@@ -42,6 +42,16 @@ page 50158 "Retirement Line Subform"
                 {
                     ApplicationArea = All;
                 }
+                //  field("Cash Advance Amount";Rec."Cash Advance Amount")
+                // {
+                //     Editable = false;
+                //     ApplicationArea = All;
+                // }
+                // field("Cash Advance Amount(LCY)";Rec."Cash Advance Amount(LCY)")
+                // {
+                //     Editable = false;
+                //     ApplicationArea = All;
+                // }
                 field("Shortcut Dimension 1 Code"; Rec."Shortcut Dimension 1 Code")
                 {
                     ApplicationArea = All;

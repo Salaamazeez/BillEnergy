@@ -161,7 +161,7 @@ table 50118 LeaveApplication
 
                 if ("Leave Type" <> '') then begin
                     IF EmployeeRec.GET("Employee No.") THEN BEGIN
-                        EmployeeRec.TestField("Leave Setup Code");
+                        //EmployeeRec.TestField("Leave Setup Code");
                     END;
 
                     LeaveApp.RESET;
@@ -329,7 +329,7 @@ table 50118 LeaveApplication
         field(19; Status; Option)
         {
             Caption = 'Approval Status';
-            OptionMembers = Open,"Pending Approval",Approved,Posted;
+            OptionMembers = Open,Approved,"Pending Approval",Rejected,Posted;
             Editable = false;
         }
         field(20; "Resumption Date"; Date)

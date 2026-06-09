@@ -37,7 +37,7 @@ pageextension 50004 ITManagerRCExt extends "Administrator Role Center"
             {
                 Caption = 'Employee Self Service';
                 Image = HumanResources;
-                Visible = false;
+                Visible = true;
                 separator(Action1000000052)
                 {
                     Caption = 'Employee';
@@ -106,6 +106,25 @@ pageextension 50004 ITManagerRCExt extends "Administrator Role Center"
                     ApplicationArea = Basic;
                     Caption = 'Approved Cash Adv. Retirements';
                     RunObject = Page "Approved Retirement List";
+                }
+                action("Purchase Requisition List")
+                {
+                    ApplicationArea = All;
+                    Image = CashFlow;
+                    RunObject = Page "Purchase Requisition List";
+
+                }
+                action("Store Requisition List")
+                {
+                    ApplicationArea = All;
+                    Image = CashFlow;
+                    RunObject = Page "Store Requisition List";
+                }
+                action("Stores Return Lists")
+                {
+                    ApplicationArea = All;
+                    Image = CashFlow;
+                    RunObject = Page "Stores Return Lists";
                 }
 
                 // action("Payment Vouchers")

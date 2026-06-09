@@ -22,11 +22,7 @@ pageextension 50050 PurchOrderSubform extends "Purchase Order Subform"
         }
         addafter("Line Amount")
         {
-            field("Tax Type"; Rec."Tax Type")
-            {
-                ApplicationArea = All;
-                Visible = false;
-            }
+
             field("Unit Cost b/f Adjusted"; Rec."Unit Cost b/f Adjusted")
             {
                 ApplicationArea = All;

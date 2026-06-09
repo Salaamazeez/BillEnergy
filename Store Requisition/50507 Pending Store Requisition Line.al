@@ -1,4 +1,4 @@
-page 50507 "Pending Store Requisition Line"
+page 50507 "Pending Store Requisitions"
 {
     //Created by Salaam Azeez
     PageType = List;

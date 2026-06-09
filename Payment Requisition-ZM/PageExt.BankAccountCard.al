@@ -4,10 +4,10 @@ pageextension 50040 BankAccountExt extends "Bank Account Card"
     {
         addafter(Blocked)
         {
-            field("Suspense/Clearing"; Rec."Suspense/Clearing")
-            {
-                ApplicationArea = All;
-            }
+            // field("Suspense/Clearing"; Rec."Suspense/Clearing")
+            // {
+            //     ApplicationArea = All;
+            // }
         }
         addafter(Name)
         {

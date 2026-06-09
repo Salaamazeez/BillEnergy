@@ -623,8 +623,8 @@ DimMgt.EditDimensionSet(
 
         // if Rec."Transaction type" = Rec."Transaction type"::" " then
         //     Error(Err001, Rec.FieldCaption("Transaction type"));
-        if Rec."Transaction type" = Rec."Transaction type"::Loan then
-            TestField("Loan ID");
+        // if Rec."Transaction type" = Rec."Transaction type"::Loan then
+        //     TestField("Loan ID");
         Rec.TestField("Request Description");
         //Rec.TestField("Bal Account No.");
         Rec.TestField("Shortcut Dimension 1 Code");

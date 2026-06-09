@@ -10,20 +10,57 @@ table 50551 "Stores Return Line"
         {
             AutoIncrement = true;
         }
-        // field(22; Type; Option)
-        // {
-        //     DataClassification = ToBeClassified;
-        //     // OptionCaptionML = ENU =, Asset, Stock, Project;
-        //     OptionMembers = " ",Asset,Stock,Service;
-
-        //     trigger OnValidate()
-        //     BEGIN
-        //         TestStatusOpenLine;
-        //     END;
-        // }
-
-        field(3; "Stock Code"; Code[60])
+        field(22; Type; Option)
         {
+            DataClassification = ToBeClassified;
+            // OptionCaptionML = ENU =, Asset, Stock, Project;
+            OptionMembers = " ",Asset,Stock,Service;
+            InitValue = Stock;
+            trigger OnValidate()
+            BEGIN
+                //TestStatusOpenLine;
+            END;
+        }
+
+        field(3; "Stock Code"; Code[50])
+        {
+            TableRelation = IF (Type = FILTER(Stock)) Item."No."
+            ELSE
+            IF (Type = FILTER(Asset)) "Fixed Asset"."No."
+            ELSE
+            IF (Type = FILTER(Service)) "G/L Account"."No.";
+
+            trigger OnValidate()
+            BEGIN
+                //TestStatusOpenLine;
+
+                IF (Type = Type::Stock) THEN BEGIN
+                    IF Item.GET("Stock Code") THEN
+                        VALIDATE(Description, Item.Description);
+                    VALIDATE("Unit Price", Item."Unit Cost");
+                    "Unit of Issue" := Item."Base Unit of Measure";
+                    Item.CALCFIELDS(Inventory);
+                    //"Qty in Store at Request" := Item.Inventory;
+
+                END ELSE BEGIN
+                    Description := '';
+                    "Unit Price" := 0;
+                    "Unit of Issue" := '';
+                    Value := 0;
+                    //"Qty in Store at Request" := 0;
+                END;
+
+                IF (Type = Type::Asset) THEN BEGIN
+                    IF FA.GET("Stock Code") THEN
+                        VALIDATE(Description, FA.Description);
+                    VALIDATE("Location Code", FA."Location Code");
+                END;
+
+                IF (Type = Type::Service) THEN BEGIN
+                    IF "g/lacc".GET("Stock Code") THEN
+                        VALIDATE(Description, "g/lacc".Name);
+                END;
+            END;
 
         }
         field(4; Description; Text[50])

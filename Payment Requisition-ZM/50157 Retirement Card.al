@@ -20,12 +20,13 @@ page 50026 "Retirement Card"
                 field("Transaction type"; Rec."Transaction type")
                 {
                     ApplicationArea = All;
-                    Editable = true;
+                    Visible = false;
                 }
                 field("Loan ID"; Rec."Loan ID")
                 {
                     ApplicationArea = All;
                     Editable = true;
+                    Visible = false;
                 }
                 field("Date"; Rec."Date")
                 {
@@ -97,6 +98,17 @@ page 50026 "Retirement Card"
                     ApplicationArea = All;
                 }
             }
+            group(Payee)
+            {
+                field(Beneficiary; Rec.Beneficiary)
+                {
+                    ApplicationArea = All;
+                }
+                field("Beneficiary Name"; Rec."Beneficiary Name")
+                {
+                    ApplicationArea = All;
+                }
+            }
             // group(ListPart)
             // {
             part("Retirement Line Subform"; "Retirement Line Subform")
@@ -139,6 +151,7 @@ page 50026 "Retirement Card"
     {
         area(Processing)
         {
+
             group(Approv)
             {
                 Caption = 'Approve';
@@ -419,18 +432,13 @@ page 50026 "Retirement Card"
 
                         ResponseText := ESSManagement.CreateOrEditRetirement(
                             '',
+                            '2026-05-22',
                             2,
+                            '102001',
+                            '102001',
+                            'CAD-000013',
                             '',
-                            '2026-05-20',
-                            'TRIBASE',
-                            'CAD-000001',
-                            0,
-                            '102112',
-                            'LAGOS',
-                            'ADMIN',
-                            '',
-                            'Retirement of staff advance for project expenses',
-                            '',
+                            'Retiment of CAD-000013',
                             RetirementLines
                         );
 
@@ -448,8 +456,8 @@ page 50026 "Retirement Card"
                     {
                         ApplicationArea = Basic;
                         Image = ReleaseDoc;
-                        //Promoted = true;
-                        ////PromotedCategory = Process;
+                        Promoted = true;
+                        PromotedCategory = Process;
                         ShortCutKey = 'Ctrl+F9';
 
                         trigger OnAction()
@@ -467,8 +475,8 @@ page 50026 "Retirement Card"
                     {
                         ApplicationArea = Basic;
                         Image = ReOpen;
-                        //Promoted = true;
-                        ////PromotedCategory = Process;
+                        Promoted = true;
+                        PromotedCategory = Process;
 
                         trigger OnAction()
                         var

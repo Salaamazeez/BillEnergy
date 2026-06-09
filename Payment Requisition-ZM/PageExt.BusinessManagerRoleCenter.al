@@ -38,7 +38,7 @@ pageextension 50001 BusinessManagerRCExt extends "Business Manager Role Center"
                 Image = HumanResources;
                 Caption = 'Employee Self Service';
                 ToolTip = 'Enable employees to initiates some transaction';
-                Visible = false;
+                Visible = true;
                 separator(Action136)
                 {
                     Caption = 'Employee';
@@ -74,6 +74,26 @@ pageextension 50001 BusinessManagerRCExt extends "Business Manager Role Center"
                     Image = CashFlow;
                     RunObject = Page "Cash Advance List";
                 }
+                                action("Purchase Requisition List")
+                {
+                    ApplicationArea = All;
+                    Image = CashFlow;
+                    RunObject = Page "Purchase Requisition List";
+
+                }
+                action("Store Requisition List")
+                {
+                    ApplicationArea = All;
+                    Image = CashFlow;
+                    RunObject = Page "Store Requisition List";
+                }
+                action("Stores Return Lists")
+                {
+                    ApplicationArea = All;
+                    Image = CashFlow;
+                    RunObject = Page "Stores Return Lists";
+                }
+
             }
 
         }

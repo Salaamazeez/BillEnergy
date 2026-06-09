@@ -232,6 +232,14 @@ table 50156 "Retirement Line"
                 end;
             end;
         }
+        // field(50001; "Cash Advance Amount"; Decimal)
+        // {
+        //     Editable = false;
+        // }
+        // field(50002; "Cash Advance Amount(LCY)"; Decimal)
+        // {
+        //     Editable = false;
+        // }
     }
 
     keys

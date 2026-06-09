@@ -177,8 +177,8 @@ page 50528 "Pending Payment Voucher Card"
                             ReleaseDocument: Codeunit "Release Documents";
                         begin
                             Rec.TestField(Status, Rec.Status::Open);
-                            if Rec."Transaction type" = Rec."Transaction type"::Loan then
-                                Rec.TestField("Loan ID");
+                            // if Rec."Transaction type" = Rec."Transaction type"::Loan then
+                            //     Rec.TestField("Loan ID");
                             RecRef.GetTable(Rec);
                             ReleaseDocument.PerformanualManualDocRelease(RecRef);
                             CurrPage.Update;

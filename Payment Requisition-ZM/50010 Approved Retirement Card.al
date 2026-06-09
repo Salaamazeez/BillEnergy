@@ -255,6 +255,9 @@ page 50010 "Approved Retirement Card"
             action("Create Cash Rcpt")
             {
 
+                Visible = financeAdmin;
+                Image = Create;
+
                 trigger OnAction()
                 var
                     CustSetup: Record "Payment Mgt Setup";
@@ -389,8 +392,8 @@ page 50010 "Approved Retirement Card"
     begin
         if Rec.Posted <> false then
             Error(Err001);
-        if (Rec.Balance <> 0) and (Rec."Loan ID" = '') then
-            Error(Err002);
+        // if (Rec.Balance <> 0)  then
+        //     Error(Err002);
     end;
 
     trigger OnOpenPage()
@@ -398,7 +401,7 @@ page 50010 "Approved Retirement Card"
         UserSetup: Record "User Setup";
     begin
 
-
+        UserSetup.Get(UserId);
         financeAdmin := UserSetup."Finance Admin";
         Rec.Balance := 0;
         IF Rec."No." <> '' THEN BEGIN

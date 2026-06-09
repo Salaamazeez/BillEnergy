@@ -2,10 +2,10 @@ tableextension 50021 BankAccountExt extends "Bank Account"
 {
     fields
     {
-        field(50060; "Suspense/Clearing"; Option)
-        {
-            OptionMembers = " ","Bank Payment","Bank Receipts","Main Bank";
-        }
+        // field(50060; "Suspense/Clearing"; Option)
+        // {
+        //     OptionMembers = " ","Bank Payment","Bank Receipts","Main Bank";
+        // }
         field(60002; "Bank Code"; Code[20])
         {
             DataClassification = EndUserIdentifiableInformation;
