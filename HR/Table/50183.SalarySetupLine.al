@@ -64,5 +64,6 @@ table 50183 SalarySetupLine
         {
 
         }
+
     }
 }

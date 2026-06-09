@@ -40,6 +40,18 @@ tableextension 50004 EmployeeExt extends Employee
 
         }
 
+        field(50008; Blocked; Boolean)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Blocked';
+
+            trigger OnValidate()
+            begin
+                TestField("Grounds for Term. Code");
+                TestField("Termination Date");
+            end;
+        }
+
         modify("Bank Account No.")
         {
             //Caption = 'Bank Code';

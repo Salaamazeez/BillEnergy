@@ -3,7 +3,7 @@ page 50112 Periods
     ApplicationArea = All;
     Caption = 'Periods';
     PageType = List;
-    SourceTable = 50111;
+    SourceTable = PayrollPeriods;
     UsageCategory = Lists;
     Editable = false;
 
@@ -44,7 +44,7 @@ page 50112 Periods
                 Promoted = true;
                 PromotedOnly = true;
                 PromotedCategory = Process;
-                RunObject = Report 50102;
+                RunObject = Report PayrollPeriodSetup;
             }
         }
     }

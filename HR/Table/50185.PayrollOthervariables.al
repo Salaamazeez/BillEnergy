@@ -9,6 +9,24 @@ table 50188 PayrollOthervariables
         {
             Caption = 'Employee No.';
             TableRelation = employee."No.";
+
+            trigger OnValidate()
+            begin
+                if EmpRec.get("Employee No.") then begin
+                    "Global Dimension 1 Code" := EmpRec."Global Dimension 1 Code";
+                    "Global Dimension 2 Code" := EmpRec."Global Dimension 2 Code";
+                    "Job Title" := EmpRec."Job Title";
+                    "Employee Name" := EmpRec."Last Name" + ' ' + Emprec."First Name";
+                end;
+
+                if "Employee No." = '' then begin
+                    Clear("Global Dimension 1 Code");
+                    Clear("Global Dimension 2 Code");
+                    Clear("Job Title");
+                    Clear("Employee Name");
+                end;
+            end;
+
         }
         field(2; "Payroll Period"; Code[10])
         {
@@ -19,10 +37,23 @@ table 50188 PayrollOthervariables
         {
             Caption = 'Element Code';
             TableRelation = PayrollElement."Element Code";
+
+            trigger OnValidate()
+            begin
+                if "Element Code" = '' then
+                    Clear("Element Name");
+
+                PayElement.Reset();
+                PayElement.SetRange("Element Code", "Element Code");
+                if PayElement.FindFirst() then begin
+                    "Element Name" := PayElement."Element Name";
+                end;
+            end;
         }
         field(4; "Element Name"; Code[50])
         {
             Caption = 'Element Name';
+            Editable = false;
         }
         field(5; Amount; Decimal)
         {
@@ -31,54 +62,35 @@ table 50188 PayrollOthervariables
         field(6; "Employee Name"; Text[100])
         {
             Caption = 'Employee Name';
+            Editable = false;
         }
 
         field(9; "Global Dimension 1 Code"; Code[20])
         {
             CaptionClass = '1,1,1';
             TableRelation = "Dimension Value".Code where("Global Dimension No." = const(1));
+            Editable = false;
 
         }
         field(10; "Global Dimension 2 Code"; Code[20])
         {
-            Caption = 'Global Dimension 2 Code';
-            CaptionClass = '1,1,1';
+
+            CaptionClass = '1,1,2';
             TableRelation = "Dimension Value".Code where("Global Dimension No." = const(2));
-        }
-        field(11; Quantity; Integer)
-        {
-            Caption = 'Quantity';
-        }
-        field(13; "Created By"; Code[50])
-        {
-            Caption = 'Created By';
             Editable = false;
         }
-        field(14; "Created Date"; Date)
+        field(11; "Hours Late/Days Absent"; Integer)
         {
-            Caption = 'Created Date';
+            Caption = 'Hours Late/Days Absent';
             Editable = false;
         }
-        field(15; "Created Time"; Time)
+
+        field(12; "Job Title"; Text[100])
         {
-            Caption = 'Created Time';
+            Caption = 'Job Title';
             Editable = false;
         }
-        field(16; "Last Modified By"; Code[50])
-        {
-            Caption = 'Last Modified By';
-            Editable = false;
-        }
-        field(17; "Modified Date"; Date)
-        {
-            Caption = 'Modified Date';
-            Editable = false;
-        }
-        field(18; "Modified Time"; Time)
-        {
-            Caption = 'Modified Time';
-            Editable = false;
-        }
+
     }
     keys
     {
@@ -87,4 +99,9 @@ table 50188 PayrollOthervariables
             Clustered = true;
         }
     }
+
+    var
+
+        EmpRec: Record Employee;
+        PayElement: Record PayrollElement;
 }

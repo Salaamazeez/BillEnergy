@@ -8,6 +8,11 @@ table 50184 PayrollElement
         field(1; "Element Code"; Code[20])
         {
             Caption = 'Element Code';
+
+            trigger OnValidate()
+            begin
+                Evaluate("Line No.", Format("Element Code"));
+            end;
         }
         field(2; "Line No."; Integer)
         {
@@ -123,7 +128,7 @@ table 50184 PayrollElement
     }
     keys
     {
-        key(PK; "Element Code", "Line No.")
+        key(PK; "Line No.", "Element Code")
         {
             Clustered = true;
         }
