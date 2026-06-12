@@ -183,29 +183,29 @@ report 50102 PayrollPeriodSetup
     begin
         CASE mMonth OF
             1:
-                EXIT('JAN');
+                EXIT('JANUARY');
             2:
-                EXIT('FEB');
+                EXIT('FEBUARY');
             3:
-                EXIT('MAR');
+                EXIT('MARCH');
             4:
-                EXIT('APR');
+                EXIT('APRIL');
             5:
                 EXIT('MAY');
             6:
-                EXIT('JUN');
+                EXIT('JUNE');
             7:
-                EXIT('JUL');
+                EXIT('JULY');
             8:
-                EXIT('AUG');
+                EXIT('AUGUST');
             9:
-                EXIT('SEP');
+                EXIT('SEPTEMBER');
             10:
-                EXIT('OCT');
+                EXIT('OCTOBER');
             11:
-                EXIT('NOV');
+                EXIT('NOVEMBER');
             12:
-                EXIT('DEC');
+                EXIT('DECEMBER');
         END;
 
     end;

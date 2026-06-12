@@ -46,5 +46,31 @@ pageextension 50207 PurchaseOrderExt extends "Purchase Order"
                 Rec.TestField()
             end;
         }
+
+        addafter("Archive Document")
+        {
+            action(TestCreatePurchaseInvoice)
+            {
+                ApplicationArea = All;
+                Caption = 'Test Purchase Invoice';
+                Image = TestReport;
+                Promoted = true;
+                PromotedCategory = Process;
+
+                trigger OnAction()
+                var
+                    ESSMgt: Codeunit "ESS Management";
+                    PurchaseLines: Text;
+                    Result: Text;
+                begin
+                    PurchaseLines :=
+                    '[{"No":"INV-000001","Description":"Laptop Computer","Quantity":2,"UnitCost":250000,"Amount":500000},' +
+                    '{"No":"INV-000002","Description":"Office Chair","Quantity":4,"UnitCost":75000,"Amount":300000}]';
+
+                    Result := ESSMgt.CreateOrEditPurchaseInvoice('', 'DV-0000001', '102001', PurchaseLines);
+                    Message(Result);
+                end;
+            }
+        }
     }
 }

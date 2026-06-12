@@ -34,13 +34,20 @@ pageextension 50009 EmployeeExt extends "Employee Card"
 
             }
         }
-        addafter("Social Security No.")
+        addafter("Birth Date")
         {
             field("PAYER ID"; Rec."PAYER ID")
             {
                 Caption = 'PAYER ID';
 
             }
+
+            field("Rent Relief Amount"; Rec."Rent Amount")
+            {
+                Caption = 'Rent Amount';
+
+            }
+
             field(PFA; Rec.PFA)
             {
                 Caption = 'PFA';
@@ -88,6 +95,10 @@ pageextension 50009 EmployeeExt extends "Employee Card"
         modify("Working Hours")
         {
             Visible = false;
+        }
+        modify("Social Security No.")
+        {
+            Caption = 'NIN';
         }
     }
 

@@ -67,8 +67,33 @@ tableextension 50140 PurchHeader extends "Purchase Header"
 
             end;
         }
-        // Add changes to table fields here
-    }
+ field(50007; "Beneficiary"; Code[20])
+        {
+            DataClassification = CustomerContent;
+
+            TableRelation = Employee;
+            trigger OnValidate()
+            var
+                Employee: Record Employee;
+            begin
+                begin
+                    Employee.GET(Beneficiary);
+                    "Beneficiary Name" := Employee.FullName();
+                    Validate("Shortcut Dimension 1 Code", Employee."Global Dimension 1 Code");
+                    Validate("Shortcut Dimension 2 Code", Employee."Global Dimension 2 Code");
+                end;
+            end;
+
+
+        }
+        field(50009; "Beneficiary Name"; Text[100])
+        {
+            Caption = 'Beneficiary Name';
+            DataClassification = CustomerContent;
+            Editable = false;
+        }
+
+        }
     procedure TestField()
     begin
         TestField("Shortcut Dimension 1 Code");

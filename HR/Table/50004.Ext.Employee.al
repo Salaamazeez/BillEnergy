@@ -36,13 +36,36 @@ tableextension 50004 EmployeeExt extends Employee
         {
             DataClassification = ToBeClassified;
             Caption = 'Payroll Bank';
+            TableRelation = PayrollBank."Bank Code";
 
         }
 
+        field(50008; Blocked; Boolean)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Blocked';
+
+            trigger OnValidate()
+            begin
+                TestField("Grounds for Term. Code");
+                TestField("Termination Date");
+            end;
+        }
+        field(50009; "Reimbursable Amount"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Reimbursable Amount';
+        }
+
+        field(50010; "Rent Amount"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Rent Amount';
+        }
 
         modify("Bank Account No.")
         {
-            Caption = 'Bank Code';
+            //Caption = 'Bank Code';
             trigger OnAfterValidate()
             begin
                 TestField("Payroll Bank");
