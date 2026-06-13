@@ -13,10 +13,10 @@ table 50195 ReimbursableHeader
         {
             Caption = 'Description';
         }
-        field(3; "Approvall Status"; Option)
+        field(3; "Approval Status"; Option)
         {
-            Caption = 'Approvall Status';
-            OptionMembers = ,Open,"Pending Approval",Approved;
+            Caption = 'Approval Status';
+            OptionMembers = ,Open,"Pending Approval",Approved,Closed;
         }
         field(4; "Global Dimension 1 Code Filter"; Code[50])
         {
@@ -40,7 +40,19 @@ table 50195 ReimbursableHeader
             Caption = 'Employee Code Filter';
             TableRelation = Employee."No.";
         }
+
+        field(8; "Paid Document No."; Code[50])
+        {
+            ToolTip = 'Specifies the value of the Paid Document No. field.', Comment = '%';
+
+        }
+        field(9; "Reimbursable Paid"; Boolean)
+        {
+            ToolTip = 'Specifies the value of the Reimbursable Paid field.', Comment = '%';
+
+        }
     }
+
     keys
     {
         key(PK; "Period Code")
@@ -48,4 +60,16 @@ table 50195 ReimbursableHeader
             Clustered = true;
         }
     }
+
+
+    procedure PerformManualClose()
+    var
+        Reimbursable: Record ReimbursableHeader;
+    begin
+        Reimbursable.SetRange("Period Code", "Period Code");
+        Reimbursable.Setrange("Approval Status", Reimbursable."Approval Status"::Approved);
+        if Reimbursable.FindFirst() then begin
+            Reimbursable."Approval Status" := Reimbursable."Approval Status"::Closed;
+        end;
+    end;
 }

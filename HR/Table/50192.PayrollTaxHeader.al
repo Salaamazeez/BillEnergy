@@ -24,7 +24,7 @@ table 50192 PayrollTaxHeader
 
         field(5; "Rent Relief%"; Decimal)
         {
-            Caption = 'Rent Relief%';
+            Caption = 'Rent Relief %';
         }
     }
     keys

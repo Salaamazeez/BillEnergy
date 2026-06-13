@@ -32,6 +32,18 @@ table 50188 PayrollOthervariables
         {
             Caption = 'Payroll Period';
             TableRelation = PayrollPeriods."Period Code";
+
+            trigger OnValidate()
+            begin
+                "Days in the Month" := PayrollCodeUnit.GetNoOfDaysInPayPeriod("Payroll Period");
+
+                if HRSetup.Get() then begin
+                    HRSetup.TestField("Working Hours");
+                    "Maximum Working Hour" := HRSetup."Working Hours";
+                end;
+
+                "No. of Working Hour" := HRSetup."Working Hours" * "Days in the Month";
+            end;
         }
         field(3; "Element Code"; Code[10])
         {
@@ -112,6 +124,29 @@ table 50188 PayrollOthervariables
             Editable = false;
         }
 
+        field(13; "Hourly Rate"; Decimal)
+        {
+            Caption = 'Hourly Rate';
+            Editable = false;
+        }
+
+        field(14; "No. of Working Hour"; Decimal)
+        {
+            Caption = 'No. of working Hour';
+            Editable = false;
+        }
+
+        field(15; "Days in the Month"; Decimal)
+        {
+            Caption = 'Days in the Month';
+            Editable = false;
+        }
+
+        field(16; "Maximum Working Hour"; Decimal)
+        {
+            Caption = 'Maximum working Hour';
+            Editable = false;
+        }
     }
     keys
     {
@@ -125,4 +160,8 @@ table 50188 PayrollOthervariables
 
         EmpRec: Record Employee;
         PayElement: Record PayrollElement;
+
+        PayrollCodeUnit: Codeunit PayrollCodeunite;
+
+        HRSetup: Record "Human Resources Setup";
 }

@@ -67,11 +67,7 @@ page 50162 ReimbursableSalarySubform
                     ToolTip = 'Specifies the value of the Job Title field.', Comment = '%';
                     ApplicationArea = All;
                 }
-                field("Document Date"; Rec."Document Date")
-                {
-                    ToolTip = 'Specifies the value of the Document Date field.', Comment = '%';
-                    ApplicationArea = All;
-                }
+
                 field("No. of Days In the Month"; Rec."No. of Days In the Month")
                 {
                     ToolTip = 'Specifies the value of the No. of Days In the Month field.', Comment = '%';

@@ -74,22 +74,7 @@ page 50159 OvertimeSubform
                     ToolTip = 'Specifies the value of the Overtime Amount field.', Comment = '%';
                     ApplicationArea = All;
                 }
-                field("Document No."; Rec."Document No.")
-                {
-                    ToolTip = 'Specifies the value of the Document No. field.', Comment = '%';
-                    ApplicationArea = All;
-                }
-                field("Overtime Paid"; Rec."Overtime Paid")
-                {
-                    ToolTip = 'Specifies the value of the Overtime Paid field.', Comment = '%';
-                    ApplicationArea = All;
-                }
-                field("Overtime Closed"; Rec."Overtime Closed")
-                {
-                    ToolTip = 'Specifies the value of the Overtime Closed field.', Comment = '%';
-                    Visible = false;
-                    ApplicationArea = All;
-                }
+
                 field(SystemCreatedBy; Rec.SystemCreatedBy)
                 {
                     ToolTip = 'Specifies the value of the SystemCreatedBy field.', Comment = '%';

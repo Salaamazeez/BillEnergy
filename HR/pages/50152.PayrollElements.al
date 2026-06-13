@@ -7,6 +7,7 @@ page 50030 PayrollElements
     PageType = List;
     SourceTable = PayrollElement;
     UsageCategory = Lists;
+    DataCaptionFields = "Element Name";
 
     layout
     {
@@ -39,6 +40,12 @@ page 50030 PayrollElements
                     ToolTip = 'Specifies the value of the Appear in Payslip field.', Comment = '%';
                     ApplicationArea = All;
                 }
+                field("Appear in Salary Setup"; Rec."Appear in Salary Setup")
+                {
+                    ToolTip = 'Specifies the value of the Appear in Salary Setup field.', Comment = '%';
+                    ApplicationArea = All;
+                }
+
                 field("Part of Net Payable"; Rec."Part of Net Payable")
                 {
                     ToolTip = 'Specifies the value of the Part of Net Payable field.', Comment = '%';

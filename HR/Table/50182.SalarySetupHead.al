@@ -9,10 +9,19 @@ table 50182 SalarySetupHeader
         {
             Caption = 'Salary Code';
             TableRelation = "Employment Contract".Code;
+
+            trigger OnValidate()
+            begin
+                clear(Description);
+
+                if EmplContract.Get("Salary Code") then
+                    Description := EmplContract.Description;
+            end;
         }
-        field(2; "Employee Cadre Code"; Code[50])
+        field(2; "Description"; Code[50])
         {
-            Caption = 'Employee Cadre Code';
+            Caption = 'Desciption';
+            Editable = false;
         }
 
 
@@ -29,14 +38,17 @@ table 50182 SalarySetupHeader
                 TotalDedAmt := 0;
                 SumForPension := 0;
 
-                if "Gross Pay" = 0 then begin
+                if ("Gross Pay" = 0) then begin
                     SalSetupLine.SetRange(SalSetupLine."Salary Code", "Salary Code");
                     if SalSetupLine.FindSet() then
-                        SalSetupLine.DeleteAll();
+                        repeat
+                            SalSetupLine.DeleteAll();
+                        until SalSetupLine.Next() = 0;
                 end;
 
                 TestField("Apply to");
 
+                HRSetup.get;
                 HRSetup.TestField("Office Basic %");
                 HRSetup.TestField("Office House %");
                 HRSetup.TestField("Office Transport %");
@@ -72,83 +84,135 @@ table 50182 SalarySetupHeader
                         If ("Apply to" = "Apply to"::"Office Staff") then begin
                             If PayElement."Is Basic" then begin
                                 SalSetupLine."Calculation formula" := '60% of Gross Pay';
-                                SalSetupLine.Amount := HRSetup."Office Basic %" * "Gross Pay";
-                                BasicAmt := HRSetup."Office Basic %" * "Gross Pay";
+                                SalSetupLine.Amount := (HRSetup."Office Basic %" / 100) * "Gross Pay";
+                                BasicAmt := (HRSetup."Office Basic %" / 100) * "Gross Pay";
                                 SumForPension += BasicAmt;
                             end;
                             If PayElement."Is House" then begin
                                 SalSetupLine."Calculation formula" := '20% of Gross Pay';
-                                SalSetupLine.Amount := HRSetup."Office House %" * "Gross Pay";
-                                HouseAAmt := HRSetup."Office House %" * "Gross Pay";
+                                SalSetupLine.Amount := (HRSetup."Office House %" / 100) * "Gross Pay";
+                                HouseAAmt := (HRSetup."Office House %" / 100) * "Gross Pay";
                                 SumForPension += HouseAAmt;
                             end;
                             If PayElement."Is Transport" then begin
                                 SalSetupLine."Calculation formula" := '20% of Gross Pay';
-                                SalSetupLine.Amount := HRSetup."Office Transport %" * "Gross Pay";
-                                TransportAmt := HRSetup."Office Transport %" * "Gross Pay";
+                                SalSetupLine.Amount := (HRSetup."Office Transport %" / 100) * "Gross Pay";
+                                TransportAmt := (HRSetup."Office Transport %" / 100) * "Gross Pay";
                                 SumForPension += TransportAmt;
+                            end;
+                            if PayElement."Is Paye" then begin
+                                //SalSetupLine."Calculation formula" := '10% of Basic + House + Transport';
+                                SalSetupLine.Amount := 0;
+                                TotalDedAmt += SalSetupLine.Amount;
+                            end;
+
+                            if PayElement."Is Pension Employee" then begin
+                                SalSetupLine."Calculation formula" := '8% of Basic + House + Transport';
+                                SalSetupLine.Amount := (HRSetup."Pension Employee %" / 100) * (SumForPension);
+                                TotalDedAmt += SalSetupLine.Amount;
+                            end;
+
+                            if PayElement."Is Pension Employer" then begin
+                                SalSetupLine."Calculation formula" := '10% of Basic + House + Transport';
+                                SalSetupLine.Amount := (HRSetup."Pension Employer %" / 100) * (SumForPension);
+                            end;
+
+                            if PayElement."Is Late" then begin
+                                //SalSetupLine."Calculation formula" := '10% of Basic + House + Transport';
+                                SalSetupLine.Amount := 0;
+                                TotalDedAmt += SalSetupLine.Amount;
+                            end;
+                            if PayElement."Is Absence" then begin
+                                //SalSetupLine."Calculation formula" := '10% of Basic + House + Transport';
+                                SalSetupLine.Amount := 0;
+                                TotalDedAmt += SalSetupLine.Amount;
+                            end;
+
+                            if PayElement."Is Gross" then begin
+                                SalSetupLine."Calculation formula" := 'Basic + House + Transport + Utility';
+                                SalSetupLine.Amount := "Gross Pay";
+                            end;
+
+                            if PayElement."Is Total Deduction" then begin
+                                SalSetupLine."Calculation formula" := 'Pension + PAYE + Absent/Late';
+                                SalSetupLine.Amount := TotalDedAmt;
+                            end;
+
+                            if PayElement."Is Net" then begin
+                                SalSetupLine."Calculation formula" := 'Gross Pay - Total Deduction';
+                                SalSetupLine.Amount := "Gross Pay" - TotalDedAmt;
                             end;
                         end;
 
                         If ("Apply to" = "Apply to"::"Rig Staff") then begin
                             If PayElement."Is Basic" then begin
                                 SalSetupLine."Calculation formula" := '40% of Gross Pay';
-                                SalSetupLine.Amount := HRSetup."Rig Basic %" * "Gross Pay";
-                                BasicAmt := HRSetup."Rig Basic %" * "Gross Pay";
+                                SalSetupLine.Amount := (HRSetup."Rig Basic %" / 100) * "Gross Pay";
+                                BasicAmt := (HRSetup."Rig Basic %" / 100) * "Gross Pay";
                                 SumForPension += BasicAmt;
                             end;
 
                             If PayElement."Is House" then begin
                                 SalSetupLine."Calculation formula" := '14% of Gross Pay';
-                                SalSetupLine.Amount := HRSetup."Rig House %" * "Gross Pay";
-                                HouseAAmt := HRSetup."Rig House %" * "Gross Pay";
+                                SalSetupLine.Amount := (HRSetup."Rig House %" / 100) * "Gross Pay";
+                                HouseAAmt := (HRSetup."Rig House %" / 100) * "Gross Pay";
                                 SumForPension += HouseAAmt;
                             end;
                             If PayElement."Is Transport" then begin
                                 SalSetupLine."Calculation formula" := '9% of Gross Pay';
-                                SalSetupLine.Amount := HRSetup."Rig Transport %" * "Gross Pay";
-                                TransportAmt := HRSetup."Rig Transport %" * "Gross Pay";
+                                SalSetupLine.Amount := (HRSetup."Rig Transport %" / 100) * "Gross Pay";
+                                TransportAmt := (HRSetup."Rig Transport %" / 100) * "Gross Pay";
                                 SumForPension += TransportAmt;
                             end;
                             If PayElement."Is Utility" then begin
                                 SalSetupLine."Calculation formula" := '37% of Gross Pay';
-                                SalSetupLine.Amount := HRSetup."Rig Utility %" * "Gross Pay";
-                                UtilityAmt := HRSetup."Rig Utility %" * "Gross Pay";
-                                SumForPension += UtilityAmt;
+                                SalSetupLine.Amount := (HRSetup."Rig Utility %" / 100) * "Gross Pay";
+                                UtilityAmt := (HRSetup."Rig Utility %" / 100) * "Gross Pay";
+                                //SumForPension += UtilityAmt;
+                            end;
+                            if PayElement."Is Paye" then begin
+                                //SalSetupLine."Calculation formula" := '10% of Basic + House + Transport';
+                                SalSetupLine.Amount := 0;
+                                TotalDedAmt += SalSetupLine.Amount;
                             end;
 
-                        end;
+                            if PayElement."Is Pension Employee" then begin
+                                SalSetupLine."Calculation formula" := '8% of Basic + House + Transport';
+                                SalSetupLine.Amount := (HRSetup."Pension Employee %" / 100) * (SumForPension);
+                                TotalDedAmt += SalSetupLine.Amount;
+                            end;
 
-                        if PayElement."Is Pension Employee" then begin
-                            SalSetupLine."Calculation formula" := '8% of Basic + House + Transport';
-                            SalSetupLine.Amount := HRSetup."Pension Employee %" * (SumForPension);
-                            TotalDedAmt += SalSetupLine.Amount;
-                        end;
+                            if PayElement."Is Pension Employer" then begin
+                                SalSetupLine."Calculation formula" := '10% of Basic + House + Transport';
+                                SalSetupLine.Amount := (HRSetup."Pension Employer %" / 100) * (SumForPension);
+                            end;
 
-                        if PayElement."Is Pension Employer" then begin
-                            SalSetupLine."Calculation formula" := '10% of Basic + House + Transport';
-                            SalSetupLine.Amount := HRSetup."Pension Employer %" * (SumForPension);
-                        end;
+                            if PayElement."Is Late" then begin
+                                //SalSetupLine."Calculation formula" := '10% of Basic + House + Transport';
+                                SalSetupLine.Amount := 0;
+                                TotalDedAmt += SalSetupLine.Amount;
+                            end;
+                            if PayElement."Is Absence" then begin
+                                //SalSetupLine."Calculation formula" := '10% of Basic + House + Transport';
+                                SalSetupLine.Amount := 0;
+                                TotalDedAmt += SalSetupLine.Amount;
+                            end;
 
-                        if PayElement."Is Paye" then begin
-                            //SalSetupLine."Calculation formula" := '10% of Basic + House + Transport';
-                            SalSetupLine.Amount := 0;
-                            TotalDedAmt += SalSetupLine.Amount;
-                        end;
+                            if PayElement."Is Gross" then begin
+                                SalSetupLine."Calculation formula" := 'Basic + House + Transport + Utility';
+                                SalSetupLine.Amount := "Gross Pay";
+                            end;
 
-                        if PayElement."Is Gross" then begin
-                            SalSetupLine."Calculation formula" := 'Basic + House + Transport + Utility';
-                            SalSetupLine.Amount := "Gross Pay";
-                        end;
+                            if PayElement."Is Total Deduction" then begin
+                                SalSetupLine."Calculation formula" := 'Pension + PAYE + Absent/Late';
+                                SalSetupLine.Amount := TotalDedAmt;
+                            end;
 
-                        if PayElement."Is Total Deduction" then begin
-                            SalSetupLine."Calculation formula" := 'Pension + PAYE + Absent/Late';
-                            SalSetupLine.Amount := TotalDedAmt;
-                        end;
+                            if PayElement."Is Net" then begin
+                                SalSetupLine."Calculation formula" := 'Gross Pay - Total Deduction';
+                                SalSetupLine.Amount := "Gross Pay" - TotalDedAmt;
+                            end;
 
-                        if PayElement."Is Net" then begin
-                            SalSetupLine."Calculation formula" := 'Gross Pay - Total Deduction';
-                            SalSetupLine.Amount := "Gross Pay" - TotalDedAmt;
                         end;
 
                         ln += 10;
@@ -181,6 +245,7 @@ table 50182 SalarySetupHeader
         SalSetupLine: Record SalarySetupLine;
         HRSetup: Record "Human Resources Setup";
         PayElement: Record PayrollElement;
+        EmplContract: record "Employment Contract";
 
         ln: Integer;
         BasicAmt: Decimal;

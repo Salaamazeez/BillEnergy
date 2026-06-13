@@ -47,12 +47,7 @@ page 50164 PayrollTaxLineSubform
                     ToolTip = 'Specifies the value of the Tax Slab% field.', Comment = '%';
 
                 }
-                field("Limit Amount"; Rec."Limit Amount")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Limit Amount field.', Comment = '%';
 
-                }
 
             }
         }

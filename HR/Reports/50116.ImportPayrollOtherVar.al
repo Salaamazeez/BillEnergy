@@ -1,8 +1,8 @@
-report 50114 ImportOvertimeVariables
+report 50116 ImportPayrollOtherVar
 {
     //Excel to have two column EMPLOYEE NO, LEAVE ENTITLED
     //ApplicationArea = All;
-    Caption = 'Import Overtime Variables';
+    Caption = 'Import Payroll Other Variables';
     UsageCategory = Tasks;
     ProcessingOnly = true;
     //DefaultLayout = RDLC;
@@ -16,12 +16,13 @@ report 50114 ImportOvertimeVariables
             begin
                 ImportSheet(Number);
 
-                OvertimeRec.Init();
-                OvertimeRec.VALIDATE("Employee No.", ColText[1]);
-                Evaluate(OvertimeRec."Days Worked", ColText[2]);
-                Evaluate(OvertimeRec."Extra Days Worked", ColText[3]);
-                IF (NOT OvertimeRec.INSERT(True)) then
-                    OvertimeRec.Modify();
+                PayrollOtherVar.Init();
+                PayrollOtherVar.VALIDATE("Employee No.", ColText[1]);
+                PayrollOtherVar.Validate("Payroll Period", ColText[2]);
+                PayrollOtherVar.Validate("Element Code", ColText[3]);
+                Evaluate(PayrollOtherVar."Hours Late/Days Absent", ColText[4]);
+                IF (NOT PayrollOtherVar.INSERT(True)) then
+                    PayrollOtherVar.Modify();
             end;
 
             trigger OnPreDataItem()
@@ -115,7 +116,7 @@ report 50114 ImportOvertimeVariables
         ExcelBuf: Record "Excel Buffer" temporary;
         ColText: array[100] of Text[250];
         FileMgt: Codeunit "File Management";
-        OvertimeRec: Record OvertimeLine;
+        PayrollOtherVar: Record PayrollOthervariables;
 
         FileName: Text[250];
         ServerFileName: Text[250];
@@ -123,7 +124,7 @@ report 50114 ImportOvertimeVariables
 
         Text005: Label 'Imported from Excel';
         Text006: Label 'Import Excel File';
-        msgfinishUpdate: label 'Overtime Variables successfully updated';
+        msgfinishUpdate: label 'Employee Reimbursable sucessfully updated';
 
     Procedure ImportSheet(RowNumber: Integer)
     var

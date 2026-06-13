@@ -6,6 +6,7 @@ page 50155 PayrollHeader
     Caption = 'Payroll Header';
     PageType = Document;
     SourceTable = PayrollHeader;
+    UsageCategory = Tasks;
 
     layout
     {

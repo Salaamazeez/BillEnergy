@@ -1,7 +1,7 @@
 report 50115 ImportReimbursablePay
 {
     //Excel to have two column EMPLOYEE NO, LEAVE ENTITLED
-    ApplicationArea = All;
+    //ApplicationArea = All;
     Caption = 'Import Reimbursable';
     UsageCategory = Tasks;
     ProcessingOnly = true;
