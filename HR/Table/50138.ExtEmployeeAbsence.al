@@ -39,7 +39,7 @@ tableextension 50138 ExtEmployeeAbsence extends "Employee Absence"
             DataClassification = ToBeClassified;
         }
         field(50107; "Leave Application"; Boolean)
-        {
+        { 
             Caption = 'Leave Application';
             DataClassification = ToBeClassified;
         }

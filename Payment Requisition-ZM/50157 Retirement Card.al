@@ -430,18 +430,32 @@ page 50026 "Retirement Card"
                         '[{"ExpenseCode":"TEST","TransactionDetails":"Hotel accommodation","AccountType":0,"AccountNo":"102112","AccountName":"Travel Expenses","Amount":150000,"ShortcutDim1":"LAGOS","ShortcutDim2":"ADMIN"},' +
                         '{"ExpenseCode":"TEST","TransactionDetails":"Transportation","AccountType":0,"AccountNo":"102112","AccountName":"Transport Expenses","Amount":100000,"ShortcutDim1":"LAGOS","ShortcutDim2":"ADMIN"}]';
 
-                        ResponseText := ESSManagement.CreateOrEditRetirement(
-                            '',
-                            '2026-05-22',
-                            2,
-                            '102001',
-                            '102001',
-                            'CAD-000013',
-                            '',
-                            'Retiment of CAD-000013',
-                            RetirementLines
-                        );
+                        // ResponseText := ESSManagement.CreateOrEditRetirement(
+                        //     '',
+                        //     '2026-05-22',
+                        //     2,
+                        //     '102001',
+                        //     '102001',
+                        //     'CAD-000013',
+                        //     '',
+                        //     'Retiment of CAD-000013',
+                        //     RetirementLines
+                        // );
 
+
+                        // ResponseText := ESSManagement.CreateOrEditLeaveRegister(
+                        //     0,
+                        //     'L-00000002',
+                        //     '102001',
+                        //     'Annual leave request',
+                        //     '2026-06-01',
+                        //     '2026-06-04',
+                        //     'SICK',
+                        //     4,
+                        //     'DAY',
+                        //     0,
+                        //     false
+                        // );
                         Message(ResponseText);
                     end;
                 }
