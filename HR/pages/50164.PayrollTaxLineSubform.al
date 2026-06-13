@@ -2,7 +2,7 @@ namespace BILLENERGY.BILLENERGY;
 
 page 50164 PayrollTaxLineSubform
 {
-    ApplicationArea = All;
+    //ApplicationArea = All;
     Caption = 'Payroll TaxLine Subform';
     PageType = ListPart;
     SourceTable = PayrollTaxLine;

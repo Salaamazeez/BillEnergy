@@ -60,4 +60,36 @@ page 50161 EmployeeReimbursableSalary
             }
         }
     }
+
+    actions
+    {
+        // 1. Define the action container area
+        area(Processing)
+        {
+            // 2. Define your action button
+
+
+            action(UploadReimbursable)
+            {
+                ApplicationArea = All;
+                Caption = 'Upload Reimbursable';
+                ToolTip = 'upload  the Reimbursable Amount for Employee';
+                Image = ImplementPriceChange;
+
+                // 3. Make the action easy to find in the action bar
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedOnly = true;
+
+                // 4. Run your custom logic when clicked
+                trigger OnAction()
+                begin
+                    Report.Run(Report::ImportReimbursablePay);
+                end;
+            }
+
+
+        }
+
+    }
 }

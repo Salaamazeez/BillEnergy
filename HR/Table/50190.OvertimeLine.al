@@ -1,6 +1,6 @@
-table 50190 Overtime
+table 50190 OvertimeLine
 {
-    Caption = 'Overtime';
+    Caption = 'Overtime Lines';
     DataClassification = ToBeClassified;
 
     fields
@@ -126,14 +126,25 @@ table 50190 Overtime
             Caption = 'Job Title';
             Editable = false;
         }
+        field(16; "Line No."; Integer)
+        {
+            Caption = 'Line No.';
+            Editable = false;
+        }
+
 
 
     }
     keys
     {
-        key(PK; "Period Code", "Employee No.", "Element Code")
+        key(PK; "Period Code", "Employee No.", "Line No.")
         {
             Clustered = true;
+        }
+
+        Key(SKey; "Period Code", "Employee No.", "Element Code")
+        {
+
         }
     }
 

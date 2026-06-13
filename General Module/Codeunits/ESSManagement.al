@@ -140,7 +140,10 @@ codeunit 50500 "ESS Management"
         exit(ResponseText);
     end;
 
-    procedure CreateOrEditCashAdvance(DocumentNo: Code[20]; DocumentDate: Text; requester: Text[50]; Description: Text[100]; DueDate: Text; DebitAccountType: Option "G/L Account",Vendor,Staff,"Bank Account"; DebitAccountNo: Code[20]; CurrencyCode: Code[10]; TransactionType: Option " ",Loan,"Staff Adv"; LoanID: Code[20]; CashAdvanceLines: Text): Text
+
+
+
+    procedure CreateOrEditCashAdvance(DocumentNo: Code[20]; DocumentDate: Text; requester: Text[50]; Description: Text[100]; DueDate: Text; DebitAccountNo: Code[20]; CurrencyCode: Code[10]; CashAdvanceLines: Text): Text
     var
         Header: Record "Cash Advance";
         Line: Record "Cash Advance Line";
@@ -174,12 +177,13 @@ codeunit 50500 "ESS Management"
             Evaluate(Header."Due Date", DueDate);
             //Header.Validate("Payee No.", beneficiary);
             Header.Validate(Description, Description);
-            Header.Validate("Debit  Account Type", DebitAccountType);
+            Header."Debit  Account Type" := 2;
+            //Header.Validate("Debit  Account Type", DebitAccountType);
             Header.Validate("Debit Account No.", DebitAccountNo);
             Header.Validate("Currency Code", CurrencyCode);
             // Header.Validate("Shortcut Dimension 1 Code", ShortcutDim1);
             // Header.Validate("Shortcut Dimension 2 Code", ShortcutDim2);
-            Header.Validate("Transaction type", TransactionType);
+            //Header.Validate("Transaction type", TransactionType);
             //Header.Validate("Loan ID", LoanID);
             Header.Modify(true);
 
@@ -194,15 +198,15 @@ codeunit 50500 "ESS Management"
             Evaluate(Header."Due Date", DueDate);
             // Header.Validate(Beneficiary, beneficiary);
             Header.Validate(Description, Description);
-            Header.Validate("Debit  Account Type", DebitAccountType);
+            Header."Debit  Account Type" := 2;
             Header.Validate("Debit Account No.", DebitAccountNo);
             Header.Validate("Currency Code", CurrencyCode);
             // Header.Validate("Shortcut Dimension 1 Code", ShortcutDim1);
             // Header.Validate("Shortcut Dimension 2 Code", ShortcutDim2);
-            Header.Validate("Transaction type", TransactionType);
+            // Header.Validate("Transaction type", TransactionType);
 
-            if LoanID <> '' then
-                Header.Validate("Loan ID", LoanID);
+            // if LoanID <> '' then
+            //     Header.Validate("Loan ID", LoanID);
             Header.Modify(true);
         end;
 
@@ -243,11 +247,11 @@ codeunit 50500 "ESS Management"
             if JsonObject.Get('BalAccountNo', JsonToken) then
                 BalAccountNo := JsonToken.AsValue().AsCode();
 
-            if JsonObject.Get('ShortcutDimension1Code', JsonToken) then
-                Dim1 := JsonToken.AsValue().AsCode();
+            // if JsonObject.Get('ShortcutDimension1Code', JsonToken) then
+            //     Dim1 := JsonToken.AsValue().AsCode();
 
-            if JsonObject.Get('ShortcutDimension2Code', JsonToken) then
-                Dim2 := JsonToken.AsValue().AsCode();
+            // if JsonObject.Get('ShortcutDimension2Code', JsonToken) then
+            //     Dim2 := JsonToken.AsValue().AsCode();
 
             Clear(Line);
             Line.Init();
@@ -259,8 +263,8 @@ codeunit 50500 "ESS Management"
             Line.Validate("Payment Details", PaymentDetails);
             //Line.Validate("Account No.", AccountNo);
             //Line.Validate("Bal. Account No.", BalAccountNo);
-            Line.Validate("Shortcut Dimension 1 Code", Dim1);
-            Line.Validate("Shortcut Dimension 2 Code", Dim2);
+            // Line.Validate("Shortcut Dimension 1 Code", Dim1);
+            // Line.Validate("Shortcut Dimension 2 Code", Dim2);
             Line.Validate(Amount, Amount);
             Line.Modify(true);
         end;
@@ -744,7 +748,7 @@ codeunit 50500 "ESS Management"
             Header.Modify(true);
         end else begin
             Header.Init();
-            Header."Leave Code":= '';
+            Header."Leave Code" := '';
             Header.Insert(true);
             Header.Validate("Applying Type", ApplyingType);
             Header.Validate("Employee No.", EmployeeNo);
@@ -871,7 +875,7 @@ codeunit 50500 "ESS Management"
         exit(ResponseText);
     end;
 
-    procedure CreateOrEditPurchaseRequisition(DocumentNo: Code[20]; DocumentDate: Text; Requester: Code[50]; RequestDescription: Text[250]; PurchaseReqLines: Text): Text
+    procedure CreateOrEditPurchaseRequisition(DocumentNo: Code[20]; Beneficiary: Code[20]; RequestDescription: Text[250]; PurchaseReqLines: Text): Text
     var
         Header: Record "Purch. Requistion";
         Line: Record "Purchase Requisition Line";
@@ -904,9 +908,9 @@ codeunit 50500 "ESS Management"
             if not Header.Get(DocumentNo) then
                 Error('Purchase Requisition %1 not found', DocumentNo);
 
-            Evaluate(Header.Date, DocumentDate);
-            if Requester <> '' then
-                Header.Validate(Requester, Requester);
+            //Evaluate(Header.Date, DocumentDate);
+            if Beneficiary <> '' then
+                Header.Validate(Beneficiary, Beneficiary);
             Header.Validate("Request Description", RequestDescription);
             Header.Modify(true);
 
@@ -917,9 +921,10 @@ codeunit 50500 "ESS Management"
             Header.Init();
             Header.Validate("No.", '');
             Header.Insert(true);
-            Evaluate(Header.Date, DocumentDate);
-            if Requester <> '' then
-                Header.Validate(Requester, Requester);
+            //Evaluate(Header.Date, DocumentDate);
+            //if Requester <> '' then
+            Header.Validate(Requester, UserId);
+
             Header.Validate("Request Description", RequestDescription);
             Header.Modify(true);
         end;
@@ -976,11 +981,11 @@ codeunit 50500 "ESS Management"
             if JsonObject.Get('UnitCost', JsonToken) then
                 UnitCost := JsonToken.AsValue().AsDecimal();
 
-            if JsonObject.Get('ShortcutDimension1', JsonToken) then
-                ShortcutDim1 := JsonToken.AsValue().AsCode();
+            // if JsonObject.Get('ShortcutDimension1', JsonToken) then
+            //     ShortcutDim1 := JsonToken.AsValue().AsCode();
 
-            if JsonObject.Get('ShortcutDimension2', JsonToken) then
-                ShortcutDim2 := JsonToken.AsValue().AsCode();
+            // if JsonObject.Get('ShortcutDimension2', JsonToken) then
+            //     ShortcutDim2 := JsonToken.AsValue().AsCode();
 
             if JsonObject.Get('Amount', JsonToken) then
                 Amount := JsonToken.AsValue().AsDecimal();
@@ -997,17 +1002,17 @@ codeunit 50500 "ESS Management"
             Line."Document No." := Header."No.";
             Line."Line No." := LineNo;
 
-            Line.Validate(Type, LineType);
+            Line.Validate(Type, Line.Type::Stock);
             Line.Validate("No.", ItemNo);
-            Line.Validate(Description, Description);
+            //Line.Validate(Description, Description);
             Evaluate(Line."Requisition Date", RequisitionDate);
             Line.Validate("Required Item/Service", RequiredItemService);
             Line.Validate(Quantity, Quantity);
             Line.Validate("Unit Cost", UnitCost);
-            if ShortcutDim1 <> '' then
-                Line.Validate("Shortcut Dimension 1 Code", ShortcutDim1);
-            if ShortcutDim2 <> '' then
-                Line.Validate("Shortcut Dimension 2 Code", ShortcutDim2);
+            // if ShortcutDim1 <> '' then
+            //     Line.Validate("Shortcut Dimension 1 Code", ShortcutDim1);
+            // if ShortcutDim2 <> '' then
+            //     Line.Validate("Shortcut Dimension 2 Code", ShortcutDim2);
             Line.Validate(Amount, Amount);
             if VendorNo <> '' then
                 Line.Validate("Vendor No.", VendorNo);
@@ -1368,6 +1373,147 @@ codeunit 50500 "ESS Management"
         exit(JsonText);
     end;
 
+    procedure CreateOrEditPurchaseInvoice(DocumentNo: Code[20]; VendorNo: Code[20]; Beneficiary: Code[20]; PurchaseLines: Text): Text
     var
-        myInt: Integer;
+        Header: Record "Purchase Header";
+        Line: Record "Purchase Line";
+        JsonArray: JsonArray;
+        JsonObject: JsonObject;
+        JsonToken: JsonToken;
+        ResponseObject: JsonObject;
+        DataObject: JsonObject;
+        ResponseText: Text;
+        LineNo: Integer;
+        LineCount: Integer;
+        LineType: Option Item,"G/L Account";
+        ItemNo: Code[20];
+        Description: Text[100];
+        //RequisitionDate: Text;
+        //RequiredItemService: Text[100];
+        Quantity: Decimal;
+        UnitCost: Decimal;
+        // ShortcutDim1: Code[20];
+        // ShortcutDim2: Code[20];
+        Amount: Decimal;
+        AmountLCY: Decimal;
+        //VendorNo: Code[20];
+        VendorName: Text[100];
+        ResponseLbl: Label 'Purchase Requisition processed successfully with %1 lines';
+        ErrorNoLines: Label 'No lines provided';
+        ErrorInvalidJson: Label 'Invalid JSON format';
+
+    begin
+        if DocumentNo <> '' then begin
+            if not Header.Get(DocumentNo) then
+                Error('Purchase Invoice %1 not found', DocumentNo);
+
+            Line.Reset();
+            Line.SetRange("Document No.", Header."No.");
+            Line.DeleteAll();
+            //Evaluate(Header.Date, DocumentDate);
+            if Beneficiary <> '' then
+                Header.Validate(Beneficiary, Beneficiary);
+            //Header.Validate(, RequestDescription);
+            Header.Modify(true);
+
+        end else begin
+            Header.Init();
+            Header.Validate("Document Type", Header."Document Type"::Invoice);
+            // Header.Validate("No.", '');
+            Header.Insert(true);
+            Header.Validate("Buy-from Vendor No.", VendorNo);
+            Header.Validate("Document Date", Today);
+            //Evaluate(Header.Date, DocumentDate);
+            //if Requester <> '' then
+            Header.Validate(Beneficiary, Beneficiary);
+
+            //Header.Validate("Request Description", RequestDescription);
+            Header.Modify(true);
+        end;
+
+        if PurchaseLines = '' then
+            Error(ErrorNoLines);
+
+        if not JsonArray.ReadFrom(PurchaseLines) then
+            Error(ErrorInvalidJson);
+
+        if JsonArray.Count = 0 then
+            Error(ErrorNoLines);
+
+        LineNo := 0;
+        LineCount := 0;
+
+        foreach JsonToken in JsonArray do begin
+            JsonObject := JsonToken.AsObject();
+
+            LineNo += 10000;
+            LineCount += 1;
+
+            Clear(LineType);
+            Clear(ItemNo);
+            Clear(Description);
+            Clear(Quantity);
+            Clear(Amount);
+            Clear(AmountLCY);
+            Clear(VendorNo);
+            //Clear(VendorName);
+            Clear(UnitCost);
+
+            if JsonObject.Get('Type', JsonToken) then
+                Evaluate(LineType, JsonToken.AsValue().AsText());
+
+            if JsonObject.Get('ItemNo', JsonToken) then
+                ItemNo := JsonToken.AsValue().AsCode();
+
+            if JsonObject.Get('Description', JsonToken) then
+                Description := JsonToken.AsValue().AsText();
+
+            if JsonObject.Get('Quantity', JsonToken) then
+                Quantity := JsonToken.AsValue().AsDecimal();
+
+            if JsonObject.Get('UnitCost', JsonToken) then
+                UnitCost := JsonToken.AsValue().AsDecimal();
+
+            if JsonObject.Get('Amount', JsonToken) then
+                Amount := JsonToken.AsValue().AsDecimal();
+
+            Clear(Line);
+            Line.Init();
+
+            Line.Validate("Document Type", Line."Document Type"::Invoice);
+            Line."Document No." := Header."No.";
+            Line."Line No." := LineNo;
+            Line.Insert(true);
+
+            Line.Validate(Type, Line.Type::Item);
+            Line.Validate("No.", ItemNo);
+            //Line.Validate(Description, Description);
+            // Evaluate(Line."Requisition Date", RequisitionDate);
+            // Line.Validate("Required Item/Service", RequiredItemService);
+            Line.Validate(Quantity, Quantity);
+            Line.Validate("Unit Cost", UnitCost);
+            // if ShortcutDim1 <> '' then
+            //     Line.Validate("Shortcut Dimension 1 Code", ShortcutDim1);
+            // if ShortcutDim2 <> '' then
+            //     Line.Validate("Shortcut Dimension 2 Code", ShortcutDim2);
+            Line.Validate(Amount, Amount);
+            // if VendorNo <> '' then
+            //     Line.Validate("Vendor No.", VendorNo);
+            // if VendorName <> '' then
+            //     Line.Validate("Vendor Name", VendorName);
+            // Line.Insert(true);
+            Line.Modify(true);
+        end;
+
+        DataObject.Add('No', Header."No.");
+        DataObject.Add('processedLines', LineCount);
+
+        ResponseObject.Add('success', true);
+        ResponseObject.Add('message', StrSubstNo(ResponseLbl, LineCount));
+        ResponseObject.Add('data', DataObject);
+
+        ResponseObject.WriteTo(ResponseText);
+        exit(ResponseText);
+    end;
+
 }

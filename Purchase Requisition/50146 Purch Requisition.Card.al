@@ -98,12 +98,14 @@ page 50146 "Purch. Requisition Card"
                 field("Last Date Modified"; Rec."Last Date Modified")
                 {
                     ApplicationArea = All;
-
                 }
                 field("Last Modified By"; Rec."Last Modified By")
                 {
                     ApplicationArea = All;
-
+                }
+                field(Beneficiary; Rec.Beneficiary)
+                {
+                    ApplicationArea = All;
                 }
                 // field("Actual User"; "Actual User")
                 // {

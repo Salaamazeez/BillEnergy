@@ -2,7 +2,7 @@ namespace BILLENERGY.BILLENERGY;
 
 page 50157 PayrollDetailLines
 {
-    ApplicationArea = All;
+    //ApplicationArea = All;
     Caption = 'Payroll Detail Lines';
     PageType = List;
     SourceTable = PayrollDetailLine;

@@ -1,13 +1,14 @@
 namespace BILLENERGY.BILLENERGY;
 
-page 50162 ReimbursableSalary
+page 50162 ReimbursableSalarySubform
 {
-    ApplicationArea = All;
-    Caption = 'Reimbursable Salary';
-    PageType = List;
-    SourceTable = ReimbursableSalary;
-    UsageCategory = Tasks;
+    //ApplicationArea = All;
+    Caption = 'Reimbursable Salary Subform';
+    PageType = ListPart;
+    SourceTable = ReimbursableSalarylines;
+    //UsageCategory = Tasks;
     Editable = false;
+    AutoSplitKey = true;
 
     layout
     {

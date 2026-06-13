@@ -2,7 +2,7 @@ namespace BILLENERGY.BILLENERGY;
 
 page 50156 PayrollSubform
 {
-    ApplicationArea = All;
+    //ApplicationArea = All;
     Caption = 'Payroll Subform';
     PageType = ListPart;
     SourceTable = PayrollLine;
@@ -99,8 +99,9 @@ page 50156 PayrollSubform
                 }
                 field("Extra Days Worked"; Rec."Extra Days Worked")
                 {
-                    ToolTip = 'Specifies the value of the Extra Days Worked field.', Comment = '%';
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Extra Days Worked field.', Comment = '%';
+
                 }
             }
         }

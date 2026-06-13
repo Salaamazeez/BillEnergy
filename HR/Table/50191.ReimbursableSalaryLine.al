@@ -1,6 +1,6 @@
-table 50191 ReimbursableSalary
+table 50191 ReimbursableSalaryLines
 {
-    Caption = 'Reimbursable Salary';
+    Caption = 'Reimbursable Salary Lines';
     DataClassification = ToBeClassified;
 
     fields
@@ -103,12 +103,21 @@ table 50191 ReimbursableSalary
             Editable = false;
             OptionMembers = Open,"Pending Approval",Approved,Closed;
         }
+        field(19; "Line No."; Integer)
+        {
+            Caption = 'Line No.';
+            Editable = false;
+        }
     }
     keys
     {
-        key(PK; "Payroll Period", "Employee No.", "Element Code")
+        key(PK; "Payroll Period", "Employee No.", "Line No.")
         {
             Clustered = true;
+        }
+        key(SKey; "Payroll Period", "Employee No.", "Element Code")
+        {
+
         }
     }
 }
