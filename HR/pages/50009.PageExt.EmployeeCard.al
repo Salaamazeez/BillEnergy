@@ -14,11 +14,7 @@ pageextension 50009 EmployeeExt extends "Employee Card"
         }
         addafter(Gender)
         {
-            field("Leave Setup Code"; Rec."Leave Setup Code")
-            {
-                ApplicationArea = All;
-                TableRelation = LeaveSetup;
-            }
+
             field("Manager No."; Rec."Manager No.")
             {
                 ApplicationArea = All;
@@ -31,35 +27,53 @@ pageextension 50009 EmployeeExt extends "Employee Card"
             field("Payroll Bank"; Rec."Payroll Bank")
             {
                 Caption = 'Payroll Bank';
+                ApplicationArea = All;
 
             }
+            field("Rent Relief Amount"; Rec."Rent Amount")
+            {
+                Caption = 'Rent Amount';
+                ApplicationArea = All;
+
+            }
+
         }
+        addafter("Company E-Mail")
+        {
+            field(Blocked; Rec.Blocked)
+            {
+                Caption = 'Blocked';
+                ApplicationArea = All;
+            }
+        }
+
         addafter("Birth Date")
         {
             field("PAYER ID"; Rec."PAYER ID")
             {
                 Caption = 'PAYER ID';
-
-            }
-
-            field("Rent Relief Amount"; Rec."Rent Amount")
-            {
-                Caption = 'Rent Amount';
+                ApplicationArea = All;
 
             }
 
             field(PFA; Rec.PFA)
             {
                 Caption = 'PFA';
+                ApplicationArea = All;
 
             }
             field("RSA PIN"; Rec."RSA PIN")
             {
                 Caption = 'RSA PIN';
+                ApplicationArea = All;
 
             }
         }
-
+        modify("Social Security No.")
+        {
+            Caption = 'NIN';
+            ApplicationArea = All;
+        }
         modify("Union Code")
         {
             Visible = false;
@@ -96,10 +110,43 @@ pageextension 50009 EmployeeExt extends "Employee Card"
         {
             Visible = false;
         }
-        modify("Social Security No.")
+        modify("Privacy Blocked")
         {
-            Caption = 'NIN';
+            Visible = false;
         }
+        modify("Balance (LCY)")
+        {
+            Visible = false;
+        }
+        modify("Statistics Group Code")
+        {
+            Visible = false;
+        }
+        modify("Resource No.")
+        {
+            Visible = false;
+        }
+        modify("Salespers./Purch. Code")
+        {
+            Visible = false;
+        }
+        modify("Collective Bargain. Agmt. Info")
+        {
+            Visible = false;
+        }
+        modify("Employee Posting Group")
+        {
+            Visible = false;
+        }
+        modify("Currency Code")
+        {
+            Visible = false;
+        }
+        modify("Application Method")
+        {
+            Visible = false;
+        }
+
     }
 
     actions

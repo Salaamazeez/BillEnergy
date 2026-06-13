@@ -874,7 +874,7 @@ codeunit 50010 PayrollCodeunite
         IF PrevPeriod <> '' THEN BEGIN
             ReimbursableSalary.RESET;
             ReimbursableSalary.SETRANGE("Payroll Period", PrevPeriod);
-            ReimbursableSalary.SETFILTER("Approval Status", '<>%1', ReimbursableSalary."Approval Status"::Close);
+            ReimbursableSalary.SETFILTER("Approval Status", '<>%1', ReimbursableSalary."Approval Status"::Closed);
             IF ReimbursableSalary.FINDFIRST THEN
                 ERROR(Text011, PrevPeriod);
         END;

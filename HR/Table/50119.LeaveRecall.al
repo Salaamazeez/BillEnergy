@@ -58,8 +58,8 @@ table 50119 LeaveRecall
                             CauseAbsAppRec."Recalled/Adjustment Reason" := "Recalled Reason";
                             CauseAbsAppRec."Global Dimension 1 Code" := LeaveRec."Global Dimension 1 Code";
                             CauseAbsAppRec."Global Dimension 2 Code" := LeaveRec."Global Dimension 2 Code";
-                            CauseAbsAppRec."Shortcut Dimension 3 Code" := LeaveRec."Shortcut Dimension 3 Code";
-                            CauseAbsAppRec."Shortcut Dimension 4 Code" := LeaveRec."Shortcut Dimension 4 Code";
+                            // CauseAbsAppRec."Shortcut Dimension 3 Code" := LeaveRec."Shortcut Dimension 3 Code";
+                            // CauseAbsAppRec."Shortcut Dimension 4 Code" := LeaveRec."Shortcut Dimension 4 Code";
                             CauseAbsAppRec.INSERT(TRUE);
                             "Leave Type" := LeaveRec."Cause of Absence Code";
                             "Leave Year" := LeaveRec."Leave Year";

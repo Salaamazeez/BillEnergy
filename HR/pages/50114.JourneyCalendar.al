@@ -17,11 +17,13 @@ page 50114 LeaveCalendar
                 field(JCStartDate; JCStartDate)
                 {
                     Caption = 'Start Date';
+                    ApplicationArea = All;
 
                 }
                 field(JCEndDate; JCEndDate)
                 {
                     Caption = 'End Date';
+                    ApplicationArea = All;
                 }
             }
             repeater(General)
@@ -30,53 +32,64 @@ page 50114 LeaveCalendar
                 {
                     ToolTip = 'Specifies the value of the Journey Code';
                     Editable = false;
+                    ApplicationArea = All;
                 }
                 field(Week; Rec.Week)
                 {
                     ToolTip = 'Specifies the value of the Journey Week';
                     Editable = false;
+                    ApplicationArea = All;
                 }
                 field("Period Type"; Rec."Period Type")
                 {
                     ToolTip = 'Specifies the value of the Period Type';
                     Editable = false;
+                    ApplicationArea = All;
                 }
                 field("Period Name"; Rec."Period Name")
                 {
                     ToolTip = 'Specifies the value of the Period Name';
                     Editable = false;
+                    ApplicationArea = All;
                 }
                 field("Start Date"; Rec."Start Date")
                 {
                     ToolTip = 'Specifies the value of the Journey Date';
                     Editable = false;
+                    ApplicationArea = All;
                 }
                 field(Year; Rec.Year)
                 {
                     ToolTip = 'Specifies the value of the Year';
                     Editable = false;
+                    ApplicationArea = All;
                 }
                 field("Public Holiday"; Rec."Public Holiday")
                 {
                     ToolTip = 'Specifies the value if Date is a Public Holiday';
+                    ApplicationArea = All;
                 }
                 field(Sunday; Rec.Sunday)
                 {
                     ToolTip = 'Specifies the value if Date is a Sunday';
                     Editable = false;
+                    ApplicationArea = All;
                 }
                 field(Saturday; Rec.Saturday)
                 {
                     ToolTip = 'Specifies the value if Date is a Saturday';
                     Editable = false;
+                    ApplicationArea = All;
                 }
                 field("Sanitation Day"; Rec."Sanitation Day")
                 {
                     ToolTip = 'Specifies the value if Date is Sanitation Day';
+                    ApplicationArea = All;
                 }
                 field(Remarks; Rec.Remarks)
                 {
                     ToolTip = 'Specifies the value for Remarks';
+                    ApplicationArea = All;
                 }
             }
         }

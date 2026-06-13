@@ -850,8 +850,8 @@ table 50118 LeaveApplication
             CauseAbsAppRec."Recalled/Adjustment Reason" := Description;
             CauseAbsAppRec."Global Dimension 1 Code" := "Global Dimension 1 Code";
             CauseAbsAppRec."Global Dimension 2 Code" := "Global Dimension 2 Code";
-            CauseAbsAppRec."Shortcut Dimension 3 Code" := "Shortcut Dimension 3 Code";
-            CauseAbsAppRec."Shortcut Dimension 4 Code" := "Shortcut Dimension 4 Code";
+            // CauseAbsAppRec."Shortcut Dimension 3 Code" := "Shortcut Dimension 3 Code";
+            // CauseAbsAppRec."Shortcut Dimension 4 Code" := "Shortcut Dimension 4 Code";
             CauseAbsAppRec."Leave Application" := TRUE;
             CauseAbsAppRec.INSERT(TRUE);
             RecordInsert := TRUE;

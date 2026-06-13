@@ -19,10 +19,12 @@ page 50150 PensionFundAdmin
                 field("PFA Code"; Rec."PFA Code")
                 {
                     ToolTip = 'Specifies the value of the PFA Code field.', Comment = '%';
+                    ApplicationArea = All;
                 }
                 field(Description; Rec.Description)
                 {
                     ToolTip = 'Specifies the value of the Description field.', Comment = '%';
+                    ApplicationArea = All;
                 }
             }
         }

@@ -1,14 +1,15 @@
 namespace BILLENERGY.BILLENERGY;
 
-page 50154 SalarySetup
+page 50029 SalarySetup
 {
     ApplicationArea = All;
-    Caption = 'SalarySetup';
+    Caption = 'Salary Setup';
     PageType = Document;
     SourceTable = SalarySetupHeader;
 
     layout
     {
+
         area(Content)
         {
             group(General)
@@ -65,5 +66,6 @@ page 50154 SalarySetup
                 SubPageLink = "Salary Code" = field("Salary Code");
             }
         }
+
     }
 }

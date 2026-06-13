@@ -3,7 +3,7 @@ namespace BILLENERGY.BILLENERGY;
 page 50151 PayrollBank
 {
     ApplicationArea = All;
-    Caption = 'PayrollBank';
+    Caption = 'Payroll Bank';
     PageType = List;
     SourceTable = PayrollBank;
     UsageCategory = Lists;
@@ -19,14 +19,17 @@ page 50151 PayrollBank
                 field("Bank Code"; Rec."Bank Code")
                 {
                     ToolTip = 'Specifies the value of the Bank Code field.', Comment = '%';
+                    ApplicationArea = All;
                 }
                 field("Bank Name"; Rec."Bank Name")
                 {
                     ToolTip = 'Specifies the value of the Bank Name field.', Comment = '%';
+                    ApplicationArea = All;
                 }
                 field("Sort Code"; Rec."Sort Code")
                 {
                     ToolTip = 'Specifies the value of the Sort Code field.', Comment = '%';
+                    ApplicationArea = All;
                 }
             }
         }
