@@ -1,4 +1,4 @@
-page 50152 "Pending Purch. Requisition Car"
+page 50019 "Pending Purch. Requisition Car"
 {
     //Created by Salaam Azeez
 

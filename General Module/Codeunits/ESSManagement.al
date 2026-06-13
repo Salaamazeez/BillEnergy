@@ -573,7 +573,7 @@ codeunit 50500 "ESS Management"
     end;
 
 
-    procedure CreateOrEditRetirement(DocumentNo: Code[20]; retirementDate: Text; DebitAccountType: Option "G/L Account",Vendor,Staff,"Bank Account"; DebitAccountNo: Code[20]; Beneficiary: Code[20]; RetirementRef: Code[50]; CurrencyCode: Code[10]; Purpose: Text[250]; RetirementLines: Text): Text
+    procedure CreateOrEditRetirement(DocumentNo: Code[20]; retirementDate: Text; Beneficiary: Code[20]; RetirementRef: Code[50]; CurrencyCode: Code[10]; Purpose: Text[250]; RetirementLines: Text): Text
     var
         Header: Record Retirement;
         Line: Record "Retirement Line";
@@ -611,8 +611,8 @@ codeunit 50500 "ESS Management"
             Evaluate(Header.Date, RetirementDate);
             Header.Validate(Beneficiary, Beneficiary);
             Header.Validate("Retirement Ref.", RetirementRef);
-            Header.Validate("Debit  Account Type", DebitAccountType);
-            Header.Validate("Debit Account No.", DebitAccountNo);
+            // Header.Validate("Debit  Account Type", DebitAccountType);
+            // Header.Validate("Debit Account No.", DebitAccountNo);
             // Header.Validate("Shortcut Dimension 1 Code", Dim1);
             // Header.Validate("Shortcut Dimension 2 Code", Dim2);
             // Header.Validate("Currency Code", CurrencyCode);
@@ -633,8 +633,8 @@ codeunit 50500 "ESS Management"
             Evaluate(Header.Date, RetirementDate);
             Header.Validate(Beneficiary, Beneficiary);
             Header.Validate("Retirement Ref.", RetirementRef);
-            Header.Validate("Debit  Account Type", DebitAccountType);
-            Header.Validate("Debit Account No.", DebitAccountNo);
+            // Header.Validate("Debit  Account Type", DebitAccountType);
+            // Header.Validate("Debit Account No.", DebitAccountNo);
             // Header.Validate("Shortcut Dimension 1 Code", Dim1);
             // Header.Validate("Shortcut Dimension 2 Code", Dim2);
             Header.Validate("Currency Code", CurrencyCode);
@@ -651,7 +651,9 @@ codeunit 50500 "ESS Management"
 
         LineNo := 0;
         LineCount := 0;
-
+        Line.Reset();
+        Line.SetRange("Document No.", Header."No.");
+        Line.DeleteAll();
         foreach JsonToken in JsonArray do begin
             JsonObject := JsonToken.AsObject();
 
@@ -687,14 +689,14 @@ codeunit 50500 "ESS Management"
             if JsonObject.Get('Amount', JsonToken) then
                 LineAmount := JsonToken.AsValue().AsDecimal();
 
-            if JsonObject.Get('AmountLCY', JsonToken) then
-                LineAmountLCY := JsonToken.AsValue().AsDecimal();
+            // if JsonObject.Get('AmountLCY', JsonToken) then
+            //     LineAmountLCY := JsonToken.AsValue().AsDecimal();
 
-            if JsonObject.Get('ShortcutDim1', JsonToken) then
-                ShortcutDim1 := JsonToken.AsValue().AsCode();
+            // if JsonObject.Get('ShortcutDim1', JsonToken) then
+            //     ShortcutDim1 := JsonToken.AsValue().AsCode();
 
-            if JsonObject.Get('ShortcutDim2', JsonToken) then
-                ShortcutDim2 := JsonToken.AsValue().AsCode();
+            // if JsonObject.Get('ShortcutDim2', JsonToken) then
+            //     ShortcutDim2 := JsonToken.AsValue().AsCode();
 
             if JsonObject.Get('CurrencyCode', JsonToken) then
                 LineCurrency := JsonToken.AsValue().AsCode();
@@ -706,12 +708,12 @@ codeunit 50500 "ESS Management"
 
             Line.Validate("Expense Code", ExpenseCode);
             Line.Validate("Transaction Details", TransactionDetails);
-            Line.Validate("Account Type", AccountType);
-            Line.Validate("Account No.", AccountNo);
-            Line.Validate("Account Name", AccountName);
+            // Line.Validate("Account Type", AccountType);
+            // Line.Validate("Account No.", AccountNo);
+            // Line.Validate("Account Name", AccountName);
             //Line.Validate("Amount (LCY)", LineAmountLCY);
-            Line.Validate("Shortcut Dimension 1 Code", ShortcutDim1);
-            Line.Validate("Shortcut Dimension 2 Code", ShortcutDim2);
+            // Line.Validate("Shortcut Dimension 1 Code", ShortcutDim1);
+            // Line.Validate("Shortcut Dimension 2 Code", ShortcutDim2);
             Line.Validate("Currency Code", LineCurrency);
             Line.Insert(true);
             Line.Validate(Amount, LineAmount);
@@ -766,6 +768,69 @@ codeunit 50500 "ESS Management"
         ResponseObject.WriteTo(ResponseText);
         exit(ResponseText);
     end;
+
+    procedure CreateOrEditLeaveRegister(leaveCode: Code[20]; EmployeeNo: Code[20]; Description: Text[250]; StartDate: Text; EndDate: Text; LeaveType: Code[20]; Quantity: Integer; UoM: Code[20]/* ; AdjustmentType: Option " ","Positive Adjustment","Negative Adjustment"; LeaveAdjustment: Boolean */): Text
+    var
+        Header: Record "Employee Absence";
+        ResponseObject: JsonObject;
+        DataObject: JsonObject;
+        ResponseText: Text;
+        Year: Integer;
+        EntryNo: Integer;
+    begin
+        EntryNo := 0;
+        if EntryNo <> 0 then begin
+            if not Header.Get(EntryNo) then
+                Error('Leave Application %1 not found', EntryNo);
+            Header."Entry No." := EntryNo;
+            Header.Validate("Employee No.", EmployeeNo);
+            Header.Validate(Description, Description);
+            Evaluate(Header."From Date", StartDate);
+            Evaluate(Header."To Date", EndDate);
+            Header.Validate("Cause of Absence Code", LeaveType);
+            //Header.Validate("Cause of Absence Code", LeaveType);
+            Header.Validate(Quantity, Quantity);
+            Header.Validate("Unit of Measure Code", UoM);
+            Year := Date2DMY(Header."From Date", 3);//leaveCode
+            Header."Leave Code" := leaveCode;//
+            Header."Adjustment Type" := 0;//
+            Header."Leave Adjustment" := false;//
+            if Year > 2000 then
+                Header."Leave Year" := Year;
+            Header.Modify(true);
+        end else begin
+            Header.Init();
+            //Header."Leave Code" := '';
+            Header.Insert(true);
+
+            Header.Validate("Employee No.", EmployeeNo);
+            Header.Validate(Description, Description);
+            Evaluate(Header."From Date", StartDate);
+            Evaluate(Header."To Date", EndDate);
+            Header.Validate("Cause of Absence Code", LeaveType);
+            //Header.Validate("Cause of Absence Code", LeaveType);
+            Header.Validate(Quantity, Quantity);
+            Header.Validate("Unit of Measure Code", UoM);
+            //exit(StrSubstNo('Reachable %1', Header, EntryNo));
+            Year := Date2DMY(Header."From Date", 3);//leaveCode
+            Header."Leave Code" := leaveCode;//
+             Header."Adjustment Type" := 0;//
+            Header."Leave Adjustment" := false;//
+            if Year > 2000 then
+                Header."Leave Year" := Year;
+            Header.Modify(true);
+        end;
+
+        DataObject.Add('LeaveCode', Header."Leave Code");
+        ResponseObject.Add('success', true);
+        ResponseObject.Add('entryNo', Header."Entry No.");
+        ResponseObject.Add('employeeNo', Header."Employee No.");
+        ResponseObject.Add('message', 'Leave Application processed successfully');
+        ResponseObject.Add('data', DataObject);
+        ResponseObject.WriteTo(ResponseText);
+        exit(ResponseText);
+    end;
+
 
     procedure CreateOrEditPerformanceAppraisal(EmployeeNo: Code[20]; AppraisalYear: Integer; AppraisalLines: Text): Text
     var
@@ -1491,7 +1556,7 @@ codeunit 50500 "ESS Management"
             // Evaluate(Line."Requisition Date", RequisitionDate);
             // Line.Validate("Required Item/Service", RequiredItemService);
             Line.Validate(Quantity, Quantity);
-            Line.Validate("Unit Cost", UnitCost);
+            Line.Validate("Direct Unit Cost", UnitCost);
             // if ShortcutDim1 <> '' then
             //     Line.Validate("Shortcut Dimension 1 Code", ShortcutDim1);
             // if ShortcutDim2 <> '' then

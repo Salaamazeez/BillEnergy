@@ -322,7 +322,7 @@ table 50155 Retirement
 
             trigger OnValidate()
             begin
-                if GuiAllowed then
+                //if GuiAllowed then
                 GetCashAdvance
             END;
             //  end;
@@ -798,9 +798,9 @@ DimMgt.EditDimensionSet(
             exit;
         end;
         CashAdvance.Get("Retirement Ref.");
-        "Debit  Account Type" := CashAdvance."Debit  Account Type";
+        "Debit  Account Type" := CashAdvance."Debit  Account Type"::Staff;
         Validate("Debit Account No.", CashAdvance."Debit Account No.");
-        //"Debit Account Name" := CashAdvance."Debit Account Name";
+        "Debit Account Name" := CashAdvance."Debit Account Name";
         "Currency Code" := CashAdvance."Currency Code";
         "Currency Factor" := CashAdvance."Currency Factor";
         Purpose := CashAdvance.Description;
