@@ -1,14 +1,17 @@
 namespace BILLENERGY.BILLENERGY;
+using Microsoft.HumanResources.Employee;
+using Microsoft.Finance.Dimension;
+using Microsoft.HumanResources.Setup;
 
-page 50160 OvertimeArchive
+page 50159 OvertimeSubform
 {
     ApplicationArea = All;
-    Caption = 'Overtime Archive';
-    PageType = List;
+    Caption = 'Overtime Subform';
+    PageType = ListPart;
     SourceTable = Overtimeline;
-    UsageCategory = Tasks;
-    SourceTableView = where("Overtime Closed" = filter(true));
-    Editable = false;
+    AutoSplitKey = true;
+    //UsageCategory = Tasks;
+    //SourceTableView = where("Overtime Closed" = filter(false));
 
     layout
     {
@@ -115,5 +118,22 @@ page 50160 OvertimeArchive
         }
 
     }
+
+    var
+        Text001: Label 'Processing overtime for Rig Employee No. #1######\';
+        Text002: Label 'Period Filter cannot be empty';
+        Text003: Label 'Gross Pay Element code is not setup in the Payroll Element page';
+        Employee: Record Employee;
+        Dim: Record "Dimension Value";
+        Overtime: Record Overtimeline;
+        SalSetupLine: Record SalarySetupLine;
+        PayElement: Record PayrollElement;
+        HRSetup: Record "Human Resources Setup";
+        EmployeeNo: Code[20];
+        GlobalDim1Code: Code[50];
+        GlobalDim2Code: Code[50];
+        Window: Dialog;
+        PayPeriods: Code[10];
+
 
 }

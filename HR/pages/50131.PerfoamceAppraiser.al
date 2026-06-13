@@ -1,7 +1,7 @@
 page 50131 PerfoamceAppraiser
 {
     ApplicationArea = All;
-    Caption = 'PerfoamceAppraiser';
+    Caption = 'Perfoamce Appraiser';
     PageType = Document;
     SourceTable = PerformanceAppraisalHeader;
 
@@ -16,70 +16,87 @@ page 50131 PerfoamceAppraiser
                 field("Employee No."; Rec."Employee No.")
                 {
                     ToolTip = 'Specifies the value of the Employee No.', Comment = '%';
+                    ApplicationArea = All;
                 }
                 field("Employee Name"; Rec."Employee Name")
                 {
                     ToolTip = 'Specifies the value of the Employee Name', Comment = '%';
+                    ApplicationArea = All;
                 }
                 field("Line Manager No."; Rec."Line Manager No.")
                 {
                     ToolTip = 'Specifies the value of the Line Manager No.', Comment = '%';
+                    ApplicationArea = All;
                 }
                 field("Line Manager Name"; Rec."Line Manager Name")
                 {
                     ToolTip = 'Specifies the value of the Line Manager Name', Comment = '%';
+                    ApplicationArea = All;
                 }
                 field("Appraisal Year"; Rec."Appraisal Year")
                 {
                     ToolTip = 'Specifies the value of the Appraisal Year field.', Comment = '%';
+                    ApplicationArea = All;
                 }
                 field("Job Title"; Rec."Job Title")
                 {
                     ToolTip = 'Specifies the value of the Job Title', Comment = '%';
+                    ApplicationArea = All;
                 }
                 field(Status; Rec.Status)
                 {
                     ToolTip = 'Specifies the value of the Appraiser Status', Comment = '%';
+                    ApplicationArea = All;
                 }
                 field("No. of Objectives"; Rec."No. of Objectives")
                 {
                     ToolTip = 'Specifies the value of the No. of Objectives', Comment = '%';
+                    ApplicationArea = All;
                 }
                 field("Shortcut Dimension 1 Code"; Rec."Shortcut Dimension 1 Code")
                 {
                     ToolTip = 'Specifies the value of the Shortcut Dimension 1 Code', Comment = '%';
+                    ApplicationArea = All;
                 }
                 field("Shortcut Dimension 2 Code"; Rec."Shortcut Dimension 2 Code")
                 {
                     ToolTip = 'Specifies the value of the Shortcut Dimension 2 Code', Comment = '%';
+                    ApplicationArea = All;
                 }
                 field(Closed; Rec.Closed)
                 {
                     ToolTip = 'Specifies the value of the Closed', Comment = '%';
+                    ApplicationArea = All;
                 }
                 field("Created By"; Rec."Created By")
                 {
                     ToolTip = 'Specifies the value of the Created By ', Comment = '%';
+                    ApplicationArea = All;
                 }
                 field("Creation Date"; Rec."Creation Date")
                 {
                     ToolTip = 'Specifies the value of the Creation Date.', Comment = '%';
+                    ApplicationArea = All;
                 }
                 field("Creation Time"; Rec."Creation Time")
                 {
                     ToolTip = 'Specifies the value of the Creation Time.', Comment = '%';
+                    ApplicationArea = All;
                 }
                 field("Last Modified By"; Rec."Last Modified By")
                 {
                     ToolTip = 'Specifies the value of the Last Modified By', Comment = '%';
+                    ApplicationArea = All;
                 }
                 field("Last Modified Date"; Rec."Last Modified Date")
                 {
                     ToolTip = 'Specifies the value of the Last Modified Date', Comment = '%';
+                    ApplicationArea = All;
                 }
                 field("Last Modified time"; Rec."Last Modified time")
                 {
                     ToolTip = 'Specifies the value of the Last Modified Time', Comment = '%';
+                    ApplicationArea = All;
                 }
             }
             part(PerformanceAppraiserLine; PerformanceAppraiserSubform)
@@ -96,14 +113,17 @@ page 50131 PerfoamceAppraiser
                 field("Area"; Rec."Area")
                 {
                     ToolTip = 'Specifies the value of the Area', Comment = '%';
+                    ApplicationArea = All;
                 }
                 field("Actions"; Rec."Actions")
                 {
                     ToolTip = 'Specifies the value of the Actions', Comment = '%';
+                    ApplicationArea = All;
                 }
                 field("Expected Completon Date"; Rec."Expected Completon Date")
                 {
                     ToolTip = 'Specifies the value of the Expected Completon Date', Comment = '%';
+                    ApplicationArea = All;
                 }
             }
             group(MidYearAppraiser)
@@ -113,18 +133,22 @@ page 50131 PerfoamceAppraiser
                 field("Employee Progress update"; Rec."Employee Progress update")
                 {
                     ToolTip = 'Specifies the value of the Employee Progress update', Comment = '%';
+                    ApplicationArea = All;
                 }
                 field("Emp. Mid-Year Dev. Plan Update"; Rec."Emp. Mid-Year Dev. Plan Update")
                 {
                     ToolTip = 'Specifies the value of the Emp. Mid-Year Dev. Plan Update', Comment = '%';
+                    ApplicationArea = All;
                 }
                 field("Manager Progress Update"; Rec."Manager Progress Update")
                 {
                     ToolTip = 'Specifies the value of the Manager Progress Update field.', Comment = '%';
+                    ApplicationArea = All;
                 }
                 field("Mgr. Mid-Year Dev. Plan Update"; Rec."Mgr. Mid-Year Dev. Plan Update")
                 {
                     ToolTip = 'Specifies the value of the Mgr. Mid-Year Dev. Plan Update', Comment = '%';
+                    ApplicationArea = All;
                 }
             }
             group(EndYearFinalEvaluation)
@@ -135,30 +159,37 @@ page 50131 PerfoamceAppraiser
                 field("Employee Rating%"; Rec."Employee Rating%")
                 {
                     ToolTip = 'Specifies the value of the Employee Rating in percentage', Comment = '%';
+                    ApplicationArea = All;
                 }
                 field("Employee Final Rating"; Rec."Employee Final Rating")
                 {
                     ToolTip = 'Specifies the value of the Employee Final Rating', Comment = '%';
+                    ApplicationArea = All;
                 }
                 field("Employee Final Comment"; Rec."Employee Final Comment")
                 {
                     ToolTip = 'Specifies the value of the Employee Final Comment', Comment = '%';
+                    ApplicationArea = All;
                 }
                 field("Employee Sign-off"; Rec."Employee Sign-off")
                 {
                     ToolTip = 'Specifies the value of the Employee Sign-off', Comment = '%';
+                    ApplicationArea = All;
                 }
                 field("Manager Rating%"; Rec."Manager Rating%")
                 {
                     ToolTip = 'Specifies the value of the manager Rating in percentage', Comment = '%';
+                    ApplicationArea = All;
                 }
                 field("Manager Final Rating"; Rec."Manager Final Rating")
                 {
                     ToolTip = 'Specifies the value of the Manager Final Rating', Comment = '%';
+                    ApplicationArea = All;
                 }
                 field("Manager Final Comment"; Rec."Manager Final Comment")
                 {
                     ToolTip = 'Specifies the value of the Manager Final Comment', Comment = '%';
+                    ApplicationArea = All;
                 }
             }
         }

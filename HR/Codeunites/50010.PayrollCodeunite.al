@@ -32,7 +32,7 @@ codeunit 50010 PayrollCodeunite
         SalarySetupHeader: Record SalarySetupHeader;
         //PayrollReimbHead : Record 50015;
 
-        ReimbursableSalary: Record ReimbursableSalary;
+        ReimbursableSalary: Record ReimbursableSalarylines;
 
         ElementAmount: Decimal;
         TotallGross: Decimal;

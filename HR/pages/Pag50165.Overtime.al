@@ -1,11 +1,11 @@
 namespace BILLENERGY.BILLENERGY;
 
-page 50163 PayrollTax
+page 50170 Overtime
 {
     ApplicationArea = All;
-    Caption = 'Payroll Tax';
+    Caption = 'Overtime';
     PageType = Document;
-    SourceTable = PayrollTaxHeader;
+    SourceTable = OvertimeHeader;
 
     layout
     {
@@ -13,72 +13,53 @@ page 50163 PayrollTax
         {
             group(General)
             {
-
                 Caption = 'General';
 
-                field("Tax Code"; Rec."Tax Code")
+                field("Period Code"; Rec."Period Code")
                 {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Tax Code field.', Comment = '%';
-
+                    ToolTip = 'Specifies the value of the Period Code field.', Comment = '%';
                 }
                 field(Description; Rec.Description)
                 {
-                    ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Description field.', Comment = '%';
-
                 }
-                field("Rent Relief Cap"; Rec."Rent Relief Cap")
+                field("Approval Status"; Rec."Approval Status")
                 {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Rent Relief Cap field.', Comment = '%';
-
+                    ToolTip = 'Specifies the value of the Approval Status field.', Comment = '%';
                 }
-                field("Rent Relief%"; Rec."Rent Relief%")
+                field("Document Date"; Rec."Document Date")
                 {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Rent Relief% field.', Comment = '%';
-
+                    ToolTip = 'Specifies the value of the Document Date field.', Comment = '%';
                 }
-                field(Open; Rec.Open)
+                field("Employee Filter"; Rec."Employee Filter")
                 {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Open field.', Comment = '%';
-
+                    ToolTip = 'Specifies the value of the Employee Filter field.', Comment = '%';
+                }
+                field("Global Dimension 1 Filter"; Rec."Global Dimension 1 Filter")
+                {
+                    ToolTip = 'Specifies the value of the Global Dimension 1 Filter field.', Comment = '%';
+                }
+                field("Global Dimension 2 Filter"; Rec."Global Dimension 2 Filter")
+                {
+                    ToolTip = 'Specifies the value of the Global Dimension 2 Filter field.', Comment = '%';
                 }
                 field(SystemCreatedBy; Rec.SystemCreatedBy)
                 {
-                    ApplicationArea = All;
                     ToolTip = 'Specifies the value of the SystemCreatedBy field.', Comment = '%';
-
                 }
                 field(SystemCreatedAt; Rec.SystemCreatedAt)
                 {
-                    ApplicationArea = All;
                     ToolTip = 'Specifies the value of the SystemCreatedAt field.', Comment = '%';
-
                 }
                 field(SystemModifiedBy; Rec.SystemModifiedBy)
                 {
-                    ApplicationArea = All;
                     ToolTip = 'Specifies the value of the SystemModifiedBy field.', Comment = '%';
-
                 }
                 field(SystemModifiedAt; Rec.SystemModifiedAt)
                 {
-                    ApplicationArea = All;
                     ToolTip = 'Specifies the value of the SystemModifiedAt field.', Comment = '%';
-
                 }
-
-
             }
-            part(PayrollTaxlines; PayrollTaxLineSubform)
-            {
-                ApplicationArea = All;
-                SubPageLink = "Tax Code" = field("Tax Code");
-            }
-
         }
     }
 }

@@ -1,6 +1,6 @@
-table 50190 Overtime
+table 50190 OvertimeLine
 {
-    Caption = 'Overtime';
+    Caption = 'Overtime Lines';
     DataClassification = ToBeClassified;
 
     fields
@@ -8,10 +8,12 @@ table 50190 Overtime
         field(1; "Period Code"; Code[10])
         {
             Caption = 'Period Code';
+            TableRelation = PayrollPeriods."Period Code";
         }
         field(2; "Employee No."; Code[50])
         {
             Caption = 'Employee No.';
+            TableRelation = Employee."No.";
 
             trigger OnValidate()
             begin
@@ -49,6 +51,7 @@ table 50190 Overtime
         field(4; "Element Code"; Code[10])
         {
             Caption = 'Element Code';
+            TableRelation = PayrollElement."Element Code";
 
             trigger OnValidate()
             begin
@@ -123,16 +126,29 @@ table 50190 Overtime
             Caption = 'Job Title';
             Editable = false;
         }
+        field(16; "Line No."; Integer)
+        {
+            Caption = 'Line No.';
+            Editable = false;
+        }
+
 
 
     }
     keys
     {
-        key(PK; "Period Code", "Employee No.", "Element Code")
+        key(PK; "Period Code", "Employee No.", "Line No.")
         {
             Clustered = true;
         }
+
+        Key(SKey; "Period Code", "Employee No.", "Element Code")
+        {
+
+        }
     }
+
+
 
     var
         EmpRec: Record Employee;
@@ -142,5 +158,7 @@ table 50190 Overtime
         SalSetupHead: Record SalarySetupHeader;
 
         ErrorTerminated: Label 'Employee %1 has been terminated, you cannot calculate overtime for and exit employee';
+
+
 
 }

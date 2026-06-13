@@ -1,7 +1,7 @@
 page 50132 PerformanceAppraiserSubform
 {
     ApplicationArea = All;
-    Caption = 'PerformanceAppraiserSubform';
+    Caption = 'Performance Appraiser Subform';
     PageType = ListPart;
     SourceTable = PerformanceAppraiserLine;
     LinksAllowed = false;
@@ -19,44 +19,54 @@ page 50132 PerformanceAppraiserSubform
                 {
                     ToolTip = 'Specifies the value of the Employee No. field.', Comment = '%';
                     Visible = false;
+                    ApplicationArea = All;
                 }
                 field("Appraisaer Year"; Rec."Appraisaer Year")
                 {
                     ToolTip = 'Specifies the value of the Appraisaer Year field.', Comment = '%';
                     Visible = false;
+                    ApplicationArea = All;
                 }
                 field("Line No."; Rec."Line No.")
                 {
                     ToolTip = 'Specifies the value of the Line No. field.', Comment = '%';
                     Visible = false;
+                    ApplicationArea = All;
                 }
                 field("Objective Settings"; Rec."Objective Settings")
                 {
                     ToolTip = 'Specifies the value of the Objective Settings field.', Comment = '%';
+                    ApplicationArea = All;
                 }
                 field("Objective Summary"; Rec."Objective Summary")
                 {
                     ToolTip = 'Specifies the value of the Ebjective Summary field.', Comment = '%';
+                    ApplicationArea = All;
                 }
                 field(Measure; Rec.Measure)
                 {
                     ToolTip = 'Specifies the value of the Measure field.', Comment = '%';
+                    ApplicationArea = All;
                 }
                 field(Weight; Rec.Weight)
                 {
                     ToolTip = 'Specifies the value of the Weight field.', Comment = '%';
+                    ApplicationArea = All;
                 }
                 field("By When"; Rec."By When")
                 {
                     ToolTip = 'Specifies the value of the By When field.', Comment = '%';
+                    ApplicationArea = All;
                 }
                 field("Employee Score"; Rec."Employee Score")
                 {
                     ToolTip = 'Specifies the value of the Employee Score field.', Comment = '%';
+                    ApplicationArea = All;
                 }
                 field("Manager Score"; Rec."Manager Score")
                 {
                     ToolTip = 'Specifies the value of the Manager Score field.', Comment = '%';
+                    ApplicationArea = All;
                 }
             }
         }
