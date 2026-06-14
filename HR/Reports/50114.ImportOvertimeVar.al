@@ -7,6 +7,7 @@ report 50114 ImportOvertimeVariables
     ProcessingOnly = true;
     //DefaultLayout = RDLC;
     //RDLCLayout = 'Import Employee Data.rdl';
+
     dataset
     {
         dataitem(Integer; "Integer")
@@ -14,31 +15,47 @@ report 50114 ImportOvertimeVariables
 
             trigger OnAfterGetRecord()
             begin
-                ImportSheet(Number);
 
-                OvertimeRec.Init();
-                OvertimeRec.VALIDATE("Employee No.", ColText[1]);
-                Evaluate(OvertimeRec."Days Worked", ColText[2]);
-                Evaluate(OvertimeRec."Extra Days Worked", ColText[3]);
-                IF (NOT OvertimeRec.INSERT(True)) then
-                    OvertimeRec.Modify();
+                ImportSheet(Number);
+                WindowDialog.Update(1, OvertimeRec."Period Code");
+                WindowDialog.Update(2, OvertimeRec."Employee No.");
+
+                if Overtime.Get(format(ColText[1])) then begin
+                    OvertimeRec.Init();
+                    Evaluate(OvertimeRec."Period Code", ColText[1]);
+                    OvertimeRec.VALIDATE("Employee No.", ColText[2]);
+                    //Evaluate(OvertimeRec."Days Worked", ColText[3]);
+                    Evaluate(OvertimeRec."Extra Days Worked", ColText[3]);
+
+
+                    OvertimeRec.Validate("Element Code", PayElement."Element Code");
+                    IF (NOT OvertimeRec.INSERT(True)) then
+                        OvertimeRec.Modify();
+                end else
+                    error('The Period Code specify in the excel %1 is not thesame as the Period Code %2 in the Overtime', ColText[1], Overtime."Period Code");
+
             end;
 
             trigger OnPreDataItem()
             begin
-                /*
-                        ExcelBuf.RESET;
-                        ExcelBuf.DELETEALL;
-                        //ExcelBuf.OpenBook(ServerFileName, SheetName);
-                        ExcelBuf.OpenBookStream(ServerFileName, SheetName);
-                        ExcelBuf.ReadSheet;
-                        IF ExcelBuf.FINDLAST THEN
-                            SETRANGE(Number, 2, ExcelBuf."Row No.");
-                            */
+                PayElement.Reset();
+                PayElement.SetFilter("Is Overtime", '%1', true);
+                if Not (PayElement.FindFirst()) then
+                    error('You did not setup Overtime in Payroll Element');
+
+                ExcelBuf.RESET;
+                ExcelBuf.DELETEALL;
+                //ExcelBuf.OpenBook(ServerFileName, SheetName);
+                ExcelBuf.OpenBookStream(instrm, SheetName);
+                ExcelBuf.ReadSheet;
+                IF ExcelBuf.FINDLAST THEN
+                    SETRANGE(Number, 2, ExcelBuf."Row No.");
+
             end;
 
             trigger OnPostDataItem()
             begin
+                WindowDialog.Close();
             end;
         }
     }
@@ -59,7 +76,7 @@ report 50114 ImportOvertimeVariables
                             trigger OnAssistEdit()
                             begin
                                 RequestFile;
-                                // SheetName := ExcelBuf.SelectSheetsName(ServerFileName);
+                                SheetName := ExcelBuf.SelectSheetsNameStream(instrm);
                             end;
                         }
                         field(SheetName; SheetName)
@@ -72,7 +89,7 @@ report 50114 ImportOvertimeVariables
                                     RequestFile;
                                 END;
 
-                                // SheetName := ExcelBuf.SelectSheetsName(ServerFileName);
+                                SheetName := ExcelBuf.SelectSheetsNameStream(instrm);
                             end;
                         }
                     }
@@ -103,6 +120,7 @@ report 50114 ImportOvertimeVariables
 
     trigger OnPreReport()
     begin
+        WindowDialog.Open(TextDisplay, OvertimeRec."Period Code", OvertimeRec."Employee No.");
     end;
 
     trigger OnPostReport()
@@ -116,14 +134,26 @@ report 50114 ImportOvertimeVariables
         ColText: array[100] of Text[250];
         FileMgt: Codeunit "File Management";
         OvertimeRec: Record OvertimeLine;
+        Overtime: Record OvertimeHeader;
+
+        PayElement: Record PayrollElement;
 
         FileName: Text[250];
         ServerFileName: Text[250];
         SheetName: Text[250];
+        instrm: instream;
 
         Text005: Label 'Imported from Excel';
         Text006: Label 'Import Excel File';
         msgfinishUpdate: label 'Overtime Variables successfully updated';
+        WindowDialog: Dialog;
+        TextDisplay: Label 'import Record ###########1 with transaction Date ##########2:';
+        ConfirmDuplicate: label 'Record with %1 %2 %3 already exist do you want to modify and continue the import?';
+        RecordCount: Integer;
+        RecordModified: Integer;
+        confirmMgt: Codeunit "Confirm Management";
+        UserSetup: Record "User Setup";
+        ErrormodifyData: label 'You do not have the Overtime Permission Admin to modify the data';
 
     Procedure ImportSheet(RowNumber: Integer)
     var
@@ -148,5 +178,6 @@ report 50114 ImportOvertimeVariables
 
         FileName := FileMgt.GetFileName(ServerFileName);
         */
+        UploadIntoStream(Text006, '', 'Excel(.xlsx)|*.xlsx', FileName, instrm);
     end;
 }

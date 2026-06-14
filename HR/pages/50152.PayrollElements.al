@@ -96,6 +96,12 @@ page 50030 PayrollElements
                     ToolTip = 'Specifies the value of the Is Utility field.', Comment = '%';
                     ApplicationArea = All;
                 }
+
+                field("Is Overtime"; Rec."Is Overtime")
+                {
+                    ToolTip = 'Specifies the value of the Is Overtime field.', Comment = '%';
+                    ApplicationArea = All;
+                }
                 field("Is Paye"; Rec."Is Paye")
                 {
                     ToolTip = 'Specifies the value of the Is Paye field.', Comment = '%';
@@ -130,6 +136,12 @@ page 50030 PayrollElements
                 field("Is Life"; Rec."Is Life")
                 {
                     ToolTip = 'Specifies the value of the Is Life field.', Comment = '%';
+                    ApplicationArea = All;
+                }
+
+                field("Is Reimbursable"; Rec."Is Reimbursable")
+                {
+                    ToolTip = 'Specifies the value of the Is Reimbursable field.', Comment = '%';
                     ApplicationArea = All;
                 }
                 field("Is Net"; Rec."Is Net")

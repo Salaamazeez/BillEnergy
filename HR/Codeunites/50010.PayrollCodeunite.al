@@ -32,7 +32,8 @@ codeunit 50010 PayrollCodeunite
         SalarySetupHeader: Record SalarySetupHeader;
         //PayrollReimbHead : Record 50015;
 
-        ReimbursableSalary: Record ReimbursableSalarylines;
+        ReimbursableSalaryLines: Record ReimbursableSalarylines;
+        ReimbursableSalary: Record ReimbursableHeader;
 
         ElementAmount: Decimal;
         TotallGross: Decimal;
@@ -421,12 +422,20 @@ codeunit 50010 PayrollCodeunite
     END;
 
     PROCEDURE GetNoOfDaysInPayPeriod(PayPeriodCode: Code[20]): Integer;
+    var
+        JC: Record JourneyCalendar;
+        ErrorJC: Label 'Periods Calendar needs to be created for the Period %1';
+
     BEGIN
 
         NoOfDaysInPayPeriod := 0;
         CLEAR(LastDateOfMonth);
         CLEAR(StartDate);
 
+        if (PayYear = 0) then
+            EVALUATE(PayYear, FORMAT(COPYSTR(PayPeriodCode, 1, 4)));
+
+        /*
         PayRollPeriod.RESET;
         IF PayRollPeriod.GET(PayPeriodCode) THEN BEGIN
             LastDateOfMonth := PayRollPeriod."End Date";
@@ -437,19 +446,71 @@ codeunit 50010 PayrollCodeunite
             END;
             EXIT(NoOfDaysInPayPeriod);
         END;
+        */
+
+        PayRollPeriod.RESET;
+        IF PayRollPeriod.GET(PayPeriodCode) THEN BEGIN
+            LastDateOfMonth := PayRollPeriod."End Date";
+            StartDate := PayRollPeriod."Start Date";
+            JC.SetRange(Year, Format(PayYear));
+            JC.SetRange("Start Date", StartDate, LastDateOfMonth);
+            JC.SetFilter(Sunday, '%1', false);
+            JC.SetFilter(Saturday, '%1', false);
+            if JC.FindSet() then
+                NoOfDaysInPayPeriod := JC.Count
+            else
+                ERROR(ErrorJC, PayPeriodCode);
+        end;
+        EXIT(NoOfDaysInPayPeriod);
     END;
 
     PROCEDURE GetTotalDaysWorked(PayPeriodCode: Code[20]; EmployeeRec: Record 5200): Integer;
+    var
+        JC: Record JourneyCalendar;
+        ErrorJC: Label 'Periods Calendar needs to be created for the Period %1';
+
     BEGIN
         DaysWorked := 0;
         PoratePay := FALSE;
+
+        if (PayYear = 0) then
+            EVALUATE(PayYear, FORMAT(COPYSTR(PayPeriodCode, 1, 4)));
+
         IF PayRollPeriod.GET(PayPeriodCode) THEN BEGIN
+            /*
             IF (((PayRollPeriod."End Date" - EmployeeRec."Employment Date") + 1) < GetNoOfDaysInPayPeriod(PayPeriodCode)) THEN BEGIN
                 DaysWorked := ((PayRollPeriod."End Date" - EmployeeRec."Employment Date") + 1);
                 PoratePay := TRUE;
             END ELSE
                 DaysWorked := GetNoOfDaysInPayPeriod(PayPeriodCode);
             EXIT(DaysWorked);
+            */
+            if (EmployeeRec."Employment Date" > PayRollPeriod."Start Date") then begin
+                LastDateOfMonth := PayRollPeriod."End Date";
+                StartDate := PayRollPeriod."Start Date";
+                JC.SetRange(Year, Format(PayYear));
+                JC.SetRange("Start Date", EmployeeRec."Employment Date", LastDateOfMonth);
+                JC.SetFilter(Sunday, '%1', false);
+                JC.SetFilter(Saturday, '%1', false);
+
+                if JC.FindSet() then
+                    DaysWorked := JC.Count
+                else
+                    ERROR(ErrorJC, PayPeriodCode);
+                PoratePay := TRUE;
+
+            end else begin
+                JC.SetRange(Year, Format(PayYear));
+                JC.SetRange("Start Date", StartDate, LastDateOfMonth);
+                JC.SetFilter(Sunday, '%1', false);
+                JC.SetFilter(Saturday, '%1', false);
+
+                if JC.FindSet() then
+                    DaysWorked := JC.Count
+                else
+                    ERROR(ErrorJC, PayPeriodCode);
+            end;
+            exit(DaysWorked);
         END;
     END;
 
@@ -873,7 +934,7 @@ codeunit 50010 PayrollCodeunite
 
         IF PrevPeriod <> '' THEN BEGIN
             ReimbursableSalary.RESET;
-            ReimbursableSalary.SETRANGE("Payroll Period", PrevPeriod);
+            ReimbursableSalary.SETRANGE(ReimbursableSalary."Period Code", PrevPeriod);
             ReimbursableSalary.SETFILTER("Approval Status", '<>%1', ReimbursableSalary."Approval Status"::Closed);
             IF ReimbursableSalary.FINDFIRST THEN
                 ERROR(Text011, PrevPeriod);
@@ -882,7 +943,8 @@ codeunit 50010 PayrollCodeunite
         //Filter for only Active Employee
         Employee.RESET;
         Employee.SETFILTER(Status, '<>%1', Employee.Status::Terminated);
-        Employee.SETFILTER("Reimbursable Amount", '<>%1', 0);
+        Employee.SetFilter(Blocked, '%1', false);
+        //Employee.SETFILTER("Reimbursable Amount", '<>%1', 0);
 
         IF (EmployeeNo <> '') THEN
             Employee.SETRANGE("No.", EmployeeNo);
@@ -934,16 +996,16 @@ codeunit 50010 PayrollCodeunite
         ElementAmount := 0;
         ReimbAmtPorate := 0;
 
-        IF (PayrollElementL."Function of Poration") THEN BEGIN //Need to add element to be porated
-            IF ((PoratePay) AND (PayrollElementL."Function of Poration")) THEN BEGIN
-                ReimbAmtPorate := ROUND(((EmployeeL."Reimbursable Amount" / NoOfDaysInPayPeriod) * DaysWorked), 0.01, '>');
-                ElementAmount += ReimbAmtPorate;
-            END ELSE BEGIN
+        //IF (PayrollElementL."Function of Poration") THEN BEGIN //Need to add element to be porated
+        IF (PoratePay) THEN BEGIN
+            ReimbAmtPorate := ROUND(((EmployeeL."Reimbursable Amount" / NoOfDaysInPayPeriod) * DaysWorked), 0.01, '>');
+            ElementAmount += ReimbAmtPorate;
+        END ELSE BEGIN
 
-                ElementAmount := ROUND((EmployeeL."Reimbursable Amount"), 0.01, '>');
-            END;
-
+            ElementAmount := ROUND((EmployeeL."Reimbursable Amount"), 0.01, '>');
         END;
+
+        //END;
 
         IF (ElementAmount <> 0) THEN
             EXIT(ElementAmount)
@@ -954,26 +1016,26 @@ codeunit 50010 PayrollCodeunite
     PROCEDURE InsertPayrollReimbLine(EmployeeL: Record Employee; PayrollElementL: Record PayrollElement; PayPeriodCode: Code[20]; ElementAmt: Decimal);
     BEGIN
 
-        ReimbursableSalary.INIT;
-        ReimbursableSalary."Payroll Period" := PayPeriodCode;
-        ReimbursableSalary."Element Code" := PayrollElementL."Element Code";
-        ReimbursableSalary."Element Name" := PayrollElementL."Element Name";
-        ReimbursableSalary."Employee No." := EmployeeL."No.";
-        ReimbursableSalary."Employee Name" := EmployeeL."Last Name" + ' ' + EmployeeL."First Name" + ' ' + EmployeeL."Middle Name";
-        ReimbursableSalary."Global Dimension 1 Code" := EmployeeL."Global Dimension 1 Code";
-        ReimbursableSalary."Global Dimension 2 Code" := EmployeeL."Global Dimension 2 Code";
-        ReimbursableSalary."Document Date" := TODAY;
-        ReimbursableSalary."Employment Date" := EmployeeL."Employment Date";
-        //ReimbursableSalary."Employee Category" := EmployeeL."Employee Category";
-        ReimbursableSalary."Job Title" := EmployeeL."Job Title";
-        ReimbursableSalary."Payroll Bank" := EmployeeL."Payroll Bank";
-        ReimbursableSalary."Payroll Bank Account No." := EmployeeL."Bank Account No.";
-        ReimbursableSalary."Net Pay" := ElementAmt;
-        ReimbursableSalary."Book Value" := EmployeeL."Reimbursable Amount";
-        ReimbursableSalary."No. of Days In the Month" := NoOfDaysInPayPeriod;
-        ReimbursableSalary."No. of Days Worked" := DaysWorked;
+        ReimbursableSalarylines.INIT;
+        ReimbursableSalarylines."Payroll Period" := PayPeriodCode;
+        ReimbursableSalarylines."Element Code" := PayrollElementL."Element Code";
+        ReimbursableSalarylines."Element Name" := PayrollElementL."Element Name";
+        ReimbursableSalarylines."Employee No." := EmployeeL."No.";
+        ReimbursableSalarylines."Employee Name" := EmployeeL."Last Name" + ' ' + EmployeeL."First Name" + ' ' + EmployeeL."Middle Name";
+        ReimbursableSalarylines."Global Dimension 1 Code" := EmployeeL."Global Dimension 1 Code";
+        ReimbursableSalarylines."Global Dimension 2 Code" := EmployeeL."Global Dimension 2 Code";
+        //ReimbursableSalarylines."Document Date" := TODAY;
+        ReimbursableSalarylines."Employment Date" := EmployeeL."Employment Date";
+        //ReimbursableSalarylines."Employee Category" := EmployeeL."Employee Category";
+        ReimbursableSalarylines."Job Title" := EmployeeL."Job Title";
+        ReimbursableSalarylines."Payroll Bank" := EmployeeL."Payroll Bank";
+        ReimbursableSalarylines."Payroll Bank Account No." := EmployeeL."Bank Account No.";
+        ReimbursableSalarylines."Net Pay" := ElementAmt;
+        ReimbursableSalarylines."Book Value" := EmployeeL."Reimbursable Amount";
+        ReimbursableSalarylines."No. of Days In the Month" := NoOfDaysInPayPeriod;
+        ReimbursableSalarylines."No. of Days Worked" := DaysWorked;
 
-        ReimbursableSalary.INSERT(TRUE);
+        ReimbursableSalarylines.INSERT(TRUE);
 
     END;
 

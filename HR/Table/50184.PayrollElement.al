@@ -129,6 +129,10 @@ table 50184 PayrollElement
         {
             Caption = 'Is Net';
         }
+        field(37; "Is Overtime"; Boolean)
+        {
+            Caption = 'Is Overtime';
+        }
     }
     keys
     {

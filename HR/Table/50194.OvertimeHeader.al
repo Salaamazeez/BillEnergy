@@ -54,13 +54,29 @@ table 50194 OvertimeHeader
         }
     }
 
+
     keys
     {
-        key(PK; "Period Code")
+        key(PK;
+        "Period Code")
         {
             Clustered = true;
         }
     }
+
+    var
+        Overtimeline: Record OvertimeLine;
+
+    trigger OnDelete()
+
+    begin
+        Overtimeline.reset;
+        Overtimeline.setrange("Period Code", "Period Code");
+        if Overtimeline.FindSet() then
+            Overtimeline.reset;
+        Overtimeline.setrange(Overtimeline."Period Code", "Period Code");
+        Overtimeline.DeleteAll();
+    end;
 
     procedure PerformManualClose()
     var

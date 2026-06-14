@@ -5,10 +5,13 @@ using Microsoft.Finance.Dimension;
 
 page 50170 Overtime
 {
-    ApplicationArea = All;
+    //ApplicationArea = All;
     Caption = 'Overtime';
     PageType = Document;
     SourceTable = OvertimeHeader;
+    //UsageCategory = tasks;
+    InsertAllowed = true;
+    ModifyAllowed = true;
 
     layout
     {
@@ -21,27 +24,33 @@ page 50170 Overtime
                 field("Period Code"; Rec."Period Code")
                 {
                     ToolTip = 'Specifies the value of the Period Code field.', Comment = '%';
+                    ApplicationArea = All;
                 }
                 field(Description; Rec.Description)
                 {
                     ToolTip = 'Specifies the value of the Description field.', Comment = '%';
+                    ApplicationArea = All;
                 }
                 field("Approval Status"; Rec."Approval Status")
                 {
                     ToolTip = 'Specifies the value of the Approval Status field.', Comment = '%';
+                    ApplicationArea = All;
                 }
                 field("Document Date"; Rec."Document Date")
                 {
                     ToolTip = 'Specifies the value of the Document Date field.', Comment = '%';
+                    ApplicationArea = All;
                 }
 
                 field("Global Dimension 1 Filter"; Rec."Global Dimension 1 Filter")
                 {
                     ToolTip = 'Specifies the value of the Global Dimension 1 Filter field.', Comment = '%';
+                    ApplicationArea = All;
                 }
                 field("Global Dimension 2 Filter"; Rec."Global Dimension 2 Filter")
                 {
                     ToolTip = 'Specifies the value of the Global Dimension 2 Filter field.', Comment = '%';
+                    ApplicationArea = All;
                 }
 
                 field("Document No."; Rec."Paid Document No.")
@@ -57,18 +66,26 @@ page 50170 Overtime
                 field(SystemCreatedBy; Rec.SystemCreatedBy)
                 {
                     ToolTip = 'Specifies the value of the SystemCreatedBy field.', Comment = '%';
+                    ApplicationArea = All;
+                    //Visible = false;
                 }
                 field(SystemCreatedAt; Rec.SystemCreatedAt)
                 {
                     ToolTip = 'Specifies the value of the SystemCreatedAt field.', Comment = '%';
+                    ApplicationArea = All;
+                    //Visible = false;
                 }
                 field(SystemModifiedBy; Rec.SystemModifiedBy)
                 {
                     ToolTip = 'Specifies the value of the SystemModifiedBy field.', Comment = '%';
+                    ApplicationArea = All;
+                    //Visible = false;
                 }
                 field(SystemModifiedAt; Rec.SystemModifiedAt)
                 {
                     ToolTip = 'Specifies the value of the SystemModifiedAt field.', Comment = '%';
+                    ApplicationArea = All;
+                    //Visible = false;
                 }
             }
 
@@ -139,8 +156,8 @@ page 50170 Overtime
                     Overtimeline.RESET;
                     Overtimeline.SETFILTER("Period Code", rec."Period Code");
 
-                    //IF (EmployeeNo <> '') THEN
-                    //Overtime.SETRANGE("Employee No.", EmployeeNo);
+                    IF (EmployeeNo <> '') THEN
+                        Overtimeline.SETRANGE("Employee No.", EmployeeNo);
                     IF (rec."Global Dimension 1 Filter" <> '') THEN
                         Overtimeline.SETRANGE("Global Dimension 1 Code", rec."Global Dimension 1 Filter");
                     IF (Rec."Global Dimension 2 Filter" <> '') THEN
@@ -153,12 +170,16 @@ page 50170 Overtime
                         //Employee.TESTFIELD("Employee Category");
                         REPEAT
                             Clear(Employee);
+                            Clear(DaysInMonth);
+
+                            DaysInMonth := PayrollCodeunit.GetNoOfDaysInPayPeriod(rec."Period Code");
 
                             Window.UPDATE(1, Overtimeline."Employee No.");
                             Window.UPDATE(2, PayPeriods);
 
                             //Get the Gross Salary of the Employee
-                            Overtimeline.TestField("Days Worked");
+                            //Overtimeline.TestField("Days Worked");
+
                             Overtimeline.TestField("Extra Days Worked");
 
                             If Employee.get(Overtimeline."Employee No.") then
@@ -169,8 +190,9 @@ page 50170 Overtime
                             SalSetupLine.SetRange("Element Code", PayElement."Element Code");
                             If SalSetupLine.FindFirst() then BEGIN
                                 SalSetupLine.TestField(Amount);
-                                Overtimeline."Overtime Amount" := ROUND((SalSetupLine.Amount / overtimeline."Days Worked" *
-                                                (HRSetup."Overtime Rate" * overtimeline."Extra Days Worked")), 0.01, '>');
+                                Overtimeline."Overtime Amount" := ROUND(((SalSetupLine.Amount / DaysInMonth) *
+                                                ((HRSetup."Overtime Rate" / 100) * overtimeline."Extra Days Worked")), 0.01, '>');
+                                Overtimeline."Days Worked" := DaysInMonth;
                                 Overtimeline.Modify();
                             end;
                         until Overtimeline.Next() = 0;
@@ -192,10 +214,12 @@ page 50170 Overtime
         SalSetupLine: Record SalarySetupLine;
         PayElement: Record PayrollElement;
         HRSetup: Record "Human Resources Setup";
+        PayrollCodeunit: Codeunit PayrollCodeunite;
         EmployeeNo: Code[20];
         GlobalDim1Code: Code[50];
         GlobalDim2Code: Code[50];
         Window: Dialog;
         PayPeriods: Code[10];
+        DaysInMonth: Integer;
 
 }
