@@ -6,6 +6,9 @@ page 50163 PayrollTax
     Caption = 'Payroll Tax';
     PageType = Document;
     SourceTable = PayrollTaxHeader;
+    UsageCategory = Tasks;
+    InsertAllowed = true;
+    ModifyAllowed = true;
 
     layout
     {

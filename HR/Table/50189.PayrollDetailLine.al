@@ -129,6 +129,12 @@ table 50189 PayrollDetailLine
             Editable = false;
         }
 
+        field(30; "No of Late/Absent (Hr)"; Decimal)
+        {
+            Caption = 'No of Late/Absent (Hr)';
+            Editable = false;
+        }
+
         field(31; "Payable Amount"; Decimal)
         {
             Caption = 'Payable Amount';

@@ -171,6 +171,18 @@ pageextension 50138 ExtHumanResourceSetup extends "Human Resources Setup"
                     ApplicationArea = All;
                 }
 
+                field("Pension Employee %"; Rec."Pension Employee %")
+                {
+                    Caption = 'Pension Employee %';
+                    ApplicationArea = All;
+                }
+
+                field("Pension Employer %"; Rec."Pension Employer %")
+                {
+                    Caption = 'Pension Employer';
+                    ApplicationArea = all;
+                }
+
             }
 
         }

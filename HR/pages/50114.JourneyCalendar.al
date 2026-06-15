@@ -1,7 +1,7 @@
 page 50114 LeaveCalendar
 {
     ApplicationArea = All;
-    Caption = 'Leave Calendar';
+    Caption = 'Periods Calendar';
     PageType = List;
     SourceTable = JourneyCalendar;
     UsageCategory = Tasks;
@@ -33,12 +33,14 @@ page 50114 LeaveCalendar
                     ToolTip = 'Specifies the value of the Journey Code';
                     Editable = false;
                     ApplicationArea = All;
+                    Visible = false;
                 }
                 field(Week; Rec.Week)
                 {
                     ToolTip = 'Specifies the value of the Journey Week';
                     Editable = false;
                     ApplicationArea = All;
+                    Visible = false;
                 }
                 field("Period Type"; Rec."Period Type")
                 {

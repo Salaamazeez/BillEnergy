@@ -1,8 +1,8 @@
-report 50115 ImportReimbursablePay
+report 50116 ImportPayrollOtherVar
 {
     //Excel to have two column EMPLOYEE NO, LEAVE ENTITLED
     //ApplicationArea = All;
-    Caption = 'Import Reimbursable';
+    Caption = 'Import Payroll Other Variables';
     UsageCategory = Tasks;
     ProcessingOnly = true;
     //DefaultLayout = RDLC;
@@ -16,11 +16,13 @@ report 50115 ImportReimbursablePay
             begin
                 ImportSheet(Number);
 
-                EmployeeRec.Init();
-                //EmployeeRec.VALIDATE("Employee No.", ColText[1]);
-                Evaluate(EmployeeRec."Reimbursable Amount", ColText[2]);
-                IF (NOT EmployeeRec.INSERT(True)) then
-                    EmployeeRec.Modify();
+                PayrollOtherVar.Init();
+                PayrollOtherVar.VALIDATE("Employee No.", ColText[1]);
+                PayrollOtherVar.Validate("Payroll Period", ColText[2]);
+                PayrollOtherVar.Validate("Element Code", ColText[3]);
+                Evaluate(PayrollOtherVar."Hours/Days Late", ColText[4]);
+                IF (NOT PayrollOtherVar.INSERT(True)) then
+                    PayrollOtherVar.Modify();
             end;
 
             trigger OnPreDataItem()
@@ -114,7 +116,7 @@ report 50115 ImportReimbursablePay
         ExcelBuf: Record "Excel Buffer" temporary;
         ColText: array[100] of Text[250];
         FileMgt: Codeunit "File Management";
-        EmployeeRec: Record Employee;
+        PayrollOtherVar: Record PayrollOthervariables;
 
         FileName: Text[250];
         ServerFileName: Text[250];

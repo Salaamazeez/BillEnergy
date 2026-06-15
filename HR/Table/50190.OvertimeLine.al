@@ -18,7 +18,7 @@ table 50190 OvertimeLine
             trigger OnValidate()
             begin
                 if EmpRec.get("Employee No.") then begin
-                    if (EmpRec.Blocked) then begin
+                    if (Not EmpRec.Blocked) then begin
                         EmpRec.TestField("Emplymt. Contract Code");
 
                         "Global Dimension 1 Code" := EmpRec."Global Dimension 1 Code";
@@ -131,7 +131,11 @@ table 50190 OvertimeLine
             Caption = 'Line No.';
             Editable = false;
         }
-
+        field(17; "Net Pay"; Decimal)
+        {
+            Caption = 'Net Pay';
+            Editable = false;
+        }
 
 
     }

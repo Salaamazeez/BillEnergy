@@ -1,11 +1,13 @@
 namespace BILLENERGY.BILLENERGY;
+using Microsoft.HumanResources.Employee;
 
 page 50155 PayrollHeader
 {
-    ApplicationArea = All;
+    //ApplicationArea = All;
     Caption = 'Payroll Header';
     PageType = Document;
     SourceTable = PayrollHeader;
+    UsageCategory = Tasks;
 
     layout
     {
@@ -45,12 +47,7 @@ page 50155 PayrollHeader
                     ToolTip = 'Specifies the value of the Employee Filter field.', Comment = '%';
 
                 }
-                field("Salary Code Filter"; Rec."Salary Code Filter")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Salary Code Filter field.', Comment = '%';
 
-                }
                 field("Shortcut Dimension 1 Filter"; Rec."Shortcut Dimension 1 Filter")
                 {
                     ApplicationArea = All;
@@ -111,4 +108,36 @@ page 50155 PayrollHeader
             }
         }
     }
+    actions
+    {
+        // 1. Define the action container area
+        area(Processing)
+        {
+            action(ProcessPayroll)
+            {
+                ApplicationArea = All;
+                Caption = 'Process Payroll';
+                ToolTip = 'Executes a process to Process Payroll';
+                Image = Calculate;
+
+                // 3. Make the action easy to find in the action bar
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedOnly = true;
+
+                // 4. Run your custom logic when clicked
+                trigger OnAction()
+
+                begin
+                    PayrollCodeunit.ProcessPayroll(Rec."Payroll Period", Rec."Shortcut Dimension 1 Filter", Rec."Shortcut Dimension 2 Filter", Rec."Employee Filter");
+                end;
+            }
+        }
+    }
+
+    var
+
+        EmployeeRec: Record Employee;
+        PayrollCodeunit: Codeunit "PayrollCodeunite";
+        PayrollHead: Record PayrollHeader;
 }

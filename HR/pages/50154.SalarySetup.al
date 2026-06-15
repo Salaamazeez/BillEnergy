@@ -2,10 +2,11 @@ namespace BILLENERGY.BILLENERGY;
 
 page 50029 SalarySetup
 {
-    ApplicationArea = All;
+    //ApplicationArea = All;
     Caption = 'Salary Setup';
     PageType = Document;
     SourceTable = SalarySetupHeader;
+    UsageCategory = Tasks;
 
     layout
     {
@@ -21,7 +22,7 @@ page 50029 SalarySetup
                     ToolTip = 'Specifies the value of the Salary Code field.', Comment = '%';
                     ApplicationArea = All;
                 }
-                field("Employee Cadre Code"; Rec."Employee Cadre Code")
+                field(Description; Rec.Description)
                 {
                     ToolTip = 'Specifies the value of the Employee Cadre Code field.', Comment = '%';
                     ApplicationArea = All;
@@ -34,11 +35,6 @@ page 50029 SalarySetup
                 field("Gross Pay"; Rec."Gross Pay")
                 {
                     ToolTip = 'Specifies the value of the Gross Pay field.', Comment = '%';
-                    ApplicationArea = All;
-                }
-                field("Reimbursable Pay"; Rec."Reimbursable Pay")
-                {
-                    ToolTip = 'Specifies the value of the Reimbursable Pay field.', Comment = '%';
                     ApplicationArea = All;
                 }
 

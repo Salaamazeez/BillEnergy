@@ -17,7 +17,7 @@ table 50194 OvertimeHeader
         field(3; "Approval Status"; Option)
         {
             Caption = 'Approval Status';
-            OptionMembers = ,Open,"Pending Approval",Approved;
+            OptionMembers = ,Open,"Pending Approval",Approved,Closed;
         }
         field(4; "Global Dimension 1 Filter"; Code[50])
         {
@@ -41,12 +41,52 @@ table 50194 OvertimeHeader
             Caption = 'Employee Filter';
             TableRelation = Employee."No.";
         }
+
+        field(8; "Paid Document No."; Code[50])
+        {
+            ToolTip = 'Specifies the value of the Document No. field.', Comment = '%';
+
+        }
+        field(9; "Overtime Paid"; Boolean)
+        {
+            ToolTip = 'Specifies the value of the Overtime Paid field.', Comment = '%';
+
+        }
     }
+
+
     keys
     {
-        key(PK; "Period Code")
+        key(PK;
+        "Period Code")
         {
             Clustered = true;
         }
     }
+
+    var
+        Overtimeline: Record OvertimeLine;
+
+    trigger OnDelete()
+
+    begin
+        Overtimeline.reset;
+        Overtimeline.setrange("Period Code", "Period Code");
+        if Overtimeline.FindSet() then
+            Overtimeline.reset;
+        Overtimeline.setrange(Overtimeline."Period Code", "Period Code");
+        Overtimeline.DeleteAll();
+    end;
+
+    procedure PerformManualClose()
+    var
+        Overtime: Record OvertimeHeader;
+    begin
+        Overtime.SetRange("Period Code", "Period Code");
+        Overtime.Setrange("Approval Status", Overtime."Approval Status"::Approved);
+        if Overtime.FindFirst() then begin
+            Overtime."Approval Status" := Overtime."Approval Status"::Closed;
+        end;
+    end;
+
 }

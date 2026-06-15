@@ -9,6 +9,7 @@ page 50150 PensionFundAdmin
     UsageCategory = Lists;
     Editable = true;
     InsertAllowed = true;
+    ModifyAllowed = true;
 
     layout
     {

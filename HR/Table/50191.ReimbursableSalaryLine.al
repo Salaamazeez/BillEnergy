@@ -46,11 +46,7 @@ table 50191 ReimbursableSalaryLines
             CaptionClass = '1,1,2';
             TableRelation = "Dimension Value".Code where("Global Dimension No." = const(2));
         }
-        field(8; "Document Date"; Date)
-        {
-            Caption = 'Document Date';
-            editable = false;
-        }
+
         field(9; "Employment Date"; Date)
         {
             Caption = 'Employment Date';
@@ -97,12 +93,7 @@ table 50191 ReimbursableSalaryLines
             Caption = 'No. of Days In the Month';
             editable = false;
         }
-        field(18; "Approval Status"; Option)
-        {
-            Caption = 'Approval Status';
-            Editable = false;
-            OptionMembers = Open,"Pending Approval",Approved,Closed;
-        }
+
         field(19; "Line No."; Integer)
         {
             Caption = 'Line No.';

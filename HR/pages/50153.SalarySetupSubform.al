@@ -49,6 +49,12 @@ page 50153 SalarySetupSubform
                     ToolTip = 'Specifies the value of the Deduction field.', Comment = '%';
                     ApplicationArea = All;
                 }
+
+                field("Function of Pension"; Rec."Function of Pension")
+                {
+                    ToolTip = 'Specifies the value of the Function of Pension field.', Comment = '%';
+                    ApplicationArea = All;
+                }
                 field(Calculated; Rec.Calculated)
                 {
                     ToolTip = 'Specifies the value of the Calculated field.', Comment = '%';

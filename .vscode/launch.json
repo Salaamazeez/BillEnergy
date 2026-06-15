@@ -11,10 +11,12 @@
             "startupObjectId": 22,
             "startupObjectType": "Page",
             "breakOnError": "All",
+            //"breakOnRecordWrite": "ExcludeTemporary",
             "launchBrowser": true,
             "enableLongRunningSqlStatements": true,
             "enableSqlInformationDebugger": true,
             "schemaUpdateMode": "ForceSync"
+
         }
     ]
 }
