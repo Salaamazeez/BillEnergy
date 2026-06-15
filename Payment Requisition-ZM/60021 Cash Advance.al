@@ -45,7 +45,7 @@ table 60021 "Cash Advance"
         }
         field(11; Posted; Boolean)
         {
-            // Editable = false;
+            Editable = false;
             Caption = 'Voucher Posted';
         }
         field(3; "Total Amount"; Decimal)

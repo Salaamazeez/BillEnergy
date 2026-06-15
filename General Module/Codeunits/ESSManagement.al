@@ -1156,7 +1156,7 @@ codeunit 50500 "ESS Management"
         JsonText: Text;
     begin
         if Requester <> '' then
-            Header.SetRange(Requester, Requester);
+            Header.SetRange("Debit Account No.", Requester);
         if DocumentNo <> '' then
             Header.SetRange("No.", DocumentNo);
         if Paid then
@@ -1167,7 +1167,7 @@ codeunit 50500 "ESS Management"
                 Clear(LinesArray);
                 HeaderObject.Add('documentNo', Header."No.");
                 HeaderObject.Add('documentDate', Format(Header.Date));
-                HeaderObject.Add('requester', Header.Requester);
+                HeaderObject.Add('requester', Header."Debit Account No.");
                 HeaderObject.Add('description', Header.Description);
 
                 Line.Reset();
@@ -1200,7 +1200,7 @@ codeunit 50500 "ESS Management"
         JsonText: Text;
     begin
         if Requester <> '' then
-            Header.SetRange(Requester, Requester);
+            Header.SetRange("Staff No.", Requester);
         if DocumentNo <> '' then
             Header.SetRange("No.", DocumentNo);
 
@@ -1243,7 +1243,7 @@ codeunit 50500 "ESS Management"
         JsonText: Text;
     begin
         if Requester <> '' then
-            Header.SetRange(Requester, Requester);
+            Header.SetRange("Staff No.", Requester);
         if DocumentNo <> '' then
             Header.SetRange("No.", DocumentNo);
 
@@ -1253,7 +1253,7 @@ codeunit 50500 "ESS Management"
                 Clear(LinesArray);
                 HeaderObject.Add('documentNo', Header."No.");
                 HeaderObject.Add('documentDate', Format(Header.Date));
-                HeaderObject.Add('requester', Header.Requester);
+                HeaderObject.Add('requester', Header."Staff No.");
 
                 Line.Reset();
                 Line.SetRange("Document No.", Header."No.");

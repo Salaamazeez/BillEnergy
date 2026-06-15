@@ -152,8 +152,22 @@ pageextension 50009 EmployeeExt extends "Employee Card"
     actions
     {
         // Add changes to page actions here
+        addafter(PayEmployee)
+        {
+            action("Sync Employee To HMRS")
+            {
+                Promoted = true;
+                PromotedCategory = Process;
+                Caption = 'Sync Employee To HMRS';
+                ApplicationArea = Basic;
+                trigger OnAction()
+                var
+                    PortalMgt: Codeunit "Portal Mgt";
+                begin
+                    PortalMgt.SendEmployeeToHRMS(Rec);
+                end;
+            }
+        }
     }
-
-    var
-        myInt: Integer;
+   
 }
