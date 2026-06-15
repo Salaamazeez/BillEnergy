@@ -17,8 +17,6 @@
             "enableSqlInformationDebugger": true,
             "schemaUpdateMode": "ForceSync"
 
-           
-            
         }
     ]
 }

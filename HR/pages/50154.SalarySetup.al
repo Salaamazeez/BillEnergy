@@ -2,7 +2,7 @@ namespace BILLENERGY.BILLENERGY;
 
 page 50029 SalarySetup
 {
-    ApplicationArea = All;
+    //ApplicationArea = All;
     Caption = 'Salary Setup';
     PageType = Document;
     SourceTable = SalarySetupHeader;

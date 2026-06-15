@@ -11,6 +11,7 @@ codeunit 50010 PayrollCodeunite
         Window: Dialog;
         DaysWorked: Integer;
         NoOfDaysInPayPeriod: Integer;
+        Paye: Decimal;
 
         PoratePay: Boolean;
         LastDateOfMonth: Date;
@@ -297,12 +298,16 @@ codeunit 50010 PayrollCodeunite
         ElementAmount := 0;
         OtherEarnAmt := 0;
 
+        /*
         IF (PayrollElementL."Function of Poration") THEN BEGIN //Need to add element to be porated
             IF ((PoratePay) AND (PayrollElementL."Function of Poration")) THEN
                 ElementAmount := ROUND(((SalarySetupLineL.Amount / NoOfDaysInPayPeriod) * DaysWorked), 0.01, '>')
             ELSE
                 ElementAmount := ROUND(SalarySetupLineL.Amount, 0.01, '>');
         END;
+        */
+
+        ElementAmount := ROUND(SalarySetupLineL.Amount, 0.01, '>');
 
         IF (PayrollElementL."Is Basic") THEN
             BasicAmt := ElementAmount;
@@ -367,11 +372,17 @@ codeunit 50010 PayrollCodeunite
         //Get other Deduction from Payroll Other Variable Table and Loan
         IF PayrollOtherVar.GET(EmployeeL."No.", PayPeriodCode, PayrollElementL."Element Code") THEN BEGIN
             //IF PayrollOtherVar.Deducted THEN BEGIN
-            //IF PayrollElementL."Is Absence" THEN
+            IF PayrollElementL."Is Absence" THEN begin
+                ElementAmount := ((PayrollOtherVar."Gross Pay" - (PensionAmt + Paye)) / (PayrollOtherVar."Maximum Working Hour" * NoOfDaysInPayPeriod) * PayrollOtherVar."Hours/Days Late");
+            end;
+
+            if PayrollElementL."Is Late" then begin
+                ElementAmount := ((PayrollOtherVar."Gross Pay" - (PensionAmt + Paye)) / (PayrollOtherVar."Maximum Working Hour" * NoOfDaysInPayPeriod) * PayrollOtherVar."Hours/Days Late");
+            end;
             //ElementAmount:=ROUND(((SumGross/30)*(PayrollOtherVar.Quantity)),0.01,'>')
             //ELSE
-            IF PayrollElementL.Deduction THEN
-                ElementAmount := ROUND((PayrollOtherVar.Amount), 0.01, '>');
+            //IF PayrollElementL.Deduction THEN
+            //  ElementAmount := ROUND((PayrollOtherVar.Amount), 0.01, '>');
             //END;
             //IF (PayrollOtherVar.Type=PayrollOtherVar.Type::Deduction) THEN
             SumDeduction += ElementAmount;
@@ -534,7 +545,10 @@ codeunit 50010 PayrollCodeunite
         PayrollDetailLine."Pension Fund No." := EmployeeL."RSA PIN";
         PayrollDetailLine."Payroll Bank" := EmployeeL."Payroll Bank";
         PayrollDetailLine."Bank Account No." := EmployeeL."Bank Account No.";
-        PayrollDetailLine."Absent (Days)" := PayrollOtherVar."Hours Late/Days Absent";
+        PayrollDetailLine."No of Late/Absent (Hr)" := PayrollOtherVar."Hours/Days Late";
+        //PayrollDetailLine."Absent (Days)" := PayrollOtherVar."Hours/Days Late";
+        //PayrollDetailLine."Late Days" := PayrollOtherVar."Hours/Days Late";
+
         PayrollDetailLine."Payable Amount" := ElementAmt;
         PayrollDetailLine."No of Days In the Month" := NoOfDaysInPayPeriod;
         PayrollDetailLine."No of Worked Days" := DaysWorked;
@@ -594,6 +608,7 @@ codeunit 50010 PayrollCodeunite
         PensionRelief := 0;
         CompPension2 := 0;
         RentRelief := 0;
+        Paye := 0;
 
         AnnualGross := (MonthlyGross * 12);
 
@@ -712,7 +727,7 @@ codeunit 50010 PayrollCodeunite
                 CASE PayrollTaxline."Line No." OF
                     10000:
                         BEGIN
-                            PayrollTaxline.TESTFIELD("Tax Slab%");
+                            PayrollTaxline.TESTFIELD("Tax Slab%", 0);
                             //PayrollTaxline.TESTFIELD("Tax Slab2 %");
                             PayrollTaxline.TESTFIELD("Upper Limit");
                             PayrollTaxline.TESTFIELD("Lower Limit", 0);
@@ -741,7 +756,7 @@ codeunit 50010 PayrollCodeunite
                     20000:
                         BEGIN
                             PayrollTaxline.TESTFIELD("Tax Slab%");
-                            PayrollTaxline.TESTFIELD("Upper Limit", 0);
+                            PayrollTaxline.TESTFIELD("Upper Limit");
                             PayrollTaxline.TESTFIELD("Lower Limit");
 
                             IF (TaxableIncome - PayrollTaxline."Lower Limit") >= PayrollTaxline."Upper Limit" THEN BEGIN
@@ -762,7 +777,7 @@ codeunit 50010 PayrollCodeunite
                     30000:
                         BEGIN
                             PayrollTaxline.TESTFIELD("Tax Slab%");
-                            PayrollTaxline.TESTFIELD("Upper Limit", 0);
+                            PayrollTaxline.TESTFIELD("Upper Limit");
                             PayrollTaxline.TESTFIELD("Lower Limit");
 
                             IF (TaxableIncome - PayrollTaxline."Lower Limit") >= PayrollTaxline."Upper Limit" THEN BEGIN
@@ -846,9 +861,10 @@ codeunit 50010 PayrollCodeunite
                 END;
             UNTIL PayrollTaxline.NEXT = 0;
 
-            if cumTax <> 0 then
+            if cumTax <> 0 then Begin
+                Paye := ROUND((CumTax / 12), 0.01, '>');
                 EXIT(ROUND(((CumTax / 12)), 0.01, '>'))
-            else
+            end else
                 EXIT(0);
 
             /*
@@ -1037,6 +1053,219 @@ codeunit 50010 PayrollCodeunite
 
         ReimbursableSalarylines.INSERT(TRUE);
 
+    END;
+
+
+    PROCEDURE CalculateOTTax(MonthlyGross: Decimal; EmployeeLRec: Record Employee; PayPeriod: Code[10]; SumPension: Decimal): Decimal;
+    VAR
+        PayrollTax: Record PayrollTaxHeader;
+        PayrollTaxline: Record PayrollTaxLine;
+        Payelement: Record PayrollElement;
+        CRA: Decimal;
+        Tax: Decimal;
+        CumTax: Decimal;
+        TotalReleif: Decimal;
+        AnnualGross: Decimal;
+        AnnualPension: Decimal;
+        AllowRelief: Decimal;
+    BEGIN
+
+        Tax := 0;
+        CumTax := 0;
+        CRA := 0;
+
+        LifeRelief := 0;
+        EVCRelief := 0;
+        AllowRelief := 0;
+        NHFRelief := 0;
+        NHISRelief := 0;
+        PensionRelief := 0;
+        CompPension2 := 0;
+        RentRelief := 0;
+        AllowRelief := 0;
+        AnnualGross := 0;
+        //AnnualPension := 0;
+
+        AnnualGross := (MonthlyGross * 12);
+        //AnnualPension := (SumPension * 12);
+
+        //Calculate Total Taxable Income
+
+        TotalTaxableIncome := (AnnualGross);
+
+        //Get the Payroll Tax Setup
+        PayrollTax.RESET;
+        //PayrollTax.SETRANGE("Payroll Tax Year",CurrentYear);
+        PayrollTax.SETFILTER(Open, '%1', true);
+        IF (NOT PayrollTax.FINDFIRST) THEN
+            ERROR(Text005)
+        ELSE BEGIN
+            PayrollTax.TESTFIELD("Rent Relief Cap");
+            PayrollTax.TESTFIELD("Rent Relief%");
+        END;
+
+        //Calculate the Releifs - Allowance, Pension, NHIS, NHF , LIFE , EVC, HMODed
+
+        //PENSION
+        Payelement.RESET;
+        Payelement.SETFILTER("Is Pension Employee", '%1', TRUE);
+        IF Payelement.FINDFIRST THEN BEGIN
+            if HRSetup.Get then
+                HRSetup.TestField("Pension Employee %");
+
+            PensionRelief := ((SumPension * (HRSetup."Pension Employee %" / 100)) * 12);
+        END ELSE
+            Error('Employee Pension is not Setup in the Payroll Element');
+
+        //Rent Relief
+        //CRA := (PayrollTax."Rent Relief%" / 100) * EmployeeLRec."Rent Amount";
+
+        //if (CRA > PayrollTax."Rent Relief Cap") then
+        //  RentRelief := PayrollTax."Rent Relief Cap"
+        //else
+        //  RentRelief := CRA;
+        RentRelief := PayrollTax."Rent Relief Cap";
+
+        //FINAct 2022
+        AllowRelief := EVCRelief + LifeRelief + NHFRelief + RentRelief + PensionRelief + NHISRelief + HMOAmt;
+
+
+        //Calculate The Net Taxable Income
+        //FINAct 2022
+        TaxableIncome := AnnualGross - AllowRelief;
+
+        //Claculate the Tax from the Payroll Tax Line
+        PayrollTaxline.SETRANGE("Tax Code", PayrollTax."Tax Code");
+        //PayrollTaxline.SETRANGE("Payroll Tax Year",PayrollTax."Payroll Tax Year");
+        IF PayrollTaxline.FINDSET THEN BEGIN
+            REPEAT
+                CASE PayrollTaxline."Line No." OF
+                    10000:
+                        BEGIN
+                            PayrollTaxline.TESTFIELD("Tax Slab%", 0);
+                            //PayrollTaxline.TESTFIELD("Tax Slab2 %");
+                            PayrollTaxline.TESTFIELD("Upper Limit");
+                            PayrollTaxline.TESTFIELD("Lower Limit", 0);
+
+                            IF (TaxableIncome >= PayrollTaxline."Lower Limit") AND (TaxableIncome <= PayrollTaxline."Upper limit") THEN BEGIN
+                                Tax := (PayrollTaxline."Tax Slab%" / 100) * PayrollTaxline."Upper Limit";
+                                CumTax += Tax;
+                            END;
+                        END;
+
+                    20000:
+                        BEGIN
+                            PayrollTaxline.TESTFIELD("Tax Slab%");
+                            PayrollTaxline.TESTFIELD("Upper Limit");
+                            PayrollTaxline.TESTFIELD("Lower Limit");
+
+                            IF (TaxableIncome - PayrollTaxline."Lower Limit") >= PayrollTaxline."Upper Limit" THEN BEGIN
+                                Tax := 0;
+                                Tax := (PayrollTaxline."Tax Slab%" / 100) * PayrollTaxline."Upper Limit";
+                                CumTax += Tax;
+                            END ELSE
+                                IF (TaxableIncome - PayrollTaxline."Lower Limit") <= 0 THEN BEGIN
+                                    Tax := 0;
+                                    CumTax += Tax;
+                                END ELSE BEGIN
+                                    Tax := 0;
+                                    Tax := (PayrollTaxline."Tax Slab%" / 100) * (TaxableIncome - PayrollTaxline."Lower Limit");
+                                    CumTax += Tax;
+                                END;
+                        END;
+
+                    30000:
+                        BEGIN
+                            PayrollTaxline.TESTFIELD("Tax Slab%");
+                            PayrollTaxline.TESTFIELD("Upper Limit");
+                            PayrollTaxline.TESTFIELD("Lower Limit");
+
+                            IF (TaxableIncome - PayrollTaxline."Lower Limit") >= PayrollTaxline."Upper Limit" THEN BEGIN
+                                Tax := 0;
+                                Tax := (PayrollTaxline."Tax Slab%" / 100) * PayrollTaxline."Upper Limit";
+                                CumTax += Tax;
+                            END ELSE
+                                IF (TaxableIncome - PayrollTaxline."Lower Limit") <= 0 THEN BEGIN
+                                    Tax := 0;
+                                    CumTax += Tax;
+                                END ELSE BEGIN
+                                    Tax := 0;
+                                    Tax := (PayrollTaxline."Tax Slab%" / 100) * (TaxableIncome - PayrollTaxline."Lower Limit");
+                                    CumTax += Tax;
+                                END;
+                        END;
+
+                    40000:
+                        BEGIN
+                            PayrollTaxline.TESTFIELD("Tax Slab%");
+                            PayrollTaxline.TESTFIELD("Upper Limit");
+                            PayrollTaxline.TESTFIELD("Lower Limit");
+
+                            IF (TaxableIncome - PayrollTaxline."Lower Limit") >= PayrollTaxline."Upper Limit" THEN BEGIN
+                                Tax := 0;
+                                Tax := (PayrollTaxline."Tax Slab%" / 100) * PayrollTaxline."Upper Limit";
+                                CumTax += Tax;
+                            END ELSE
+                                IF (TaxableIncome - PayrollTaxline."Lower Limit") <= 0 THEN BEGIN
+                                    Tax := 0;
+                                    CumTax += Tax;
+                                END ELSE BEGIN
+                                    Tax := 0;
+                                    Tax := (PayrollTaxline."Tax Slab%" / 100) * (TaxableIncome - PayrollTaxline."Lower Limit");
+                                    CumTax += Tax;
+                                END;
+                        END;
+
+                    50000:
+                        BEGIN
+                            PayrollTaxline.TESTFIELD("Tax Slab%");
+                            PayrollTaxline.TESTFIELD("Upper Limit");
+                            PayrollTaxline.TESTFIELD("Lower Limit");
+
+                            IF (TaxableIncome - PayrollTaxline."Lower Limit") >= PayrollTaxline."Upper Limit" THEN BEGIN
+                                Tax := 0;
+                                Tax := (PayrollTaxline."Tax Slab%" / 100) * PayrollTaxline."Upper Limit";
+                                CumTax += Tax;
+                            END ELSE
+                                IF (TaxableIncome - PayrollTaxline."Lower Limit") <= 0 THEN BEGIN
+                                    Tax := 0;
+                                    CumTax += Tax;
+                                END ELSE BEGIN
+                                    Tax := 0;
+                                    Tax := (PayrollTaxline."Tax Slab%" / 100) * (TaxableIncome - PayrollTaxline."Lower Limit");
+                                    CumTax += Tax;
+                                END;
+                        END;
+
+                    60000:
+                        BEGIN
+                            PayrollTaxline.TESTFIELD("Tax Slab%");
+                            PayrollTaxline.TESTFIELD("Upper Limit");
+                            PayrollTaxline.TESTFIELD("Lower Limit");
+
+                            IF (TaxableIncome - PayrollTaxline."Lower Limit") >= PayrollTaxline."Upper Limit" THEN BEGIN
+                                Tax := 0;
+                                Tax := (PayrollTaxline."Tax Slab%" / 100) * (TaxableIncome - PayrollTaxline."Upper Limit");
+                                CumTax += Tax;
+                            END ELSE
+                                IF (TaxableIncome - PayrollTaxline."Lower Limit") <= 0 THEN BEGIN
+                                    Tax := 0;
+                                    CumTax += Tax;
+                                END ELSE BEGIN
+                                    Tax := 0;
+                                    Tax := (PayrollTaxline."Tax Slab%" / 100) * (TaxableIncome - PayrollTaxline."Lower Limit");
+                                    CumTax += Tax;
+                                END;
+                        END;
+
+                END;
+            UNTIL PayrollTaxline.NEXT = 0;
+
+            if cumTax <> 0 then
+                EXIT(ROUND(((CumTax / 12)), 0.01, '>'))
+            else
+                EXIT(0);
+        END;
     END;
 
 }

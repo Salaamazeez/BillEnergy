@@ -117,7 +117,7 @@ page 50168 PayrollOthervariables
                 {
                     ToolTip = 'Specifies the value of the Hourly Rate field.', Comment = '%';
                 }
-                field("Hours Late/Days Absent"; Rec."Hours Late/Days Absent")
+                field("Hours/Days Late"; Rec."Hours/Days Late")
                 {
                     ToolTip = 'Specifies the value of the Hours Late/Days Absent field.', Comment = '%';
                 }

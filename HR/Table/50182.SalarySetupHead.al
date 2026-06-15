@@ -83,18 +83,22 @@ table 50182 SalarySetupHeader
 
                         If ("Apply to" = "Apply to"::"Office Staff") then begin
                             If PayElement."Is Basic" then begin
+                                SalSetupLine."Function of Pension" := true;
                                 SalSetupLine."Calculation formula" := '60% of Gross Pay';
                                 SalSetupLine.Amount := (HRSetup."Office Basic %" / 100) * "Gross Pay";
                                 BasicAmt := (HRSetup."Office Basic %" / 100) * "Gross Pay";
+
                                 SumForPension += BasicAmt;
                             end;
                             If PayElement."Is House" then begin
+                                SalSetupLine."Function of Pension" := true;
                                 SalSetupLine."Calculation formula" := '20% of Gross Pay';
                                 SalSetupLine.Amount := (HRSetup."Office House %" / 100) * "Gross Pay";
                                 HouseAAmt := (HRSetup."Office House %" / 100) * "Gross Pay";
                                 SumForPension += HouseAAmt;
                             end;
                             If PayElement."Is Transport" then begin
+                                SalSetupLine."Function of Pension" := true;
                                 SalSetupLine."Calculation formula" := '20% of Gross Pay';
                                 SalSetupLine.Amount := (HRSetup."Office Transport %" / 100) * "Gross Pay";
                                 TransportAmt := (HRSetup."Office Transport %" / 100) * "Gross Pay";
@@ -146,6 +150,7 @@ table 50182 SalarySetupHeader
 
                         If ("Apply to" = "Apply to"::"Rig Staff") then begin
                             If PayElement."Is Basic" then begin
+                                SalSetupLine."Function of Pension" := true;
                                 SalSetupLine."Calculation formula" := '40% of Gross Pay';
                                 SalSetupLine.Amount := (HRSetup."Rig Basic %" / 100) * "Gross Pay";
                                 BasicAmt := (HRSetup."Rig Basic %" / 100) * "Gross Pay";
@@ -153,12 +158,14 @@ table 50182 SalarySetupHeader
                             end;
 
                             If PayElement."Is House" then begin
+                                SalSetupLine."Function of Pension" := true;
                                 SalSetupLine."Calculation formula" := '14% of Gross Pay';
                                 SalSetupLine.Amount := (HRSetup."Rig House %" / 100) * "Gross Pay";
                                 HouseAAmt := (HRSetup."Rig House %" / 100) * "Gross Pay";
                                 SumForPension += HouseAAmt;
                             end;
                             If PayElement."Is Transport" then begin
+                                SalSetupLine."Function of Pension" := true;
                                 SalSetupLine."Calculation formula" := '9% of Gross Pay';
                                 SalSetupLine.Amount := (HRSetup."Rig Transport %" / 100) * "Gross Pay";
                                 TransportAmt := (HRSetup."Rig Transport %" / 100) * "Gross Pay";

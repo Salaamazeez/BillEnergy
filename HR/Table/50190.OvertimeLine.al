@@ -131,7 +131,11 @@ table 50190 OvertimeLine
             Caption = 'Line No.';
             Editable = false;
         }
-
+        field(17; "Net Pay"; Decimal)
+        {
+            Caption = 'Net Pay';
+            Editable = false;
+        }
 
 
     }

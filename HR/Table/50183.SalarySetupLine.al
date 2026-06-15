@@ -52,6 +52,10 @@ table 50183 SalarySetupLine
         {
             Caption = 'Use formula';
         }
+        field(17; "Function of Pension"; Boolean)
+        {
+            Caption = 'Function of Pension';
+        }
 
     }
     keys

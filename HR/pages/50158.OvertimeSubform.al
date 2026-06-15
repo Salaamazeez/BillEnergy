@@ -69,6 +69,11 @@ page 50159 OvertimeSubform
                     ToolTip = 'Specifies the value of the Gross Pay field.', Comment = '%';
                     ApplicationArea = All;
                 }
+                field("Net Pay"; Rec."Net Pay")
+                {
+                    ToolTip = 'Specifies the value of the Net Pay field.', Comment = '%';
+                    ApplicationArea = All;
+                }
                 field("Overtime Amount"; Rec."Overtime Amount")
                 {
                     ToolTip = 'Specifies the value of the Overtime Amount field.', Comment = '%';

@@ -20,7 +20,7 @@ report 50116 ImportPayrollOtherVar
                 PayrollOtherVar.VALIDATE("Employee No.", ColText[1]);
                 PayrollOtherVar.Validate("Payroll Period", ColText[2]);
                 PayrollOtherVar.Validate("Element Code", ColText[3]);
-                Evaluate(PayrollOtherVar."Hours Late/Days Absent", ColText[4]);
+                Evaluate(PayrollOtherVar."Hours/Days Late", ColText[4]);
                 IF (NOT PayrollOtherVar.INSERT(True)) then
                     PayrollOtherVar.Modify();
             end;
