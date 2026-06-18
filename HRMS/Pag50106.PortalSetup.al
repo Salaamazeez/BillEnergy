@@ -30,6 +30,10 @@ page 50106 "Portal Setup"
                 {
                     ToolTip = 'Specifies the value of the Authorization Key field.', Comment = '%';
                 }
+                  field("Update Employee Status Url";Rec."Update Employee Status Url")
+                {
+                    ToolTip = 'Specifies the value of the Update Employee Status Url field.', Comment = '%';
+                }
             }
         }
     }

@@ -167,6 +167,20 @@ pageextension 50009 EmployeeExt extends "Employee Card"
                     PortalMgt.SendEmployeeToHRMS(Rec);
                 end;
             }
+
+             action("Update Employee To HMRS")
+            {
+                Promoted = true;
+                PromotedCategory = Process;
+                Caption = 'Update Employee To HMRS';
+                ApplicationArea = Basic;
+                trigger OnAction()
+                var
+                    PortalMgt: Codeunit "Portal Mgt";
+                begin
+                    PortalMgt.UpdateEmployeeStatusToHRMS(Rec);
+                end;
+            }
         }
     }
    

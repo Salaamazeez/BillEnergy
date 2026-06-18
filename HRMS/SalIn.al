@@ -85,6 +85,7 @@ codeunit 50643 "Portal Mgt"
         HttpContent.GetHeaders(HttpHeaders);
         HttpHeaders.Remove('Content-Type');
         HttpHeaders.Add('Content-Type', 'application/json');
+        HttpHeaders.Add('X-BC-Webhook-Key', PortalSetup."Authorization Key");
         HttpRequestMessage.Content(HttpContent);
         if HttpClient.Send(HttpRequestMessage, HttpResponseMessage) then begin
             JsonString := '';
@@ -97,4 +98,52 @@ codeunit 50643 "Portal Mgt"
             // Error('Failed to sync employee to HRMS: %1', HttpResponseMessage.ReasonPhrase());
         end;
     end;
+
+    procedure UpdateEmployeeStatusToHRMS(Employee: Record Employee)
+    var
+        HttpClient: HttpClient;
+        HttpContent: HttpContent;
+        HttpHeaders: HttpHeaders;
+        HttpRequestMessage: HttpRequestMessage;
+        HttpResponseMessage: HttpResponseMessage;
+        JsonObject: JsonObject;
+        RequestBody: Text;
+        BaseUrl: Text[200];
+        PortalSetup: Record "Portal Mgt";
+        JsonString: Text;
+        ResponseText: Text;
+    begin
+        PortalSetup.Get();
+        BaseUrl := PortalSetup."Base Url" + PortalSetup."Update Employee Status Url";
+        JsonObject.Add('employeeNo', Employee."No.");
+        if Employee.Status = Employee.Status::Active then begin
+            JsonObject.Add('action', 'enable');
+            JsonObject.Add('reason', 'Reinstated')
+        end else begin
+            JsonObject.Add('action', 'disable');
+            JsonObject.Add('reason', 'Terminated')
+        end;
+        JsonObject.WriteTo(RequestBody);
+        Message(RequestBody);
+        HttpRequestMessage.Method := 'POST';
+        HttpRequestMessage.SetRequestUri(BaseUrl);
+        HttpContent.WriteFrom(RequestBody);
+        HttpContent.GetHeaders(HttpHeaders);
+        HttpHeaders.Remove('Content-Type');
+        HttpHeaders.Add('Content-Type', 'application/json');
+        HttpHeaders.Add('X-BC-Webhook-Key', PortalSetup."Authorization Key");
+        HttpRequestMessage.Content(HttpContent);
+        if HttpClient.Send(HttpRequestMessage, HttpResponseMessage) then begin
+            JsonString := '';
+            if HttpResponseMessage.IsSuccessStatusCode() then begin
+                HttpResponseMessage.Content.ReadAs(JsonString);
+                Message(JsonString);
+            end else
+                HttpResponseMessage.Content.ReadAs(ResponseText);
+            Message(ResponseText);
+            // Error('Failed to sync employee to HRMS: %1', HttpResponseMessage.ReasonPhrase());
+        end;
+    end;
+
+
 }

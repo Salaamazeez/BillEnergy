@@ -13,13 +13,17 @@ table 50383 "Portal Mgt"
         }
         field(3; "Employee Url"; Text[50])
         {
-            
+
         }
         field(4; "Vendor Url"; Text[50])
         {
 
         }
         field(5; "Authorization Key"; Text[100])
+        {
+
+        }
+        field(6; "Update Employee Status Url"; Text[50])
         {
 
         }
