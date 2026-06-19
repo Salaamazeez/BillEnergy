@@ -78,7 +78,7 @@ codeunit 50643 "Portal Mgt"
         JsonObject.Add('shortcutDimension1Code', Vendor."Global Dimension 1 Code");
         JsonObject.Add('phoneNo', Vendor."Phone No.");
         JsonObject.WriteTo(RequestBody);
-        Message(RequestBody);
+        //Message(RequestBody);
         HttpRequestMessage.Method := 'POST';
         HttpRequestMessage.SetRequestUri(BaseUrl);
         HttpContent.WriteFrom(RequestBody);
@@ -124,7 +124,7 @@ codeunit 50643 "Portal Mgt"
             JsonObject.Add('reason', 'Terminated')
         end;
         JsonObject.WriteTo(RequestBody);
-        Message(RequestBody);
+        //Message(RequestBody);
         HttpRequestMessage.Method := 'POST';
         HttpRequestMessage.SetRequestUri(BaseUrl);
         HttpContent.WriteFrom(RequestBody);
