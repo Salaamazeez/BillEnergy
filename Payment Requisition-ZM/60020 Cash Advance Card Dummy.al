@@ -54,7 +54,7 @@ page 50024 "Cash Advance Card Dummy"
                 field("Transaction type"; Rec."Transaction type")
                 {
                     ApplicationArea = All;
-
+Visible = false;
                 }
                 field(Treated; rec.Treated)
                 {

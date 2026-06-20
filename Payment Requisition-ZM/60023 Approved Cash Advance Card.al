@@ -47,12 +47,12 @@ page 60023 "Approved Cash Advance Card"
                 field("Transaction type"; Rec."Transaction type")
                 {
                     ApplicationArea = All;
-                    Editable = true;
+                    Visible = false;
                 }
                 field("Loan ID"; Rec."Loan ID")
                 {
                     ApplicationArea = All;
-                    Editable = true;
+                    Visible = false;
                 }
                 field("Debit  Account Type"; Rec."Debit  Account Type")
                 {

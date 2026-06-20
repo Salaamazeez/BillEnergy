@@ -25,12 +25,12 @@ page 50169 "Cash Receipt Card"
                 field("Transaction type"; Rec."Transaction type")
                 {
                     ApplicationArea = All;
-                    Visible = true;
+                    Visible = false;
                 }
                 field("Loan ID"; Rec."Loan ID")
                 {
                     ApplicationArea = All;
-                    Editable = true;
+                    Editable = false;
                 }
                 field("Date"; Rec."Date")
                 {
