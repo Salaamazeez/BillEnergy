@@ -1,6 +1,7 @@
 page 50512 "Apprvd SRQ Awaiting ISSUE List"
 {
     //Created by Salaam Azeez
+    Caption = 'Approved Store Requisition List';
     PageType = List;
     ApplicationArea = All;
     UsageCategory = Lists;

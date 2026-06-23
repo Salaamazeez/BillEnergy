@@ -97,7 +97,9 @@ table 60021 "Cash Advance"
         }
         field(15; "Debit  Account Type"; Option)
         {
+            Caption = 'Payee Type';
             DataClassification = ToBeClassified;
+            OptionCaption = 'G/L Account,Vendor,Staff,Bank Account';
             OptionMembers = "G/L Account",Vendor,Staff,"Bank Account";
             InitValue = Staff;
         }
@@ -256,7 +258,7 @@ table 60021 "Cash Advance"
         {
             Editable = false;
         }
-        
+
 
         field(50100; "Retired Amount"; Decimal) { }
 

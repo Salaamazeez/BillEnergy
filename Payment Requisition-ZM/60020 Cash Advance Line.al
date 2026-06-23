@@ -155,7 +155,7 @@ table 60020 "Cash Advance Line"
                         END;
                     "Account Type"::"Bank Account":
                         BEGIN
-                            BankAccount.GET("Account No.");
+                        if    BankAccount.GET("Account No.") then
                             "Account Name" := BankAccount.Name;
                         END;
 

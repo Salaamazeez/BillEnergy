@@ -67,7 +67,7 @@ pageextension 50207 PurchaseOrderExt extends "Purchase Order"
                     '[{"No":"INV-000001","Description":"Laptop Computer","Quantity":2,"UnitCost":250000,"Amount":500000},' +
                     '{"No":"INV-000002","Description":"Office Chair","Quantity":4,"UnitCost":75000,"Amount":300000}]';
 
-                    Result := ESSMgt.CreateOrEditPurchaseInvoice('', 'DV-0000001', '102001', PurchaseLines);
+                    //Result := ESSMgt.CreateOrEditPurchaseInvoice('', 'DV-0000001', '102001', PurchaseLines);
                     Message(Result);
                 end;
             }
