@@ -27,12 +27,12 @@ page 50528 "Pending Payment Voucher Card"
                 field("Transaction type"; Rec."Transaction type")
                 {
                     ApplicationArea = All;
-                    Editable = true;
+                    Visible = false;
                 }
                 field("Loan ID"; Rec."Loan ID")
                 {
                     ApplicationArea = All;
-                    Editable = true;
+                    Visible = false;
                 }
                 field(Requester; REC.Requester)
                 {

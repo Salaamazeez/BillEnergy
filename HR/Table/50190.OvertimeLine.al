@@ -136,7 +136,16 @@ table 50190 OvertimeLine
             Caption = 'Net Pay';
             Editable = false;
         }
-
+        field(18; "PAYE"; Decimal)
+        {
+            Caption = 'PAYE';
+            Editable = false;
+        }
+        field(19; "Pension"; Decimal)
+        {
+            Caption = 'Pension';
+            Editable = false;
+        }
 
     }
     keys

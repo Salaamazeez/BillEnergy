@@ -47,7 +47,7 @@ page 60024 "Pending Cash Advance Card"
                 field("Transaction type"; Rec."Transaction type")
                 {
                     ApplicationArea = All;
-
+                    Visible = false;
                 }
                 field("Debit  Account Type"; Rec."Debit  Account Type")
                 {

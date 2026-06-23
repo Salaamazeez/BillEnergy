@@ -198,17 +198,35 @@ page 50155 PayrollHeader
 
     trigger OnOpenPage()
     begin
-        If UserSteup.Get(UserId) then;
-        //UserSteup.TestField("Global Dimension 1 Code");
+        If UserSteup.Get(UserId) then
+            if (UserSteup."Global Dimension 1 Code" <> '') then begin
+                //UserSteup.TestField("Global Dimension 1 Code");
 
-        //Rec.FilterGroup(2);
-        //Rec.SetRange("Shortcut Dimension 1 Filter", UserSteup."Global Dimension 1 Code");
-        //Rec.FilterGroup(0);
+                //Rec.FilterGroup(2);
+                //Rec.SetRange("Shortcut Dimension 1 Filter", UserSteup."Global Dimension 1 Code");
+                //Rec.FilterGroup(0);
+            end;
     end;
+
+    trigger OnDeleteRecord(): Boolean
+    begin
+        PayrollDetLines.Reset();
+        PayrollDetLines.SetRange("Payroll Period", rec."Payroll Period");
+        if PayrollDetLines.FindSet() then
+            PayrollDetLines.DeleteAll();
+
+        PayrollLines.Reset();
+        PayrollLines.SetRange("Payroll Period", rec."Payroll Period");
+        if PayrollLines.FindSet() then
+            PayrollLines.DeleteAll();
+    end;
+
 
     var
         UserSteup: Record "User Setup";
         EmployeeRec: Record Employee;
         PayrollCodeunit: Codeunit "PayrollCodeunite";
         PayrollHead: Record PayrollHeader;
+        PayrollLines: Record PayrollLine;
+        PayrollDetLines: Record PayrollDetailLine;
 }

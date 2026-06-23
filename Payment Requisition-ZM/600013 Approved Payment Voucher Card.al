@@ -27,12 +27,12 @@ page 50504 "Approved Payment Voucher Card"
                 field("Transaction type"; Rec."Transaction type")
                 {
                     ApplicationArea = All;
-                    Editable = true;
+                    Visible = false;
                 }
                 field("Loan ID"; Rec."Loan ID")
                 {
                     ApplicationArea = All;
-                    Editable = true;
+                    Visible = false;
                 }
                 field("Applies-to Invoice No."; Rec."Applies-to Invoice No.")
                 {

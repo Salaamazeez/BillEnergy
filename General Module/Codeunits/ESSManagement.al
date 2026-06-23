@@ -43,7 +43,7 @@ codeunit 50500 "ESS Management"
             Header."Voucher Created?" := VoucherCreated;
             Header."Transaction type" := TransactionType;
             Header."Loan ID" := LoanId;
-            Header.Modify(true);
+            //Header.Modify(true);
 
             // DELETE OLD LINES
             Line.Reset();
@@ -120,10 +120,13 @@ codeunit 50500 "ESS Management"
             // Line.Validate("Account Type", AccType);
             // Line.Validate("Account No.", AccountNo);
             Line.Validate(Amount, Amount);
-            Line.Validate("Shortcut Dimension 1 Code", ShortcutDimCode1);
-            Line.Validate("Shortcut Dimension 2 Code", ShortcutDimCode2);
+            //Line.Validate("Shortcut Dimension 1 Code", ShortcutDimCode1);
+            //Line.Validate("Shortcut Dimension 2 Code", ShortcutDimCode2);
             Line.Insert(true);
         end;
+        Header.Validate(Status, Header.Status::Approved);
+        Header.Modify();
+
 
         Clear(DataObject);
         Clear(ResponseObject);
@@ -252,6 +255,8 @@ codeunit 50500 "ESS Management"
 
             // if JsonObject.Get('ShortcutDimension2Code', JsonToken) then
             //     Dim2 := JsonToken.AsValue().AsCode();
+            Header.Validate(Status, Header.Status::Approved);
+            Header.Modify();
 
             Clear(Line);
             Line.Init();
@@ -401,6 +406,8 @@ codeunit 50500 "ESS Management"
             Line.Validate("Gen Bus. Posting Group", GenBusPostingGroup);
             Line.Insert(true);
         end;
+        Header.Validate(Status, Header.Status::Approved);
+        Header.Modify();
 
         DataObject.Add('No', Header."No.");
         DataObject.Add('processedLines', LineCount);
@@ -560,6 +567,8 @@ codeunit 50500 "ESS Management"
             Line.Validate("Gen Bus. Posting Group", GenBusPostingGroup);
             Line.Modify(true);
         end;
+        Header.Validate(Status, Header.Status::Approved);
+        Header.Modify();
 
         DataObject.Add('No', Header."No.");
         DataObject.Add('processedLines', LineCount);
@@ -618,7 +627,7 @@ codeunit 50500 "ESS Management"
             // Header.Validate("Currency Code", CurrencyCode);
             Header.Validate(Purpose, Purpose);
             //Header.Validate("Cash Recpt No./Pmt Voucher", CashReceiptNo);
-            Header.Modify(true);
+            //Header.Modify(true);
 
             Line.Reset();
             Line.SetRange("Document No.", Header."No.");
@@ -640,7 +649,7 @@ codeunit 50500 "ESS Management"
             Header.Validate("Currency Code", CurrencyCode);
             Header.Validate(Purpose, Purpose);
             //Header.Validate("Cash Recpt No./Pmt Voucher", CashReceiptNo);
-            Header.Modify(true);
+            //Header.Modify(true);
         end;
 
         if not JsonArray.ReadFrom(RetirementLines) then
@@ -719,6 +728,9 @@ codeunit 50500 "ESS Management"
             Line.Validate(Amount, LineAmount);
             Line.Modify(true);
         end;
+        Header.Validate(Status, Header.Status::Approved);
+        Header.Modify();
+
 
         DataObject.Add('No', Header."No.");
         DataObject.Add('processedLines', LineCount);
@@ -760,6 +772,8 @@ codeunit 50500 "ESS Management"
             Header.Validate("Leave Type", LeaveType);
             Header.Modify(true);
         end;
+        Header.Validate(Status, Header.Status::Approved);
+        Header.Modify();
 
         DataObject.Add('LeaveCode', Header."Leave Code");
         ResponseObject.Add('success', true);
@@ -814,7 +828,7 @@ codeunit 50500 "ESS Management"
             //exit(StrSubstNo('Reachable %1', Header, EntryNo));
             Year := Date2DMY(Header."From Date", 3);//leaveCode
             Header."Leave Code" := leaveCode;//
-             Header."Adjustment Type" := 0;//
+            Header."Adjustment Type" := 0;//
             Header."Leave Adjustment" := false;//
             if Year > 2000 then
                 Header."Leave Year" := Year;
@@ -927,6 +941,8 @@ codeunit 50500 "ESS Management"
                 Line.Insert(true);
             end;
         end;
+        Header.Validate(Status, Header.Status::Approved);
+        Header.Modify();
 
         DataObject.Add('EmployeeNo', EmployeeNo);
         DataObject.Add('AppraisalYear', AppraisalYear);
@@ -991,7 +1007,7 @@ codeunit 50500 "ESS Management"
             Header.Validate(Requester, UserId);
 
             Header.Validate("Request Description", RequestDescription);
-            Header.Modify(true);
+            //Header.Modify(true);
         end;
 
         if PurchaseReqLines = '' then
@@ -1085,6 +1101,8 @@ codeunit 50500 "ESS Management"
                 Line.Validate("Vendor Name", VendorName);
             Line.Insert(true);
         end;
+        Header.Validate(Status, Header.Status::Approved);
+        Header.Modify();
 
         DataObject.Add('No', Header."No.");
         DataObject.Add('processedLines', LineCount);
@@ -1156,7 +1174,7 @@ codeunit 50500 "ESS Management"
         JsonText: Text;
     begin
         if Requester <> '' then
-            Header.SetRange(Requester, Requester);
+            Header.SetRange("Debit Account No.", Requester);
         if DocumentNo <> '' then
             Header.SetRange("No.", DocumentNo);
         if Paid then
@@ -1167,7 +1185,7 @@ codeunit 50500 "ESS Management"
                 Clear(LinesArray);
                 HeaderObject.Add('documentNo', Header."No.");
                 HeaderObject.Add('documentDate', Format(Header.Date));
-                HeaderObject.Add('requester', Header.Requester);
+                HeaderObject.Add('requester', Header."Debit Account No.");
                 HeaderObject.Add('description', Header.Description);
 
                 Line.Reset();
@@ -1200,7 +1218,7 @@ codeunit 50500 "ESS Management"
         JsonText: Text;
     begin
         if Requester <> '' then
-            Header.SetRange(Requester, Requester);
+            Header.SetRange("Staff No.", Requester);
         if DocumentNo <> '' then
             Header.SetRange("No.", DocumentNo);
 
@@ -1243,7 +1261,7 @@ codeunit 50500 "ESS Management"
         JsonText: Text;
     begin
         if Requester <> '' then
-            Header.SetRange(Requester, Requester);
+            Header.SetRange("Staff No.", Requester);
         if DocumentNo <> '' then
             Header.SetRange("No.", DocumentNo);
 
@@ -1253,7 +1271,7 @@ codeunit 50500 "ESS Management"
                 Clear(LinesArray);
                 HeaderObject.Add('documentNo', Header."No.");
                 HeaderObject.Add('documentDate', Format(Header.Date));
-                HeaderObject.Add('requester', Header.Requester);
+                HeaderObject.Add('requester', Header."Staff No.");
 
                 Line.Reset();
                 Line.SetRange("Document No.", Header."No.");
@@ -1438,7 +1456,7 @@ codeunit 50500 "ESS Management"
         exit(JsonText);
     end;
 
-    procedure CreateOrEditPurchaseInvoice(DocumentNo: Code[20]; VendorNo: Code[20]; Beneficiary: Code[20]; PurchaseLines: Text): Text
+    procedure CreateOrEditPurchaseInvoice(DocumentNo: Code[20]; VendorNo: Code[20]; Beneficiary: Code[20]; VendorInvoiceNo: Code[35];LocationCode: Code[20];Description:Text[250]; PurchaseLines: Text): Text
     var
         Header: Record "Purchase Header";
         Line: Record "Purchase Line";
@@ -1452,7 +1470,7 @@ codeunit 50500 "ESS Management"
         LineCount: Integer;
         LineType: Option Item,"G/L Account";
         ItemNo: Code[20];
-        Description: Text[100];
+        //Description: Text[100];
         //RequisitionDate: Text;
         //RequiredItemService: Text[100];
         Quantity: Decimal;
@@ -1461,7 +1479,7 @@ codeunit 50500 "ESS Management"
         // ShortcutDim2: Code[20];
         Amount: Decimal;
         AmountLCY: Decimal;
-        //VendorNo: Code[20];
+        //LocationNo: Code[20];
         VendorName: Text[100];
         ResponseLbl: Label 'Purchase Requisition processed successfully with %1 lines';
         ErrorNoLines: Label 'No lines provided';
@@ -1492,8 +1510,10 @@ codeunit 50500 "ESS Management"
             //if Requester <> '' then
             Header.Validate(Beneficiary, Beneficiary);
 
-            //Header.Validate("Request Description", RequestDescription);
-            Header.Modify(true);
+            Header.Validate("Vendor Invoice No.", VendorInvoiceNo);
+            Header.Validate("Location Code", LocationCode);
+            Header.Validate(Description, Description);
+
         end;
 
         if PurchaseLines = '' then
@@ -1533,6 +1553,9 @@ codeunit 50500 "ESS Management"
             if JsonObject.Get('Description', JsonToken) then
                 Description := JsonToken.AsValue().AsText();
 
+            // if JsonObject.Get('LocationCode', JsonToken) then
+            //     LocationNo := JsonToken.AsValue().AsText();
+
             if JsonObject.Get('Quantity', JsonToken) then
                 Quantity := JsonToken.AsValue().AsDecimal();
 
@@ -1555,13 +1578,14 @@ codeunit 50500 "ESS Management"
             //Line.Validate(Description, Description);
             // Evaluate(Line."Requisition Date", RequisitionDate);
             // Line.Validate("Required Item/Service", RequiredItemService);
+            Line.Validate("Location Code", LocationCode);
             Line.Validate(Quantity, Quantity);
             Line.Validate("Direct Unit Cost", UnitCost);
             // if ShortcutDim1 <> '' then
             //     Line.Validate("Shortcut Dimension 1 Code", ShortcutDim1);
             // if ShortcutDim2 <> '' then
             //     Line.Validate("Shortcut Dimension 2 Code", ShortcutDim2);
-            Line.Validate(Amount, Amount);
+            //Line.Validate(Amount, Amount);
             // if VendorNo <> '' then
             //     Line.Validate("Vendor No.", VendorNo);
             // if VendorName <> '' then
@@ -1569,7 +1593,8 @@ codeunit 50500 "ESS Management"
             // Line.Insert(true);
             Line.Modify(true);
         end;
-
+        //Header.Validate(Status, Header.Status::Released);
+        Header.Modify(true);
         DataObject.Add('No', Header."No.");
         DataObject.Add('processedLines', LineCount);
 
@@ -1580,5 +1605,78 @@ codeunit 50500 "ESS Management"
         ResponseObject.WriteTo(ResponseText);
         exit(ResponseText);
     end;
+
+    procedure GetPayrolls(PayrollPeriod: Code[10]; EmployeeNo: Code[20]): Text
+    var
+        PayrollHeader: Record PayrollHeader;
+        PayrollLine: Record PayrollLine;
+        HeaderObject: JsonObject;
+        LineObject: JsonObject;
+        JsonArray: JsonArray;
+        LinesArray: JsonArray;
+        JsonText: Text;
+    begin
+        if PayrollPeriod <> '' then
+            PayrollHeader.SetRange("Payroll Period", PayrollPeriod);
+
+        if PayrollHeader.FindSet() then
+            repeat
+                //Clear(HeaderObject);
+                Clear(LinesArray);
+
+                // Header Information
+                // HeaderObject.Add('payrollPeriod', PayrollHeader."Payroll Period");
+                // HeaderObject.Add('description', PayrollHeader.Description);
+                // HeaderObject.Add('payrollCreationDate', Format(PayrollHeader."Payroll Creation Date"));
+                // HeaderObject.Add('approvalStatus', Format(PayrollHeader."Approval Status"));
+                // HeaderObject.Add('employeeFilter', PayrollHeader."Employee Filter");
+                // HeaderObject.Add('dimension1Filter', PayrollHeader."Shortcut Dimension 1 Filter");
+                // HeaderObject.Add('dimension2Filter', PayrollHeader."Shortcut Dimension 2 Filter");
+                // HeaderObject.Add('salaryCodeFilter', PayrollHeader."Salary Code Filter");
+                // HeaderObject.Add('createdBy', PayrollHeader."Created By");
+                // HeaderObject.Add('createdTime', Format(PayrollHeader."Created Time"));
+                // HeaderObject.Add('lastModifiedBy', PayrollHeader."Last Modified By");
+                // HeaderObject.Add('lastModifiedDate', Format(PayrollHeader."Last Modified Date"));
+                // HeaderObject.Add('lastModifiedTime', Format(PayrollHeader."Last Modified Time"));
+
+                // Lines
+                PayrollLine.Reset();
+                PayrollLine.SetRange("Payroll Period", PayrollHeader."Payroll Period");
+                if EmployeeNo <> '' then
+                    PayrollLine.SetRange("Employee Code", EmployeeNo);
+                if PayrollLine.FindSet() then
+                    repeat
+                        Clear(LineObject);
+                        LineObject.Add('payrollPeriod', PayrollLine."Payroll Period");
+                        LineObject.Add('employeeCode', PayrollLine."Employee Code");
+                        LineObject.Add('employeeName', PayrollLine."Employee Name");
+                        LineObject.Add('jobTitle', PayrollLine."Job Title");
+                        LineObject.Add('salaryCode', PayrollLine."Salary Code");
+                        LineObject.Add('dimension1Code', PayrollLine."Global Dimension 1 Code");
+                        LineObject.Add('dimension2Code', PayrollLine."Global Dimension 2 Code");
+                        LineObject.Add('bookAmount', PayrollLine."Book Amount");
+                        LineObject.Add('payableAmount', PayrollLine."Payable Amount");
+                        LineObject.Add('lateDays', PayrollLine."Late Days");
+                        LineObject.Add('extraDaysWorked', PayrollLine."Extra Days Worked");
+                        LineObject.Add('absentDays', PayrollLine."Absent  (Days)");
+                        LineObject.Add('employeeType', Format(PayrollLine."Employee Type"));
+                        LineObject.Add('employmentDate', Format(PayrollLine."Employment Date"));
+                        LineObject.Add('employmentContractCode', PayrollLine."Employment Contract Code");
+
+                        LinesArray.Add(LineObject);
+                    until PayrollLine.Next() = 0;
+
+                HeaderObject.Add('lines', LinesArray);
+            //JsonArray.Add(HeaderObject);
+
+            until PayrollHeader.Next() = 0;
+
+        LinesArray.WriteTo(JsonText);
+        //JsonArray.WriteTo(JsonText);
+        exit(JsonText);
+    end;
+
+
+
 
 }

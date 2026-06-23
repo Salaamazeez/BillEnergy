@@ -151,11 +151,6 @@ page 50170 Overtime
                     Rec.TestField("Global Dimension 1 Filter");
                     Rec.TestField("Period Code");
 
-                    NetPay := 0;
-                    SumPension := 0;
-                    Paye := 0;
-                    Pension := 0;
-
                     rec.TestField("Period Code");
 
                     IF HRSetup.Get() then
@@ -182,6 +177,10 @@ page 50170 Overtime
                     IF Overtimeline.FINDSET THEN BEGIN
                         //Employee.TESTFIELD("Employee Category");
                         REPEAT
+                            NetPay := 0;
+                            SumPension := 0;
+                            Paye := 0;
+                            Pension := 0;
                             Clear(Employee);
                             Clear(DaysInMonth);
 
@@ -208,6 +207,8 @@ page 50170 Overtime
                                     SumPension += SalSetupLine2.Amount;
                                 until SalSetupLine2.Next() = 0;
                                 Pension := (HRSetup."Pension Employee %" / 100) * SumPension;
+                                Overtimeline.Pension := Pension;
+                                Overtimeline.Modify();
                             end;
 
                             SalSetupLine.Reset();
@@ -218,7 +219,7 @@ page 50170 Overtime
 
                                 //Get PAYE
                                 Paye := PayrollCodeunit.CalculateOTTax(SalSetupLine.Amount, Employee, Overtimeline."Period Code", SumPension);
-
+                                Overtimeline.PAYE := paye;
                                 //Calculate Overtime
                                 Overtimeline."Overtime Amount" := ROUND((((SalSetupLine.Amount - (Pension + Paye)) / DaysInMonth) *
                                                 ((HRSetup."Overtime Rate" / 100) * overtimeline."Extra Days Worked")), 0.01, '>');

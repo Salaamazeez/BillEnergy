@@ -109,11 +109,21 @@ page 50156 PayrollSubform
                     ApplicationArea = All;
                     Visible = false;
                 }
-
-
-
-
             }
+
         }
+
     }
+
+    trigger OnDeleteRecord(): Boolean
+    begin
+        PayrollDetLines.Reset();
+        PayrollDetLines.SetRange("Payroll Period", rec."Payroll Period");
+        if PayrollDetLines.FindSet() then
+            PayrollDetLines.DeleteAll();
+    end;
+
+    var
+        PayrollDetLines: Record PayrollDetailLine;
+
 }

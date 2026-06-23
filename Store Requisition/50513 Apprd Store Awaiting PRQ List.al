@@ -3,7 +3,7 @@ page 50513 "Apprd Store Awaiting PRQ List"
     //Created by Salaam Azeez
     PageType = List;
     ApplicationArea = All;
-    UsageCategory = Lists;
+    //UsageCategory = Lists;
     SourceTable = "Store Requisition";
     // SourceTableView = WHERE(Status = CONST(Approved), Posted = CONST(false), "PRQ Processing?" = CONST(false));
     CardPageId = "Apprd SRQ Awaiting PRQ Card";

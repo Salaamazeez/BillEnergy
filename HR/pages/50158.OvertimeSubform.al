@@ -69,6 +69,18 @@ page 50159 OvertimeSubform
                     ToolTip = 'Specifies the value of the Gross Pay field.', Comment = '%';
                     ApplicationArea = All;
                 }
+                field(PAYE; Rec.PAYE)
+                {
+                    ToolTip = 'Specifies the value of the PAYE field.', Comment = '%';
+                    ApplicationArea = All;
+                }
+
+                field(Pension; Rec.Pension)
+                {
+                    ToolTip = 'Specifies the value of the Pension field.', Comment = '%';
+                    ApplicationArea = All;
+                }
+
                 field("Net Pay"; Rec."Net Pay")
                 {
                     ToolTip = 'Specifies the value of the Net Pay field.', Comment = '%';
