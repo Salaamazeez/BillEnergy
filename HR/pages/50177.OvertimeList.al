@@ -1,4 +1,5 @@
 namespace BILLENERGY.BILLENERGY;
+using System.Security.User;
 
 page 50177 OvertimeList
 {
@@ -66,4 +67,19 @@ page 50177 OvertimeList
             }
         }
     }
+
+    trigger OnOpenPage()
+    begin
+        If UserSteup.Get(UserId) then;
+        if (UserSteup."Global Dimension 1 Code" <> '') then begin
+            //UserSteup.TestField("Global Dimension 1 Code");
+
+            Rec.FilterGroup(2);
+            Rec.SetRange("Global Dimension 1 Filter", UserSteup."Global Dimension 1 Code");
+            Rec.FilterGroup(0);
+        end;
+    end;
+
+    var
+        UserSteup: Record "User Setup";
 }

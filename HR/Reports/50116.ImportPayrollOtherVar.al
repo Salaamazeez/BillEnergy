@@ -5,6 +5,7 @@ report 50116 ImportPayrollOtherVar
     Caption = 'Import Payroll Other Variables';
     UsageCategory = Tasks;
     ProcessingOnly = true;
+
     //DefaultLayout = RDLC;
     //RDLCLayout = 'Import Employee Data.rdl';
     dataset
@@ -13,8 +14,21 @@ report 50116 ImportPayrollOtherVar
         {
 
             trigger OnAfterGetRecord()
+
             begin
+
                 ImportSheet(Number);
+
+                IF (LoopCount = False) then begin
+                    LoopCount := true;
+                    PayPeriods2 := Format(ColText[2]);
+                end;
+
+                IF (PayPeriods2 <> ColText[2]) then
+                    Error('The Payroll Period are inconsistent please review your excel file and ensure all Payroll Period are thesame for all the employee');
+
+                WindowDialog.Update(1, PayrollOtherVar."Payroll Period");
+                WindowDialog.Update(2, PayrollOtherVar."Employee No.");
 
                 PayrollOtherVar.Init();
                 PayrollOtherVar.VALIDATE("Employee No.", ColText[1]);
@@ -27,19 +41,26 @@ report 50116 ImportPayrollOtherVar
 
             trigger OnPreDataItem()
             begin
-                /*
-                        ExcelBuf.RESET;
-                        ExcelBuf.DELETEALL;
-                        //ExcelBuf.OpenBook(ServerFileName, SheetName);
-                        ExcelBuf.OpenBookStream(ServerFileName, SheetName);
-                        ExcelBuf.ReadSheet;
-                        IF ExcelBuf.FINDLAST THEN
-                            SETRANGE(Number, 2, ExcelBuf."Row No.");
-                            */
+                LoopCount := False;
+
+                //PayElement.Reset();
+                //PayElement.SetFilter("Is Late", '%1', true);
+                //if Not (PayElement.FindFirst()) then
+                // error('You did not setup Late in Payroll Element');
+
+                ExcelBuf.RESET;
+                ExcelBuf.DELETEALL;
+                //ExcelBuf.OpenBook(ServerFileName, SheetName);
+                ExcelBuf.OpenBookStream(instrm, SheetName);
+                ExcelBuf.ReadSheet;
+                IF ExcelBuf.FINDLAST THEN
+                    SETRANGE(Number, 2, ExcelBuf."Row No.");
             end;
 
             trigger OnPostDataItem()
+
             begin
+                WindowDialog.Close();
             end;
         }
     }
@@ -60,7 +81,7 @@ report 50116 ImportPayrollOtherVar
                             trigger OnAssistEdit()
                             begin
                                 RequestFile;
-                                // SheetName := ExcelBuf.SelectSheetsName(ServerFileName);
+                                SheetName := ExcelBuf.SelectSheetsNameStream(instrm);
                             end;
                         }
                         field(SheetName; SheetName)
@@ -73,7 +94,8 @@ report 50116 ImportPayrollOtherVar
                                     RequestFile;
                                 END;
 
-                                // SheetName := ExcelBuf.SelectSheetsName(ServerFileName);
+                                SheetName := ExcelBuf.SelectSheetsNameStream(instrm);
+
                             end;
                         }
                     }
@@ -104,6 +126,7 @@ report 50116 ImportPayrollOtherVar
 
     trigger OnPreReport()
     begin
+        WindowDialog.Open(TextDisplay, PayrollOtherVar."Payroll Period", PayrollOtherVar."Employee No.");
     end;
 
     trigger OnPostReport()
@@ -112,7 +135,7 @@ report 50116 ImportPayrollOtherVar
     end;
 
     var
-
+        TextDisplay: Label 'importing payroll other variables for employee ###########1 for Period ##########2:';
         ExcelBuf: Record "Excel Buffer" temporary;
         ColText: array[100] of Text[250];
         FileMgt: Codeunit "File Management";
@@ -121,10 +144,16 @@ report 50116 ImportPayrollOtherVar
         FileName: Text[250];
         ServerFileName: Text[250];
         SheetName: Text[250];
+        instrm: instream;
 
         Text005: Label 'Imported from Excel';
         Text006: Label 'Import Excel File';
         msgfinishUpdate: label 'Employee Reimbursable sucessfully updated';
+        WindowDialog: Dialog;
+
+        PayPeriods2: code[20];
+        LoopCount: Boolean;
+        PayElement: Record PayrollElement;
 
     Procedure ImportSheet(RowNumber: Integer)
     var
@@ -149,5 +178,6 @@ report 50116 ImportPayrollOtherVar
 
         FileName := FileMgt.GetFileName(ServerFileName);
         */
+        UploadIntoStream(Text006, '', 'Excel(.xlsx)|*.xlsx', FileName, instrm);
     end;
 }

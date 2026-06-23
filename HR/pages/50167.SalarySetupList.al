@@ -35,6 +35,13 @@ page 50167 SalarySetupList
                     ApplicationArea = All;
                     Editable = false;
                 }
+
+                field("Gross Pay"; Rec."Gross Pay")
+                {
+                    ToolTip = 'Specifies the value of the Gross Pay field.', Comment = '%';
+                    ApplicationArea = All;
+                    Editable = false;
+                }
             }
         }
     }

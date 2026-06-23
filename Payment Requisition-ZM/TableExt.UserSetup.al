@@ -8,15 +8,11 @@ tableextension 50101 UserSetupExtension extends "User Setup"
         field(50004; "HR Admin"; Boolean) { }
         field(50005; "Procurement Admin"; Boolean) { }
 
-        field(50006; "OilGas Data Admin"; Boolean)
+        field(50006; "Global Dimension 1 Code"; Code[20])
         {
-            Caption = 'Oil & Gas Data Administrator';
-            DataClassification = ToBeClassified;
-        }
-        field(50007; "OilGas Data Upload"; Boolean)
-        {
-            Caption = 'Oil & Gas Data Upload';
-            DataClassification = ToBeClassified;
+            Caption = 'Global Dimension 1 Code';
+            CaptionClass = '1,1,1';
+            TableRelation = "Dimension Value".Code where("Global Dimension No." = const(1));
         }
         field(50100; "Appraiser Line Manager"; Boolean)
         {

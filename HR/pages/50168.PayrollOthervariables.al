@@ -1,6 +1,7 @@
 namespace BILLENERGY.BILLENERGY;
 using Microsoft.HumanResources.Employee;
 using Microsoft.Finance.Dimension;
+using System.Security.User;
 
 page 50168 PayrollOthervariables
 {
@@ -113,10 +114,12 @@ page 50168 PayrollOthervariables
                 {
                     ToolTip = 'Specifies the value of the No. of working Hour field.', Comment = '%';
                 }
+                /*
                 field("Hourly Rate"; Rec."Hourly Rate")
                 {
                     ToolTip = 'Specifies the value of the Hourly Rate field.', Comment = '%';
                 }
+                */
                 field("Hours/Days Late"; Rec."Hours/Days Late")
                 {
                     ToolTip = 'Specifies the value of the Hours Late/Days Absent field.', Comment = '%';
@@ -147,16 +150,35 @@ page 50168 PayrollOthervariables
 
                 // 4. Run your custom logic when clicked
                 trigger OnAction()
+
                 begin
+                    IF (PayPeriods = '') then
+                        error(ErrorPeriod);
+
+                    //IF (GlobalDim1Code = '') then
+                    //  error(ErrorBranch);
+                    IF PayPeriods = '' then
+                        error('Period filter must not be empty');
                     Report.Run(Report::ImportPayrollOtherVar);
                 end;
+
             }
         }
     }
+    trigger OnOpenPage()
+    begin
+        If UserSteup.Get(UserId) then;
+        //UserSteup.TestField("Global Dimension 1 Code");
+
+        Rec.FilterGroup(2);
+        Rec.SetRange("Global Dimension 1 Code", UserSteup."Global Dimension 1 Code");
+        Rec.FilterGroup(0);
+    end;
 
     var
-
-        Text002: Label 'Period Filter cannot be empty';
+        UserSteup: Record "User Setup";
+        ErrorPeriod: Label 'Period Filter cannot be empty';
+        ErrorBranch: Label 'Branch Filter cannot be empty';
         Text003: Label 'Gross Pay Element code is not setup in the Payroll Element page';
         SalSetupLine: Record SalarySetupLine;
         PayElement: Record PayrollElement;
@@ -169,7 +191,4 @@ page 50168 PayrollOthervariables
         GlobalDim2Code: Code[50];
         Window: Dialog;
         PayPeriods: Code[10];
-
-
-
 }

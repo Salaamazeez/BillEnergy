@@ -85,4 +85,22 @@ table 50186 PayrollHeader
             Clustered = true;
         }
     }
+
+    trigger OnDelete()
+    begin
+        PayrollLines.Reset();
+        PayrollLines.SetRange("Payroll Period", "Payroll Period");
+        If PayrollLines.FindSet() then
+            PayrollLines.DeleteAll();
+
+        PayrollDetailLine.Reset();
+        PayrollDetailLine.SetRange("Payroll Period", "Payroll Period");
+        If PayrollDetailLine.FindSet() then
+            PayrollDetailLine.DeleteAll();
+    end;
+
+    var
+
+        PayrollLines: Record PayrollLine;
+        PayrollDetailLine: Record PayrollDetailLine;
 }

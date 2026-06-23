@@ -48,6 +48,18 @@ page 50156 PayrollSubform
                 {
                     ToolTip = 'Specifies the value of the Book Amount field.', Comment = '%';
                     ApplicationArea = All;
+
+                    trigger OnDrillDown()
+                    var
+                        SalarySetup: Record SalarySetupLine;
+                        SalarySetupList: Page SalarySetupList;
+                    begin
+
+                        SalarySetup.SetRange("Salary Code", rec."Employment Contract Code");
+                        //SalarySetupLine.SetFilter("Element Code", '%1', '600');
+                        SalarySetupList.SetTableView(SalarySetup);
+                        SalarySetupList.Run();
+                    end;
                 }
                 field("Payable Amount"; Rec."Payable Amount")
                 {
@@ -76,33 +88,31 @@ page 50156 PayrollSubform
                 {
                     ToolTip = 'Specifies the value of the Salary Code field.', Comment = '%';
                     ApplicationArea = All;
+
                 }
+
+                field("Working Days"; Rec."Working Days")
+                {
+                    ToolTip = 'Specifies the value of the Working Days field.', Comment = '%';
+                    ApplicationArea = All;
+                }
+
+                field("No. of Worked Days"; Rec."No. of Worked Days")
+                {
+                    ToolTip = 'Specifies the value of the No. of Worked Days field.', Comment = '%';
+                    ApplicationArea = All;
+                }
+
                 field("Line No."; Rec."Line No.")
                 {
                     ToolTip = 'Specifies the value of the Line No. field.', Comment = '%';
                     ApplicationArea = All;
+                    Visible = false;
                 }
-                field("Employee Type"; Rec."Employee Type")
-                {
-                    ToolTip = 'Specifies the value of the Employee Type field.', Comment = '%';
-                    ApplicationArea = All;
-                }
-                field("Absent  (Days)"; Rec."Absent  (Days)")
-                {
-                    ToolTip = 'Specifies the value of the Absent  (Days) field.', Comment = '%';
-                    ApplicationArea = All;
-                }
-                field("Late Days"; Rec."Late Days")
-                {
-                    ToolTip = 'Specifies the value of the Late Days field.', Comment = '%';
-                    ApplicationArea = All;
-                }
-                field("Extra Days Worked"; Rec."Extra Days Worked")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Extra Days Worked field.', Comment = '%';
 
-                }
+
+
+
             }
         }
     }

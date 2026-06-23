@@ -43,6 +43,7 @@ page 50157 PayrollDetailLines
                 {
                     ToolTip = 'Specifies the value of the Book Amount field.', Comment = '%';
                     ApplicationArea = All;
+                    Visible = false;
                 }
                 field("Payable Amount"; Rec."Payable Amount")
                 {
@@ -53,6 +54,12 @@ page 50157 PayrollDetailLines
                 field("Salalry Code"; Rec."Salary Code")
                 {
                     ToolTip = 'Specifies the value of the Salalry Code field.', Comment = '%';
+                    ApplicationArea = All;
+                }
+
+                field("No of Late/Absent (Hr)"; Rec."No of Late/Absent (Hr)")
+                {
+                    ToolTip = 'Specifies the value of the No of Late/Absent (Hr) field.', Comment = '%';
                     ApplicationArea = All;
                 }
 

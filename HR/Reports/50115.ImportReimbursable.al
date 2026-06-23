@@ -16,6 +16,8 @@ report 50115 ImportReimbursablePay
             begin
                 ImportSheet(Number);
 
+                WindowDialog.Update(1, EmployeeRec."No.");
+
                 EmployeeRec.Init();
                 //EmployeeRec.VALIDATE("Employee No.", ColText[1]);
                 Evaluate(EmployeeRec."Reimbursable Amount", ColText[2]);
@@ -25,15 +27,15 @@ report 50115 ImportReimbursablePay
 
             trigger OnPreDataItem()
             begin
-                /*
-                        ExcelBuf.RESET;
-                        ExcelBuf.DELETEALL;
-                        //ExcelBuf.OpenBook(ServerFileName, SheetName);
-                        ExcelBuf.OpenBookStream(ServerFileName, SheetName);
-                        ExcelBuf.ReadSheet;
-                        IF ExcelBuf.FINDLAST THEN
-                            SETRANGE(Number, 2, ExcelBuf."Row No.");
-                            */
+
+                ExcelBuf.RESET;
+                ExcelBuf.DELETEALL;
+                //ExcelBuf.OpenBook(ServerFileName, SheetName);
+                ExcelBuf.OpenBookStream(instrm, SheetName);
+                ExcelBuf.ReadSheet;
+                IF ExcelBuf.FINDLAST THEN
+                    SETRANGE(Number, 2, ExcelBuf."Row No.");
+
             end;
 
             trigger OnPostDataItem()
@@ -58,7 +60,7 @@ report 50115 ImportReimbursablePay
                             trigger OnAssistEdit()
                             begin
                                 RequestFile;
-                                // SheetName := ExcelBuf.SelectSheetsName(ServerFileName);
+                                SheetName := ExcelBuf.SelectSheetsNameStream(instrm);
                             end;
                         }
                         field(SheetName; SheetName)
@@ -71,7 +73,7 @@ report 50115 ImportReimbursablePay
                                     RequestFile;
                                 END;
 
-                                // SheetName := ExcelBuf.SelectSheetsName(ServerFileName);
+                                SheetName := ExcelBuf.SelectSheetsNameStream(instrm);
                             end;
                         }
                     }
@@ -102,6 +104,7 @@ report 50115 ImportReimbursablePay
 
     trigger OnPreReport()
     begin
+        WindowDialog.Open(TextDisplay, EmployeeRec."No.");
     end;
 
     trigger OnPostReport()
@@ -110,7 +113,7 @@ report 50115 ImportReimbursablePay
     end;
 
     var
-
+        TextDisplay: Label 'importing Reimbursable Pay for employee ###########1';
         ExcelBuf: Record "Excel Buffer" temporary;
         ColText: array[100] of Text[250];
         FileMgt: Codeunit "File Management";
@@ -119,6 +122,8 @@ report 50115 ImportReimbursablePay
         FileName: Text[250];
         ServerFileName: Text[250];
         SheetName: Text[250];
+        instrm: instream;
+        WindowDialog: Dialog;
 
         Text005: Label 'Imported from Excel';
         Text006: Label 'Import Excel File';
@@ -147,5 +152,6 @@ report 50115 ImportReimbursablePay
 
         FileName := FileMgt.GetFileName(ServerFileName);
         */
+        UploadIntoStream(Text006, '', 'Excel(.xlsx)|*.xlsx', FileName, instrm);
     end;
 }

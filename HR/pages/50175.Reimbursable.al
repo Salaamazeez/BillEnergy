@@ -1,5 +1,6 @@
 namespace BILLENERGY.BILLENERGY;
 using Microsoft.HumanResources.Employee;
+using System.Security.User;
 
 page 50175 Reimbursable
 {
@@ -7,7 +8,7 @@ page 50175 Reimbursable
     Caption = 'Reimbursable Salary';
     PageType = Document;
     SourceTable = ReimbursableHeader;
-    //UsageCategory = Tasks;
+    UsageCategory = Tasks;
     InsertAllowed = true;
     ModifyAllowed = true;
 
@@ -108,14 +109,27 @@ page 50175 Reimbursable
                 trigger OnAction()
 
                 begin
+                    Rec."Approval Status" := Rec."Approval Status"::Open;
+                    Rec.TestField("Global Dimension 1 Code Filter");
+                    Rec.TestField("Period Code");
                     PayrollCodeunit.ProcessReimbPayroll(Rec."Period Code", Rec."Global Dimension 1 Code Filter", Rec."Global Dimension 2 Code Filter", Rec."Employee Code Filter");
                 end;
             }
         }
     }
 
-    var
+    trigger OnOpenPage()
+    begin
+        If UserSteup.Get(UserId) then;
+        //UserSteup.TestField("Global Dimension 1 Code");
 
+        //Rec.FilterGroup(2);
+        //Rec.SetRange("Global Dimension 1 Code Filter", UserSteup."Global Dimension 1 Code");
+        //Rec.FilterGroup(0);
+    end;
+
+    var
+        UserSteup: Record "User Setup";
         EmployeeRec: Record Employee;
         PayrollCodeunit: Codeunit "PayrollCodeunite";
         ReimbursableHead: Record ReimbursableHeader;

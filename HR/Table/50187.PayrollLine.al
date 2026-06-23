@@ -52,11 +52,15 @@ table 50187 PayrollLine
         {
             Caption = 'Book Amount';
             Editable = false;
+            FieldClass = FlowField;
+            CalcFormula = sum(SalarySetupLine.Amount where("Salary Code" = field("Employment Contract Code"), "Element Code" = filter(600)));
         }
         field(10; "Payable Amount"; Decimal)
         {
             Caption = 'Payable Amount';
             Editable = false;
+            FieldClass = FlowField;
+            CalcFormula = sum(PayrollDetailLine."Payable Amount" where("Payroll Period" = field("Payroll Period"), "Employee No." = field("Employee Code"), "Part of Payable Value" = filter(true)));
         }
         field(11; "Late Days"; Integer)
         {
@@ -91,10 +95,25 @@ table 50187 PayrollLine
             Caption = 'Employment Contract Code';
             Editable = false;
         }
+        field(24; "Late/Absent Hour"; Decimal)
+        {
+            Caption = 'Late/Absent Hour';
+            Editable = false;
+        }
 
-
+        field(25; "No. of Worked Days"; Integer)
+        {
+            Caption = 'No. of Worked Days';
+            Editable = false;
+        }
+        field(26; "Working Days"; Integer)
+        {
+            Caption = 'Working Days';
+            Editable = false;
+        }
 
     }
+
     keys
     {
         key(PK; "Payroll Period", "Employee Code", "Line No.")
@@ -106,4 +125,17 @@ table 50187 PayrollLine
         key(SK2; "Global Dimension 2 Code", "Payroll Period")
         { }
     }
+    trigger OnDelete()
+    begin
+
+        PayrollDetailLine.Reset();
+        PayrollDetailLine.SetRange("Payroll Period", "Payroll Period");
+        If PayrollDetailLine.FindSet() then
+            PayrollDetailLine.DeleteAll();
+    end;
+
+    var
+
+        PayrollDetailLine: Record PayrollDetailLine;
+
 }

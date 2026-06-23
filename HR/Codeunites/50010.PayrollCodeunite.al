@@ -286,8 +286,14 @@ codeunit 50010 PayrollCodeunite
             PayrollLine."Global Dimension 1 Code" := EmpLRec."Global Dimension 1 Code";
             PayrollLine."Employment Contract Code" := EmpLRec."Emplymt. Contract Code";
             PayrollLine."Job Title" := EmpLRec."Job Title";
+            PayrollLine."Salary Code" := EmpLRec."Emplymt. Contract Code";
+
+            PayrollLine."No. of Worked Days" := DaysWorked;
+            PayrollLine."Working Days" := NoOfDaysInPayPeriod;
+            //PayrollLine."Late/Absent Hour":=PayrollOtherVar."Hours/Days Late";
+            //payrollline."Book Amount" := Round(AnnualGross / 12, 0.01, '>');
             //PayrollLine."Employee Type" := EmpLRec."Engagement Type";
-            PayrollLine.INSERT(TRUE);
+            PayrollLine.INSERT();
         END;
     END;
 
@@ -537,15 +543,18 @@ codeunit 50010 PayrollCodeunite
         PayrollDetailLine."Employee Name" := EmployeeL."Last Name" + ' ' + EmployeeL."First Name" + ' ' + EmployeeL."Middle Name";
         PayrollDetailLine."Global Dimension 1 Code" := EmployeeL."Global Dimension 1 Code";
         PayrollDetailLine."Global Dimension 2 Code" := EmployeeL."Global Dimension 2 Code";
-        //PayrollDetailLine.:=Employee."Emplymt. Contract Code";
+        PayrollDetailLine." Employment Contract Code" := Employee."Emplymt. Contract Code";
+        PayrollDetailLine."Salary Code" := Employee."Emplymt. Contract Code";
         PayrollDetailLine."Payroll Creation Date" := TODAY;
         PayrollDetailLine."Employment Date" := EmployeeL."Employment Date";
         //PayrollDetailLine.:=EmployeeL."Employee Category";
-        //PayrollDetailLine."Pension Fund Manager":=EmployeeL."Pension Fund Administrator";
+        PayrollDetailLine."Pension Fund Manager" := EmployeeL.PFA;
         PayrollDetailLine."Pension Fund No." := EmployeeL."RSA PIN";
         PayrollDetailLine."Payroll Bank" := EmployeeL."Payroll Bank";
         PayrollDetailLine."Bank Account No." := EmployeeL."Bank Account No.";
-        PayrollDetailLine."No of Late/Absent (Hr)" := PayrollOtherVar."Hours/Days Late";
+
+        If PayrollElementL."Element Code" IN ['330', '340'] then
+            PayrollDetailLine."No of Late/Absent (Hr)" := PayrollOtherVar."Hours/Days Late";
         //PayrollDetailLine."Absent (Days)" := PayrollOtherVar."Hours/Days Late";
         //PayrollDetailLine."Late Days" := PayrollOtherVar."Hours/Days Late";
 
@@ -581,7 +590,7 @@ codeunit 50010 PayrollCodeunite
             //PayrollDetailLine."Part of Book Value:=TRUE;
         END;
 
-        PayrollDetailLine.INSERT(TRUE);
+        PayrollDetailLine.INSERT();
     END;
 
     PROCEDURE CalculateTax(MonthlyGross: Decimal; EmployeeLRec: Record Employee; PayPeriod: Code[10]): Decimal;
@@ -656,18 +665,17 @@ codeunit 50010 PayrollCodeunite
         IF Payelement.FINDFIRST THEN BEGIN
             if HRSetup.Get then
                 HRSetup.TestField("Pension Employee %");
-            ;
             PensionRelief := ((SumPension * (HRSetup."Pension Employee %" / 100)) * 12);
         END ELSE
             PensionRelief := 0;
 
-        //Rent Relief
-        CRA := (PayrollTax."Rent Relief%" / 100) * EmployeeLRec."Rent Amount";
+        //Rent Relief to be capp at 500k for now
+        //CRA := (PayrollTax."Rent Relief%" / 100) * EmployeeLRec."Rent Amount";
 
-        if (CRA > PayrollTax."Rent Relief Cap") then
-            RentRelief := PayrollTax."Rent Relief Cap"
-        else
-            RentRelief := CRA;
+        //if (CRA > PayrollTax."Rent Relief Cap") then
+        RentRelief := PayrollTax."Rent Relief Cap";
+        //else
+        //RentRelief := CRA;
 
         //NHF
         /*
@@ -711,8 +719,6 @@ codeunit 50010 PayrollCodeunite
 
         //FINAct 2022
         AllowRelief := EVCRelief + LifeRelief + NHFRelief + RentRelief + PensionRelief + NHISRelief + HMOAmt;
-
-
 
         //Calculate The Net Taxable Income
         //FINAct 2022

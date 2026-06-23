@@ -1,5 +1,6 @@
 namespace BILLENERGY.BILLENERGY;
 using Microsoft.HumanResources.Employee;
+using System.Security.User;
 
 page 50155 PayrollHeader
 {
@@ -132,11 +133,81 @@ page 50155 PayrollHeader
                     PayrollCodeunit.ProcessPayroll(Rec."Payroll Period", Rec."Shortcut Dimension 1 Filter", Rec."Shortcut Dimension 2 Filter", Rec."Employee Filter");
                 end;
             }
+            action(Payslip)
+            {
+                ApplicationArea = All;
+                Caption = 'Print Payslip';
+                ToolTip = 'Executes a process to Print the Payslip';
+                Image = Payroll;
+
+                // 3. Make the action easy to find in the action bar
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedOnly = true;
+
+                // 4. Run your custom logic when clicked
+                trigger OnAction()
+
+                begin
+                    Report.Run(Report::Payslip, true, false);
+                end;
+            }
+
+            action(ClosePayroll)
+            {
+                ApplicationArea = All;
+                Caption = 'Close Payroll';
+                ToolTip = 'Executes a process to close the payroll';
+                Image = ClosePeriod;
+
+                // 3. Make the action easy to find in the action bar
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedOnly = true;
+
+                // 4. Run your custom logic when clicked
+                trigger OnAction()
+
+                begin
+                    Rec.TestField("Approval Status", Rec."Approval Status"::Approved);
+                    Rec."Approval Status" := Rec."Approval Status"::Closed
+                end;
+            }
+
+            action(SendPaySlip)
+            {
+                ApplicationArea = All;
+                Caption = 'Send Payslip';
+                ToolTip = 'Executes a process to send the Payslip';
+                Image = SendToMultiple;
+
+                // 3. Make the action easy to find in the action bar
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedOnly = true;
+
+                // 4. Run your custom logic when clicked
+                trigger OnAction()
+
+                begin
+
+                end;
+            }
         }
     }
 
-    var
+    trigger OnOpenPage()
+    begin
+        If UserSteup.Get(UserId) then;
+        //UserSteup.TestField("Global Dimension 1 Code");
 
+        //Rec.FilterGroup(2);
+        //Rec.SetRange("Shortcut Dimension 1 Filter", UserSteup."Global Dimension 1 Code");
+        //Rec.FilterGroup(0);
+    end;
+
+    var
+        UserSteup: Record "User Setup";
         EmployeeRec: Record Employee;
         PayrollCodeunit: Codeunit "PayrollCodeunite";
         PayrollHead: Record PayrollHeader;

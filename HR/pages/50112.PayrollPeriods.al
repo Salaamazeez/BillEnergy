@@ -1,7 +1,7 @@
 page 50112 Periods
 {
     ApplicationArea = All;
-    Caption = 'Periods';
+    Caption = 'Payroll Periods';
     PageType = List;
     SourceTable = PayrollPeriods;
     UsageCategory = Lists;

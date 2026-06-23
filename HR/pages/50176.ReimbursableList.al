@@ -1,4 +1,5 @@
 namespace BILLENERGY.BILLENERGY;
+using System.Security.User;
 
 page 50176 ReimbursableList
 {
@@ -48,4 +49,18 @@ page 50176 ReimbursableList
             }
         }
     }
+
+    trigger OnOpenPage()
+    begin
+        If UserSteup.Get(UserId) then;
+        if (UserSteup."Global Dimension 1 Code" <> '') then begin
+
+            Rec.FilterGroup(2);
+            Rec.SetRange("Global Dimension 1 Code Filter", UserSteup."Global Dimension 1 Code");
+            Rec.FilterGroup(0);
+        end;
+    end;
+
+    var
+        UserSteup: Record "User Setup";
 }

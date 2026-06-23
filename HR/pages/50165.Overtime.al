@@ -1,6 +1,7 @@
 namespace BILLENERGY.BILLENERGY;
 using Microsoft.HumanResources.Employee;
 using Microsoft.HumanResources.Setup;
+using System.Security.User;
 using Microsoft.Finance.Dimension;
 
 page 50170 Overtime
@@ -121,6 +122,9 @@ page 50170 Overtime
                 // 4. Run your custom logic when clicked
                 trigger OnAction()
                 begin
+                    Rec."Approval Status" := Rec."Approval Status"::Open;
+                    Rec.TestField("Global Dimension 1 Filter");
+                    Rec.TestField("Period Code");
                     Report.Run(Report::ImportOvertimeVariables);
                 end;
             }
@@ -142,6 +146,10 @@ page 50170 Overtime
                 begin
                     //If (PayPeriods = '') then
                     //Error(Text002);
+
+                    Rec."Approval Status" := Rec."Approval Status"::Open;
+                    Rec.TestField("Global Dimension 1 Filter");
+                    Rec.TestField("Period Code");
 
                     NetPay := 0;
                     SumPension := 0;
@@ -227,7 +235,18 @@ page 50170 Overtime
 
     }
 
+    trigger OnOpenPage()
+    begin
+        If UserSteup.Get(UserId) then;
+        //UserSteup.TestField("Global Dimension 1 Code");
+
+        //Rec.FilterGroup(2);
+        //Rec.SetRange("Global Dimension 1 Filter", UserSteup."Global Dimension 1 Code");
+        //Rec.FilterGroup(0);
+    end;
+
     var
+        UserSteup: Record "User Setup";
         Text001: Label 'Processing overtime for Rig Employee No. #1######\';
         Text002: Label 'Period Filter cannot be empty';
         Text003: Label 'Gross Pay Element code is not setup in the Payroll Element page';
