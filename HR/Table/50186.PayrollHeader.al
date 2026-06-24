@@ -77,6 +77,13 @@ table 50186 PayrollHeader
         {
             Caption = 'Closed Time';
         }
+        field(19; "Total Amount"; Decimal)
+        {
+            Caption = 'Total Amount';
+            Editable = false;
+            FieldClass = FlowField;
+            CalcFormula = sum(PayrollDetailLine."Payable Amount" where("Payroll Period" = field("Payroll Period"), "Part of Payable Value" = filter(true)));
+        }
     }
     keys
     {
@@ -97,6 +104,11 @@ table 50186 PayrollHeader
         PayrollDetailLine.SetRange("Payroll Period", "Payroll Period");
         If PayrollDetailLine.FindSet() then
             PayrollDetailLine.DeleteAll();
+    end;
+
+    trigger OnInsert()
+    begin
+        "Payroll Creation Date" := Today;
     end;
 
     var

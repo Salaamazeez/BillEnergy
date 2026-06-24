@@ -88,6 +88,12 @@ page 50170 Overtime
                     ApplicationArea = All;
                     //Visible = false;
                 }
+                field("Total Amount"; Rec."Total Amount")
+                {
+                    ToolTip = 'Specifies the value of the Total Amount field.', Comment = '%';
+                    ApplicationArea = All;
+                    Editable = false;
+                }
             }
 
             part(Overtimelines; OvertimeSubform)

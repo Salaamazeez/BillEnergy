@@ -80,6 +80,12 @@ page 50175 Reimbursable
                     ToolTip = 'Specifies the value of the SystemId field.', Comment = '%';
                     ApplicationArea = All;
                 }
+                field("Total Amount"; Rec."Total Amount")
+                {
+                    ToolTip = 'Specifies the value of the Total Amount field.', Comment = '%';
+                    ApplicationArea = All;
+                    Editable = false;
+                }
             }
             part(Reimbursablelines; ReimbursableSalarySubform)
             {

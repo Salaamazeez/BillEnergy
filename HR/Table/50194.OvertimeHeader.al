@@ -52,6 +52,13 @@ table 50194 OvertimeHeader
             ToolTip = 'Specifies the value of the Overtime Paid field.', Comment = '%';
 
         }
+        field(10; "Total Amount"; Decimal)
+        {
+            Caption = 'Total Amount';
+            Editable = false;
+            FieldClass = FlowField;
+            CalcFormula = sum(OvertimeLine."Overtime Amount" where("Period Code" = field("Period Code")));
+        }
     }
 
 
@@ -76,6 +83,11 @@ table 50194 OvertimeHeader
             Overtimeline.reset;
         Overtimeline.setrange(Overtimeline."Period Code", "Period Code");
         Overtimeline.DeleteAll();
+    end;
+
+    trigger OnInsert()
+    begin
+        "Document Date" := Today;
     end;
 
     procedure PerformManualClose()

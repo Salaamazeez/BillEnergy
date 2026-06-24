@@ -52,6 +52,14 @@ table 50195 ReimbursableHeader
             ToolTip = 'Specifies the value of the Reimbursable Paid field.', Comment = '%';
 
         }
+
+        field(10; "Total Amount"; Decimal)
+        {
+            Caption = 'Total Amount';
+            Editable = false;
+            FieldClass = FlowField;
+            CalcFormula = sum(ReimbursableSalaryLines."Net Pay" where("Payroll Period" = field("Period Code")));
+        }
     }
 
     keys
@@ -76,6 +84,11 @@ table 50195 ReimbursableHeader
             ReimbLines.reset;
         ReimbLines.setrange(ReimbLines."Payroll Period", "Period Code");
         ReimbLines.DeleteAll();
+    end;
+
+    trigger OnInsert()
+    begin
+        "Document Date" := Today;
     end;
 
     procedure PerformManualClose()

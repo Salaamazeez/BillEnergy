@@ -8,7 +8,7 @@ page 50155 PayrollHeader
     Caption = 'Payroll Header';
     PageType = Document;
     SourceTable = PayrollHeader;
-    UsageCategory = Tasks;
+    UsageCategory = ReportsAndAnalysis;
 
     layout
     {
@@ -99,7 +99,12 @@ page 50155 PayrollHeader
                 field(SystemModifiedAt; Rec.SystemModifiedAt)
                 {
                     ToolTip = 'Specifies the value of the SystemModifiedAt field.', Comment = '%';
-
+                }
+                field("Total Amount"; Rec."Total Amount")
+                {
+                    ToolTip = 'Specifies the value of the Total Amount field.', Comment = '%';
+                    ApplicationArea = All;
+                    Editable = false;
                 }
             }
             part(PayrollLines; PayrollSubform)
@@ -152,6 +157,28 @@ page 50155 PayrollHeader
                     Report.Run(Report::Payslip, true, false);
                 end;
             }
+            action(PayrollSummary)
+            {
+                ApplicationArea = All;
+                Caption = 'Payroll Summary';
+                ToolTip = 'Executes a process to Print the Payroll Summary report';
+                Image = Payroll;
+
+                // 3. Make the action easy to find in the action bar
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedOnly = true;
+
+                // 4. Run your custom logic when clicked
+                trigger OnAction()
+
+                begin
+                    PayrollLines.Reset();
+                    PayrollLines.SetRange("Payroll Period", Rec."Payroll Period");
+                    if PayrollLines.FindFirst() then
+                        Report.Run(Report::PayrollSummary, true, false, PayrollLines);
+                end;
+            }
 
             action(ClosePayroll)
             {
@@ -170,7 +197,7 @@ page 50155 PayrollHeader
 
                 begin
                     Rec.TestField("Approval Status", Rec."Approval Status"::Approved);
-                    Rec."Approval Status" := Rec."Approval Status"::Closed
+                    //Rec."Approval Status" := Rec."Approval Status"::Closed
                 end;
             }
 
