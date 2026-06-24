@@ -49,7 +49,11 @@ report 50123 ReimbursableSummary
 
             column(NoofDaysWorked; "No. of Days Worked")
             { }
+            column(CompLogo; CompInfo.Picture)
+            { }
 
+            column(LabelSummary; LabelPaySummary)
+            { }
             trigger OnPreDataItem()
             begin
 

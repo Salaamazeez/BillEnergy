@@ -57,6 +57,8 @@ report 50122 OvertimeSummary
 
             column(BankAccountNo; BankAccountNo)
             { }
+            column(CompLogo; CompInfo.Picture)
+            { }
 
             trigger OnPreDataItem()
             begin

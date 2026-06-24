@@ -111,8 +111,6 @@ page 50170 Overtime
         area(Processing)
         {
             // 2. Define your action button
-
-
             action(UploadOvertimeVariables)
             {
                 ApplicationArea = All;
@@ -135,6 +133,28 @@ page 50170 Overtime
                 end;
             }
 
+            action(ReportOvertime)
+            {
+                ApplicationArea = All;
+                Caption = 'Overtime Summary';
+                ToolTip = 'Executes a process to Print the Overtime Summary for rig staff';
+                Image = Payment;
+
+                // 3. Make the action easy to find in the action bar
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedOnly = true;
+
+                // 4. Run your custom logic when clicked
+                trigger OnAction()
+
+                begin
+                    Overtimeline.Reset();
+                    Overtimeline.SetRange("Period Code", rec."Period Code");
+                    if Overtimeline.FindFirst() then
+                        Report.Run(Report::OvertimeSummary, true, false, Overtimeline);
+                end;
+            }
             action(CalculateOvertime)
             {
                 ApplicationArea = All;

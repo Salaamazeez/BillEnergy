@@ -121,6 +121,28 @@ page 50175 Reimbursable
                     PayrollCodeunit.ProcessReimbPayroll(Rec."Period Code", Rec."Global Dimension 1 Code Filter", Rec."Global Dimension 2 Code Filter", Rec."Employee Code Filter");
                 end;
             }
+            action(ReportRebursable)
+            {
+                ApplicationArea = All;
+                Caption = 'Reimbursable Summary';
+                ToolTip = 'Executes a process to Print the Reimbursable Summary for rig staff';
+                Image = Payment;
+
+                // 3. Make the action easy to find in the action bar
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedOnly = true;
+
+                // 4. Run your custom logic when clicked
+                trigger OnAction()
+
+                begin
+                    ReimbursLine.Reset();
+                    ReimbursLine.SetRange("Payroll Period", rec."Period Code");
+                    if ReimbursLine.FindFirst() then
+                        Report.Run(Report::ReimbursableSummary, true, false, ReimbursLine);
+                end;
+            }
         }
     }
 
@@ -139,4 +161,5 @@ page 50175 Reimbursable
         EmployeeRec: Record Employee;
         PayrollCodeunit: Codeunit "PayrollCodeunite";
         ReimbursableHead: Record ReimbursableHeader;
+        ReimbursLine: Record ReimbursableSalaryLines;
 }
