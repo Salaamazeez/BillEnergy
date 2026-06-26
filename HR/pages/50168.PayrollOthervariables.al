@@ -168,11 +168,11 @@ page 50168 PayrollOthervariables
     trigger OnOpenPage()
     begin
         If UserSteup.Get(UserId) then;
-        //UserSteup.TestField("Global Dimension 1 Code");
-
-        Rec.FilterGroup(2);
-        Rec.SetRange("Global Dimension 1 Code", UserSteup."Global Dimension 1 Code");
-        Rec.FilterGroup(0);
+        IF (UserSteup."Global Dimension 1 Code" <> '') then begin
+            Rec.FilterGroup(2);
+            Rec.SetRange("Global Dimension 1 Code", UserSteup."Global Dimension 1 Code");
+            Rec.FilterGroup(0);
+        end;
     end;
 
     var

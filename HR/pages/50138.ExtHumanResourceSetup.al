@@ -32,42 +32,50 @@ pageextension 50138 ExtHumanResourceSetup extends "Human Resources Setup"
                 {
                     Caption = 'Maternity Leave Code';
                     ApplicationArea = ALL;
+                    Visible = false;
                 }
                 field("Paternity Leave Code"; Rec."Paternity Leave Code")
                 {
                     Caption = 'Paternity Leave Code';
                     ApplicationArea = ALL;
+                    Visible = false;
                 }
                 field("Company Leave Code"; Rec."Compasonate Leave Code")
                 {
                     Caption = 'Compasonate Leave Code';
                     ApplicationArea = ALL;
+                    Visible = false;
                 }
                 field("Exam Leave Code"; Rec."Exam Leave Code")
                 {
                     Caption = 'Exam Leave Code';
                     ApplicationArea = ALL;
+                    Visible = false;
                 }
                 field("Sick Leave Code"; Rec."Sick Leave Code")
                 {
                     Caption = 'Sick Leave Code';
                     ApplicationArea = ALL;
+                    Visible = false;
                 }
                 field("Day-Off Leave Code"; Rec."Day-Off Leave Code")
                 {
                     Caption = 'Day-Off Leave Code';
                     ApplicationArea = ALL;
+                    Visible = false;
                 }
                 field("Out-Duty Leave Code"; Rec."Out-Duty Leave Code")
                 {
                     Caption = 'Out-Duty Leave Code';
                     ApplicationArea = ALL;
+                    Visible = false;
                 }
 
             }
             group(PerformanceAppraiser)
             {
                 Caption = 'Performance Appraiser Window';
+                Visible = false;
                 field("Appraisal Year"; Rec."Appraisal Year")
                 {
                     Caption = 'Appraiser Year';

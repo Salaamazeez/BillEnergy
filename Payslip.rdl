@@ -20,10 +20,10 @@
             <Value>CompLogo</Value>
             <MIMEType>image/jpeg</MIMEType>
             <Sizing>FitProportional</Sizing>
-            <Top>0.22444in</Top>
-            <Left>3.70361in</Left>
-            <Height>0.86112in</Height>
-            <Width>1.87964in</Width>
+            <Top>0.12027in</Top>
+            <Left>2.82399in</Left>
+            <Height>0.90973in</Height>
+            <Width>2.35186in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -48,7 +48,7 @@
             </Paragraphs>
             <rd:DefaultName>Textbox20</rd:DefaultName>
             <Top>0.34944in</Top>
-            <Left>2.2175in</Left>
+            <Left>1.43742in</Left>
             <Height>0.25in</Height>
             <Width>1.47222in</Width>
             <ZIndex>1</ZIndex>
@@ -3307,8 +3307,9 @@ Net Payment:</Value>
         <Height>5.37375in</Height>
         <Style />
       </Body>
-      <Width>5.64575in</Width>
+      <Width>5.24992in</Width>
       <Page>
+        <PageWidth>6in</PageWidth>
         <Style />
       </Page>
     </ReportSection>
