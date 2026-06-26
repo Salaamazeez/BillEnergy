@@ -11,82 +11,6 @@
       <rd:DataSourceID>d4a5699c-2fcb-46a4-a839-c5d73826b098</rd:DataSourceID>
     </DataSource>
   </DataSources>
-  <DataSets>
-    <DataSet Name="DataSet_Result">
-      <Query>
-        <DataSourceName>DataSource</DataSourceName>
-        <CommandText />
-      </Query>
-      <Fields>
-        <Field Name="EmployeeNo">
-          <DataField>EmployeeNo</DataField>
-        </Field>
-        <Field Name="EmployeeName">
-          <DataField>EmployeeName</DataField>
-        </Field>
-        <Field Name="GlobalDimension1Code">
-          <DataField>GlobalDimension1Code</DataField>
-        </Field>
-        <Field Name="GlobalDimension2Code">
-          <DataField>GlobalDimension2Code</DataField>
-        </Field>
-        <Field Name="PayrollPeriod">
-          <DataField>PayrollPeriod</DataField>
-        </Field>
-        <Field Name="JobTitle">
-          <DataField>JobTitle</DataField>
-        </Field>
-        <Field Name="LabelPaySummary">
-          <DataField>LabelPaySummary</DataField>
-        </Field>
-        <Field Name="DaysWorked">
-          <DataField>DaysWorked</DataField>
-        </Field>
-        <Field Name="ExtraDaysWorked">
-          <DataField>ExtraDaysWorked</DataField>
-        </Field>
-        <Field Name="GrossPay">
-          <DataField>GrossPay</DataField>
-        </Field>
-        <Field Name="GrossPayFormat">
-          <DataField>GrossPayFormat</DataField>
-        </Field>
-        <Field Name="PAYE">
-          <DataField>PAYE</DataField>
-        </Field>
-        <Field Name="PAYEFormat">
-          <DataField>PAYEFormat</DataField>
-        </Field>
-        <Field Name="Pension">
-          <DataField>Pension</DataField>
-        </Field>
-        <Field Name="PensionFormat">
-          <DataField>PensionFormat</DataField>
-        </Field>
-        <Field Name="NetPay">
-          <DataField>NetPay</DataField>
-        </Field>
-        <Field Name="NetPayFormat">
-          <DataField>NetPayFormat</DataField>
-        </Field>
-        <Field Name="OvertimeAmount">
-          <DataField>OvertimeAmount</DataField>
-        </Field>
-        <Field Name="OvertimeAmountFormat">
-          <DataField>OvertimeAmountFormat</DataField>
-        </Field>
-        <Field Name="PayrollBank">
-          <DataField>PayrollBank</DataField>
-        </Field>
-        <Field Name="BankAccountNo">
-          <DataField>BankAccountNo</DataField>
-        </Field>
-        <Field Name="CompLogo">
-          <DataField>CompLogo</DataField>
-        </Field>
-      </Fields>
-    </DataSet>
-  </DataSets>
   <ReportSections>
     <ReportSection>
       <Body>
@@ -863,12 +787,6 @@
       </Page>
     </ReportSection>
   </ReportSections>
-  <ReportParametersLayout>
-    <GridLayoutDefinition>
-      <NumberOfColumns>4</NumberOfColumns>
-      <NumberOfRows>2</NumberOfRows>
-    </GridLayoutDefinition>
-  </ReportParametersLayout>
   <Code>Public Function BlankZero(ByVal Value As Decimal)
     if Value = 0 then
         Return ""
@@ -972,4 +890,80 @@ iigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACi
   <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
   <rd:ReportID>0eeb6585-38ae-40f1-885b-8d50088d51b4</rd:ReportID>
+  <DataSets>
+    <DataSet Name="DataSet_Result">
+      <Fields>
+        <Field Name="EmployeeNo">
+          <DataField>EmployeeNo</DataField>
+        </Field>
+        <Field Name="EmployeeName">
+          <DataField>EmployeeName</DataField>
+        </Field>
+        <Field Name="GlobalDimension1Code">
+          <DataField>GlobalDimension1Code</DataField>
+        </Field>
+        <Field Name="GlobalDimension2Code">
+          <DataField>GlobalDimension2Code</DataField>
+        </Field>
+        <Field Name="PayrollPeriod">
+          <DataField>PayrollPeriod</DataField>
+        </Field>
+        <Field Name="JobTitle">
+          <DataField>JobTitle</DataField>
+        </Field>
+        <Field Name="LabelPaySummary">
+          <DataField>LabelPaySummary</DataField>
+        </Field>
+        <Field Name="DaysWorked">
+          <DataField>DaysWorked</DataField>
+        </Field>
+        <Field Name="ExtraDaysWorked">
+          <DataField>ExtraDaysWorked</DataField>
+        </Field>
+        <Field Name="GrossPay">
+          <DataField>GrossPay</DataField>
+        </Field>
+        <Field Name="GrossPayFormat">
+          <DataField>GrossPayFormat</DataField>
+        </Field>
+        <Field Name="PAYE">
+          <DataField>PAYE</DataField>
+        </Field>
+        <Field Name="PAYEFormat">
+          <DataField>PAYEFormat</DataField>
+        </Field>
+        <Field Name="Pension">
+          <DataField>Pension</DataField>
+        </Field>
+        <Field Name="PensionFormat">
+          <DataField>PensionFormat</DataField>
+        </Field>
+        <Field Name="NetPay">
+          <DataField>NetPay</DataField>
+        </Field>
+        <Field Name="NetPayFormat">
+          <DataField>NetPayFormat</DataField>
+        </Field>
+        <Field Name="OvertimeAmount">
+          <DataField>OvertimeAmount</DataField>
+        </Field>
+        <Field Name="OvertimeAmountFormat">
+          <DataField>OvertimeAmountFormat</DataField>
+        </Field>
+        <Field Name="PayrollBank">
+          <DataField>PayrollBank</DataField>
+        </Field>
+        <Field Name="BankAccountNo">
+          <DataField>BankAccountNo</DataField>
+        </Field>
+        <Field Name="CompLogo">
+          <DataField>CompLogo</DataField>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText />
+      </Query>
+    </DataSet>
+  </DataSets>
 </Report>
