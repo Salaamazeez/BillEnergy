@@ -534,6 +534,7 @@ table 60009 "Payment Voucher Header"
         //IF ("Approved Purch. Requisition" = '') AND ("System-Generated" = FALSE) THEN
         //  ERROR('Approved Requisition is required')
         // ELSE BEGIN
+        
         SignRegulator := 1;
         if Posted then
             Error('This Voucher has been posted already');

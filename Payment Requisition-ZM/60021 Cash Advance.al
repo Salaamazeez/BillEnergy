@@ -97,6 +97,7 @@ table 60021 "Cash Advance"
         }
         field(15; "Debit  Account Type"; Option)
         {
+            Editable= false;
             Caption = 'Payee Type';
             DataClassification = ToBeClassified;
             OptionCaption = 'G/L Account,Vendor,Staff,Bank Account';

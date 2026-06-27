@@ -35,12 +35,12 @@ page 50007 "Approved Payment Req. Card"
                 }
                 field("Transaction type"; Rec."Transaction type")
                 {
-                    Editable = false;
+                    Visible = false;
                     ApplicationArea = All;
                 }
                 field("Loan ID"; Rec."Loan ID")
                 {
-                    Editable = false;
+                    Visible = false;
                     ApplicationArea = All;
                 }
                 field("Purchase Requisition No."; Rec."Purchase Requisition No.")
