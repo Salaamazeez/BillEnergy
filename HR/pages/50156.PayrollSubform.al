@@ -119,8 +119,9 @@ page 50156 PayrollSubform
     begin
         PayrollDetLines.Reset();
         PayrollDetLines.SetRange("Payroll Period", rec."Payroll Period");
+        PayrollDetLines.SetRange("Employee No.", Rec."Employee Code");
         if PayrollDetLines.FindSet() then
-            PayrollDetLines.DeleteAll();
+            PayrollDetLines.Delete();
     end;
 
     var
