@@ -22,7 +22,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>=First(Fields!LabelPaySummary.Value, "DataSet_Result")</Value>
+                    <Value>PAYROLL SUMMARY REPORT FOR </Value>
                     <Style>
                       <FontWeight>Bold</FontWeight>
                     </Style>
@@ -35,9 +35,9 @@
             </Paragraphs>
             <rd:DefaultName>Textbox1</rd:DefaultName>
             <Top>0.32167in</Top>
-            <Left>8.14112in</Left>
+            <Left>7.17862in</Left>
             <Height>0.34028in</Height>
-            <Width>2.06944in</Width>
+            <Width>2.58333in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -68,9 +68,9 @@
             </Paragraphs>
             <rd:DefaultName>Textbox1</rd:DefaultName>
             <Top>0.32167in</Top>
-            <Left>10.21056in</Left>
+            <Left>9.63696in</Left>
             <Height>0.34028in</Height>
-            <Width>0.88194in</Width>
+            <Width>1.13888in</Width>
             <ZIndex>1</ZIndex>
             <Style>
               <Border>
@@ -86,7 +86,7 @@
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>0.98612in</Width>
+                  <Width>0.86112in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>1.83333in</Width>
@@ -101,7 +101,7 @@
                   <Width>1in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1in</Width>
+                  <Width>0.90278in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>0.79861in</Width>
@@ -150,7 +150,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Employee Code</Value>
+                                  <Value>Employee No.</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -358,7 +358,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Global Dimension1Code</Value>
+                                  <Value>Branch</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -410,7 +410,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Global Dimension2Code</Value>
+                                  <Value>Department</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -1473,7 +1473,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!PAYE.Value</Value>
+                                  <Value>=Abs(Fields!PAYE.Value)</Value>
                                   <Style>
                                     <FontSize>7pt</FontSize>
                                     <Format>#,0.00;(#,0.00)</Format>
@@ -1505,7 +1505,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!PensionEmp.Value</Value>
+                                  <Value>=Abs(Fields!PensionEmp.Value)</Value>
                                   <Style>
                                     <FontSize>7pt</FontSize>
                                     <Format>#,0.00;(#,0.00)</Format>
@@ -1537,7 +1537,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!LateDed.Value</Value>
+                                  <Value>=Abs(Fields!LateDed.Value)</Value>
                                   <Style>
                                     <FontSize>7pt</FontSize>
                                     <Format>#,0.00;(#,0.00)</Format>
@@ -1569,7 +1569,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!AbsentDed.Value</Value>
+                                  <Value>=Abs(Fields!AbsentDed.Value)</Value>
                                   <Style>
                                     <FontSize>7pt</FontSize>
                                     <Format>#,0.00;(#,0.00)</Format>
@@ -1601,7 +1601,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!TotalDed.Value</Value>
+                                  <Value>=Abs(Fields!TotalDed.Value)</Value>
                                   <Style>
                                     <FontSize>7pt</FontSize>
                                     <Format>#,0.00;(#,0.00)</Format>
@@ -2430,14 +2430,16 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>TOTAL AMOUNT</Value>
                                   <Style>
                                     <FontSize>7pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox88</rd:DefaultName>
@@ -2471,60 +2473,10 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
+                        <ColSpan>2</ColSpan>
                       </CellContents>
                     </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox89">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>TOTAL</Value>
-                                  <Style>
-                                    <FontSize>7pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style />
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox89</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>Solid</Style>
-                            </Border>
-                            <TopBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </TopBorder>
-                            <BottomBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </BottomBorder>
-                            <LeftBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </LeftBorder>
-                            <RightBorder>
-                              <Color>Black</Color>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </RightBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
+                    <TablixCell />
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox90">
@@ -2601,9 +2553,9 @@
             </TablixRowHierarchy>
             <DataSetName>DataSet_Result</DataSetName>
             <Top>0.96056in</Top>
-            <Left>0.06472in</Left>
+            <Left>0.28694in</Left>
             <Height>0.83333in</Height>
-            <Width>16.02085in</Width>
+            <Width>15.79863in</Width>
             <ZIndex>2</ZIndex>
             <Style>
               <Border>
@@ -2635,10 +2587,9 @@
             <Source>Embedded</Source>
             <Value>CompLogo</Value>
             <Sizing>FitProportional</Sizing>
-            <Top>0.18972in</Top>
-            <Left>14.64807in</Left>
-            <Height>0.71528in</Height>
-            <Width>1.4375in</Width>
+            <Left>13.06474in</Left>
+            <Height>0.91889in</Height>
+            <Width>3.02083in</Width>
             <ZIndex>3</ZIndex>
             <Style>
               <Border>
@@ -2650,10 +2601,10 @@
         <Height>1.80084in</Height>
         <Style />
       </Body>
-      <Width>16.12723in</Width>
+      <Width>16.12029in</Width>
       <Page>
         <PageHeight>8.27in</PageHeight>
-        <PageWidth>11.69in</PageWidth>
+        <PageWidth>17in</PageWidth>
         <Style />
       </Page>
     </ReportSection>

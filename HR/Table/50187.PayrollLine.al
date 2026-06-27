@@ -129,7 +129,8 @@ table 50187 PayrollLine
     begin
 
         PayrollDetailLine.Reset();
-        PayrollDetailLine.SetRange("Payroll Period", "Payroll Period");
+        PayrollDetailLine.SetRange("Payroll Period", Rec."Payroll Period");
+        PayrollDetailLine.SetRange("Employee No.", Rec."Employee Code");
         If PayrollDetailLine.FindSet() then
             PayrollDetailLine.DeleteAll();
     end;

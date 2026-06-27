@@ -217,7 +217,7 @@ table 50122 PerformanceAppraisalHeader
                 rec.TestField("Employee Final Comment");
             end;
         }
-        field(29; "Manager Final Comment"; Text[200])
+        field(29; "Manager Final Comment"; Text[1000])
         {
             Caption = 'Manager Final Comment';
             trigger OnValidate()

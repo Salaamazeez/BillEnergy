@@ -4,7 +4,7 @@ page 50112 Periods
     Caption = 'Payroll Periods';
     PageType = List;
     SourceTable = PayrollPeriods;
-    UsageCategory = Lists;
+    UsageCategory = Tasks;
     Editable = false;
 
     layout
