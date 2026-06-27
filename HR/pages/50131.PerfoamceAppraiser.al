@@ -1,7 +1,7 @@
 page 50131 PerfoamceAppraiser
 {
     ApplicationArea = All;
-    Caption = 'Perfoamce Appraiser';
+    Caption = 'Performance Appraiser';
     PageType = Document;
     SourceTable = PerformanceAppraisalHeader;
 
@@ -98,6 +98,14 @@ page 50131 PerfoamceAppraiser
                     ToolTip = 'Specifies the value of the Last Modified Time', Comment = '%';
                     ApplicationArea = All;
                 }
+
+                field("Manager Final Comment"; Rec."Manager Final Comment")
+                {
+                    ToolTip = 'Specifies the value of the Manager Final Comment', Comment = '%';
+                    ApplicationArea = All;
+                    MultiLine = true;
+                    Caption = 'Final Comment';
+                }
             }
             part(PerformanceAppraiserLine; PerformanceAppraiserSubform)
             {
@@ -129,6 +137,7 @@ page 50131 PerfoamceAppraiser
             group(MidYearAppraiser)
             {
                 Caption = 'Mid-Year Appraiser';
+                Visible = false;
 
                 field("Employee Progress update"; Rec."Employee Progress update")
                 {
@@ -154,7 +163,7 @@ page 50131 PerfoamceAppraiser
             group(EndYearFinalEvaluation)
             {
                 Caption = 'End-Year Final Evaluation';
-
+                Visible = false;
 
                 field("Employee Rating%"; Rec."Employee Rating%")
                 {
@@ -186,11 +195,13 @@ page 50131 PerfoamceAppraiser
                     ToolTip = 'Specifies the value of the Manager Final Rating', Comment = '%';
                     ApplicationArea = All;
                 }
+                /*
                 field("Manager Final Comment"; Rec."Manager Final Comment")
                 {
                     ToolTip = 'Specifies the value of the Manager Final Comment', Comment = '%';
                     ApplicationArea = All;
                 }
+                */
             }
         }
 

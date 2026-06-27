@@ -702,7 +702,7 @@ table 50130 "Purch. Requistion"
                         // if PurchOrd4.FindFirst() then begin
                         repeat
                             // Message(PurchOrd4."No.");
-                            Report.Run(50105, false, true, PurchOrd4);
+                            //Report.Run(50105, false, true, PurchOrd4);
                         until PurchOrd4.Next() = 0;
                         // end;
                     end;

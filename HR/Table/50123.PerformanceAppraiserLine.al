@@ -1,6 +1,6 @@
 table 50123 PerformanceAppraiserLine
 {
-    Caption = 'PerformanceAppraiserLine';
+    Caption = 'Performance Appraiser Line';
     DataClassification = ToBeClassified;
 
     fields

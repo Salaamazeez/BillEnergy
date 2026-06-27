@@ -174,6 +174,10 @@ codeunit 50010 PayrollCodeunite
                 TaxableIncome := 0;
                 AnnualGross := 0;
                 TotalTaxableIncome := 0;
+                EVCRelief := 0;
+                LifeRelief := 0;
+                NHISRelief := 0;
+                ITFAmt := 0;
 
                 //Employee.TESTFIELD("Employee Category");
                 Employee.TESTFIELD("Employment Date");
@@ -589,8 +593,8 @@ codeunit 50010 PayrollCodeunite
             PayrollDetailLine."Payable Amount" := ElementAmt;
             //PayrollDetailLine."Part of Book Value:=TRUE;
         END;
-
-        PayrollDetailLine.INSERT();
+        if PayrollElementL."Appear in Payslip" then
+            PayrollDetailLine.INSERT();
     END;
 
     PROCEDURE CalculateTax(MonthlyGross: Decimal; EmployeeLRec: Record Employee; PayPeriod: Code[10]): Decimal;

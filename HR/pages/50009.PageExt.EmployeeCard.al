@@ -68,6 +68,18 @@ pageextension 50009 EmployeeExt extends "Employee Card"
                 ApplicationArea = All;
 
             }
+
+            field("Global Dimension 1 Code"; Rec."Global Dimension 1 Code")
+            {
+                ApplicationArea = All;
+                CaptionClass = '1,1,1';
+            }
+
+            field("Global Dimension 2 Code"; Rec."Global Dimension 2 Code")
+            {
+                ApplicationArea = All;
+                CaptionClass = '1,1,2';
+            }
         }
         modify("Social Security No.")
         {

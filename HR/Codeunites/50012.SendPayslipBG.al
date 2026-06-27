@@ -4,7 +4,7 @@ using System.Threading;
 using System.Email;
 using System.Utilities;
 
-codeunit 50100 "Background Payslip Processor"
+codeunit 50012 SendPayslipProcessor
 {
     // Setting TableNo allows this codeunit to be called directly by the Job Queue Entry
     TableNo = "Job Queue Entry";
@@ -27,7 +27,7 @@ codeunit 50100 "Background Payslip Processor"
     begin
         // Filter for active employees who have an email address populated
         Employee.SetRange(Status, Employee.Status::Active);
-        Employee.SetFilter("Company E-Mail", '<>%1', '');
+        Employee.SetFilter(Employee."E-Mail", '<>%1', '');
 
         if Employee.FindSet() then begin
             repeat

@@ -215,9 +215,10 @@ page 50155 PayrollHeader
 
                 // 4. Run your custom logic when clicked
                 trigger OnAction()
-
+                var
+                    SendPayslip: Codeunit SendPayslipProcessor;
                 begin
-
+                    SendPayslip.RunSendPaySlip(rec."Payroll Period");
                 end;
             }
         }
