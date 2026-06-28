@@ -187,7 +187,8 @@ page 50092 "Appr. Purch. Requisition Cards"
                     PurRequisition.SetRange("No.", Rec."No.");
                     if PurRequisition.FindFirst() then
                         //Report.Run(50130,);50102
-                        Report.RunModal(50102, true, true, PurRequisition);
+                        // Report.RunModal(50102, true, true, PurRequisition);
+                        Report.RunModal(50162, true, true, PurRequisition);
                 end;
             }
 

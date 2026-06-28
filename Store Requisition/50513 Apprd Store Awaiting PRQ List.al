@@ -62,21 +62,21 @@ page 50513 "Apprd Store Awaiting PRQ List"
         }
     }
 
-    actions
-    {
-        area(Processing)
-        {
-            action(ActionName)
-            {
-                ApplicationArea = All;
+    // actions
+    // {
+    //     area(Processing)
+    //     {
+    //         action(ActionName)
+    //         {
+    //             ApplicationArea = All;
 
-                trigger OnAction();
-                begin
+    //             trigger OnAction();
+    //             begin
 
-                end;
-            }
-        }
-    }
+    //             end;
+    //         }
+    //     }
+    // }
     var
         h: Page "Customer Card";
 }

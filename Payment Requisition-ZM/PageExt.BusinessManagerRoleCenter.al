@@ -74,7 +74,7 @@ pageextension 50001 BusinessManagerRCExt extends "Business Manager Role Center"
                     Image = CashFlow;
                     RunObject = Page "Cash Advance List";
                 }
-                                action("Purchase Requisition List")
+                action("Purchase Requisition List")
                 {
                     ApplicationArea = All;
                     Image = CashFlow;
@@ -93,7 +93,80 @@ pageextension 50001 BusinessManagerRCExt extends "Business Manager Role Center"
                     Image = CashFlow;
                     RunObject = Page "Stores Return Lists";
                 }
+                group("Pending Documents")
+                {
+                    action("Pending Payment Vouchers")
+                    {
+                        RunObject = Page "Payment Voucher List";
+                        ApplicationArea = All;
+                    }
+                    action("Purchase Invoices")
+                    {
+                        RunObject = Page "Purchase Invoices";
+                        ApplicationArea = All;
+                    }
+                    // action("Bank Accounts")
+                    // {
+                    //     RunObject = Page "Bank Account List";
+                    // }
+                    action("Purchase Orders")
+                    {
+                        RunObject = Page "Purchase Order List";
+                        ApplicationArea = All;
+                    }
+                    action("Store Requisitioms")
+                    {
+                        RunObject = Page "Store Requisition List";
+                        ApplicationArea = All;
+                    }
+                    action("Purchase Requisitioms")
+                    {
+                        RunObject = Page "Purchase Requisition List";
+                        ApplicationArea = All;
+                    }
+                    // action("Payment Requests")
+                    // {
+                    //     RunObject = Page "Payment Req. List";
+                    // }
+                }
 
+                group("Approved Documents")
+                {
+                    action("Approved Payment Requests")
+                    {
+                        RunObject = page "Approved Payment Req. List";
+                        ApplicationArea = All;
+                    }
+                    // action("Approved Payment Vouchers")
+                    // {
+                    //     RunObject = page "Approved Payment Voucher List";
+                    // }
+                    action("Approved Store Req. Awaiting PRQ")
+                    {
+                        RunObject = page "Apprd Store Awaiting PRQ List";
+                        ApplicationArea = All;
+                    }
+                    action("Approved Store Req. Awaiting Issue")
+                    {
+                        RunObject = page "Apprvd SRQ Awaiting ISSUE List";
+                        ApplicationArea = All;
+                    }
+                    action("Apprv. Stores Returns")
+                    {
+                        RunObject = page "Apprv. Stores Returns List";
+                        ApplicationArea = All;
+                    }
+                    action("Appr. Purch. Requisition Lists")
+                    {
+                        RunObject = page "Appr. Purch. Requisition Lists";
+                        ApplicationArea = All;
+                    }
+                    action("Approved Leave Application")
+                    {
+                        RunObject = page ApproveLeaveApplicationList;
+                        ApplicationArea = All;
+                    }
+                }
             }
 
         }

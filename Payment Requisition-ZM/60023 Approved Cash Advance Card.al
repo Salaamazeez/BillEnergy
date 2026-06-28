@@ -32,6 +32,7 @@ page 60023 "Approved Cash Advance Card"
                 field(Requester; Rec.Requester)
                 {
                     ApplicationArea = All;
+                    Editable = false;
 
                 }
                 field("Shortcut Dimension 1 Code"; Rec."Shortcut Dimension 1 Code")
@@ -151,6 +152,8 @@ page 60023 "Approved Cash Advance Card"
                 trigger OnAction()
                 begin
                     Rec.TestField(Status, Rec.Status::Approved);
+                    IF CONFIRM('Do you want to create Payment Voucher', FALSE) THEN
+                        exit;
                     Rec.CreateVoucher()
                 end;
             }

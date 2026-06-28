@@ -188,6 +188,49 @@ PageExtension 50201 AccountingRoleCenterExt extends "Accountant Role Center"
                     Image = CashFlow;
                     RunObject = Page "Stores Return Lists";
                 }
+                action("&Purchase Invoices")
+                {
+                    ApplicationArea = All;
+                    Caption = 'Purchase Invoices';
+                    Image = Invoice;
+                    RunObject = Page "Purchase Invoices";
+                }
+                action("Approved Payment Vouchers")
+                {
+                    ApplicationArea = All;
+                    Image = Voucher;
+                    RunObject = Page "Approved Payment Voucher List";
+                }
+                action("Approved Payment Requests")
+                {
+                    ApplicationArea = All;
+                    Image = Voucher;
+                    RunObject = Page "Approved Payment Req. List";
+                }
+                action("Approved Cash Advances")
+                {
+                    ApplicationArea = All;
+                    Image = Voucher;
+                    RunObject = Page "Approved Cash Advance List";
+                }
+                action("Approved Store Req. Awaiting PRQ")
+                {
+                    ApplicationArea = All;
+                    Image = Voucher;
+                    RunObject = Page "Apprd Store Awaiting PRQ List";
+                }
+                action("Approved Store Req. Awaiting Issue")
+                {
+                    ApplicationArea = All;
+                    Image = Voucher;
+                    RunObject = Page "Apprvd SRQ Awaiting ISSUE List";
+                }
+                action("Approved Store Returns")
+                {
+                    ApplicationArea = All;
+                    Image = Voucher;
+                    RunObject = Page "Apprv. Stores Returns List";
+                }
 
 
             }

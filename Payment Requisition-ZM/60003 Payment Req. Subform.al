@@ -15,11 +15,15 @@ page 60003 "Payment Req. Subform"
             repeater(GroupName)
             {
 
-                field("Expense Code"; Rec."Expense Code") { }
+                field("Expense Code"; Rec."Expense Code")
+                {
+
+                }
 
                 field("Account Type"; Rec."Account Type")
                 {
                     ApplicationArea = All;
+                    Editable = false;
                     trigger OnValidate()
                     begin
                         IF Rec."Account Type" = Rec."Account Type"::Vendor THEN BEGIN
@@ -34,30 +38,36 @@ page 60003 "Payment Req. Subform"
                 field("Account No."; Rec."Account No.")
                 {
                     ApplicationArea = All;
+                    Editable = false;
 
                 }
                 field("Account Name"; Rec."Account Name")
                 {
                     ApplicationArea = All;
 
+                    Editable = false;
                 }
                 field("Payment Details"; Rec."Payment Details")
                 {
                     ApplicationArea = All;
+                    Editable = false;
 
                 }
                 field("Currency Code"; Rec."Currency Code")
                 {
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field(Amount; Rec.Amount)
                 {
                     ApplicationArea = All;
+                    Editable = false;
 
                 }
                 field("Amount (LCY)"; Rec."Amount (LCY)")
                 {
                     ApplicationArea = All;
+                    Editable = false;
 
                 }
 
@@ -121,6 +131,7 @@ page 60003 "Payment Req. Subform"
         InvoiceNoEditable: Boolean;
         PaymentRequisition: Record "Payment Requisition";
         PaymentRequisitionLine: Record "Payment Requisition Line";
+        AllowEdit: Boolean;
 
     trigger OnInit()
     begin

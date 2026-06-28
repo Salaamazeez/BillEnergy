@@ -66,7 +66,7 @@ table 60020 "Cash Advance Line"
         }
         field(10; "Amount (LCY)"; Decimal)
         {
-            Editable = false;
+            // Editable = false;]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
             DataClassification = CustomerContent;
         }
         field(11; "Currency Code"; Code[10])

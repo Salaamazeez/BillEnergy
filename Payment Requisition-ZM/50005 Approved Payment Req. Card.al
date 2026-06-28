@@ -6,7 +6,7 @@ page 50007 "Approved Payment Req. Card"
     UsageCategory = Administration;
     SourceTable = "Payment Requisition";
     SourceTableView = WHERE(Posted = CONST(false), Status = CONST(Approved));
-    Editable = false;
+    // Editable = false;
     DeleteAllowed = false;
     InsertAllowed = false;
     layout
@@ -19,68 +19,83 @@ page 50007 "Approved Payment Req. Card"
                 field("No. "; Rec."No.")
                 {
                     ApplicationArea = All;
+                    Editable = false;
                 }
 
                 field("Date"; Rec."Date")
                 {
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field(Requester; Rec.Requester)
                 {
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field("Request Description"; Rec."Request Description")
                 {
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field("Transaction type"; Rec."Transaction type")
                 {
                     Visible = false;
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field("Loan ID"; Rec."Loan ID")
                 {
                     Visible = false;
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field("Purchase Requisition No."; Rec."Purchase Requisition No.")
                 {
                     Visible = false;
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field("Request Amount"; Rec."Request Amount")
                 {
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field("Request Amount (LCY)"; Rec."Request Amount (LCY)")
                 {
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field(Beneficiary; Rec.Beneficiary)
                 {
                     Visible = true;
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field("Beneficiary Name"; Rec."Beneficiary Name")
                 {
                     Visible = true;
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field("Shortcut Dimension 1 Code"; Rec."Shortcut Dimension 1 Code")
                 {
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field("Shortcut Dimension 2 Code"; Rec."Shortcut Dimension 2 Code")
                 {
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field(Status; Rec.Status)
                 {
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field("Voucher Created?"; Rec."Voucher Created?")
                 {
                     ApplicationArea = All;
+                    Editable = false;
                 }
 
             }
