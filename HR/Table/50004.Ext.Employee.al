@@ -76,6 +76,6 @@ tableextension 50004 EmployeeExt extends Employee
     }
     trigger OnAfterInsert()
     begin
-        TestField("Job Title");
+        //TestField("Job Title");
     end;
 }
