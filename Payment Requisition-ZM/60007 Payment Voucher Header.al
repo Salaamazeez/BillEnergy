@@ -134,8 +134,10 @@ table 60009 "Payment Voucher Header"
                             if not GLAcc.GET("Bal Account No.") then
                                 exit;
                             "Bal Account Name" := GLAcc.Name;
-                            Validate("Shortcut Dimension 1 Code", GLAcc."Global Dimension 1 Code");
-                            Validate("Shortcut Dimension 2 Code", GLAcc."Global Dimension 2 Code");
+
+                            //This is removed because it overrides the dimension values coming from the payment requisition i.e Validating it with null
+                            // Validate("Shortcut Dimension 1 Code", GLAcc."Global Dimension 1 Code");
+                            // Validate("Shortcut Dimension 2 Code", GLAcc."Global Dimension 2 Code");
 
                         END;
                     "Bal Account Type"::Vendor:
@@ -145,8 +147,10 @@ table 60009 "Payment Voucher Header"
                             Vend.GET("Bal Account No.");
                             "Bal Account Name" := Vend.Name;
                             //Validate("Currency Code", Vend."Currency Code");
-                            Validate("Shortcut Dimension 1 Code", Vend."Global Dimension 1 Code");
-                            Validate("Shortcut Dimension 2 Code", Vend."Global Dimension 2 Code");
+                            
+                            //This is removed because it overrides the dimension values coming from the payment requisition i.e Validating it with null
+                            // Validate("Shortcut Dimension 1 Code", Vend."Global Dimension 1 Code");
+                            // Validate("Shortcut Dimension 2 Code", Vend."Global Dimension 2 Code");
 
                         END;
                     "Bal Account Type"::Staff:
@@ -156,8 +160,9 @@ table 60009 "Payment Voucher Header"
                             Cust.GET("Bal Account No.");
                             "Bal Account Name" := Cust.Name;
                             Validate("Currency Code", Cust."Currency Code");
-                            Validate("Shortcut Dimension 1 Code", Cust."Global Dimension 1 Code");
-                            Validate("Shortcut Dimension 2 Code", Cust."Global Dimension 2 Code");
+                            //This is removed because it overrides the dimension values coming from the payment requisition i.e Validating it with null
+                            // Validate("Shortcut Dimension 1 Code", Cust."Global Dimension 1 Code");
+                            // Validate("Shortcut Dimension 2 Code", Cust."Global Dimension 2 Code");
 
                         END;
                     "Bal Account Type"::"Bank Account":
@@ -175,8 +180,8 @@ table 60009 "Payment Voucher Header"
                             BankAccount.GET("Bal Account No.");
                             "Bal Account Name" := BankAccount.Name;
                             //Validate("Currency Code", BankAccount."Currency Code");
-                            Validate("Shortcut Dimension 1 Code", EmpRec."Global Dimension 1 Code");
-                            Validate("Shortcut Dimension 2 Code", EmpRec."Global Dimension 2 Code");
+                            // Validate("Shortcut Dimension 1 Code", EmpRec."Global Dimension 1 Code");
+                            // Validate("Shortcut Dimension 2 Code", EmpRec."Global Dimension 2 Code");
 
                         END;
                 END;
@@ -534,6 +539,10 @@ table 60009 "Payment Voucher Header"
         //IF ("Approved Purch. Requisition" = '') AND ("System-Generated" = FALSE) THEN
         //  ERROR('Approved Requisition is required')
         // ELSE BEGIN
+
+        if not Confirm('Are you sure you want to post this payment?', false) then
+            exit;
+
         SignRegulator := 1;
         if Posted then
             Error('This Voucher has been posted already');

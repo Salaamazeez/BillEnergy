@@ -51,11 +51,12 @@ page 50503 "Store REquisition Card"
                 field("Work Order No."; Rec."Work Order No.")
                 {
                     ApplicationArea = All;
-
+                    Visible = false;
                 }
                 field("Requisition Amount "; Rec."Requisition Amount")
                 {
                     ApplicationArea = All;
+                    Visible = false;
 
                 }
                 field(Status; Rec.Status)

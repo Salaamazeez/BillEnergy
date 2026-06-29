@@ -1,0 +1,269 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="DataSource">
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString />
+      </ConnectionProperties>
+      <rd:SecurityType>None</rd:SecurityType>
+    </DataSource>
+  </DataSources>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <Height>2in</Height>
+        <Style />
+      </Body>
+      <Width>6.5in</Width>
+      <Page>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <Code>Public Function BlankZero(ByVal Value As Decimal)
+    if Value = 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankPos(ByVal Value As Decimal)
+    if Value &gt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankZeroAndPos(ByVal Value As Decimal)
+    if Value &gt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNeg(ByVal Value As Decimal)
+    if Value &lt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNegAndZero(ByVal Value As Decimal)
+    if Value &lt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+</Code>
+  <Language>=User!Language</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>0eeb6585-38ae-40f1-885b-8d50088d51b4</rd:ReportID>
+  <DataSets>
+    <DataSet Name="DataSet_Result">
+      <Fields>
+        <Field Name="No_">
+          <DataField>No_</DataField>
+        </Field>
+        <Field Name="Date">
+          <DataField>Date</DataField>
+        </Field>
+        <Field Name="Requester">
+          <DataField>Requester</DataField>
+        </Field>
+        <Field Name="Status">
+          <DataField>Status</DataField>
+        </Field>
+        <Field Name="Location">
+          <DataField>Location</DataField>
+        </Field>
+        <Field Name="Project_Job_Description">
+          <DataField>Project_Job_Description</DataField>
+        </Field>
+        <Field Name="Work_Order_No_">
+          <DataField>Work_Order_No_</DataField>
+        </Field>
+        <Field Name="StoreRequisitionDateLb">
+          <DataField>StoreRequisitionDateLb</DataField>
+        </Field>
+        <Field Name="BranchLb">
+          <DataField>BranchLb</DataField>
+        </Field>
+        <Field Name="CurrReport_PAGENOCaptionLbl">
+          <DataField>CurrReport_PAGENOCaptionLbl</DataField>
+        </Field>
+        <Field Name="StatusLb">
+          <DataField>StatusLb</DataField>
+        </Field>
+        <Field Name="DepartmentLb">
+          <DataField>DepartmentLb</DataField>
+        </Field>
+        <Field Name="LocationLb">
+          <DataField>LocationLb</DataField>
+        </Field>
+        <Field Name="DateLb">
+          <DataField>DateLb</DataField>
+        </Field>
+        <Field Name="ProjectLb">
+          <DataField>ProjectLb</DataField>
+        </Field>
+        <Field Name="WorkOrderNoLb">
+          <DataField>WorkOrderNoLb</DataField>
+        </Field>
+        <Field Name="RequesterNameLb">
+          <DataField>RequesterNameLb</DataField>
+        </Field>
+        <Field Name="StoreRequisitionNoLb">
+          <DataField>StoreRequisitionNoLb</DataField>
+        </Field>
+        <Field Name="ReportTitleLb">
+          <DataField>ReportTitleLb</DataField>
+        </Field>
+        <Field Name="CompanyNameLb">
+          <DataField>CompanyNameLb</DataField>
+        </Field>
+        <Field Name="DocNo">
+          <DataField>DocNo</DataField>
+        </Field>
+        <Field Name="LineNo">
+          <DataField>LineNo</DataField>
+        </Field>
+        <Field Name="StockCode">
+          <DataField>StockCode</DataField>
+        </Field>
+        <Field Name="UnitOfIssue">
+          <DataField>UnitOfIssue</DataField>
+        </Field>
+        <Field Name="RequestedQty">
+          <DataField>RequestedQty</DataField>
+        </Field>
+        <Field Name="IssuedQty">
+          <DataField>IssuedQty</DataField>
+        </Field>
+        <Field Name="IssuedQtyFormat">
+          <DataField>IssuedQtyFormat</DataField>
+        </Field>
+        <Field Name="UnitPrice">
+          <DataField>UnitPrice</DataField>
+        </Field>
+        <Field Name="UnitPriceFormat">
+          <DataField>UnitPriceFormat</DataField>
+        </Field>
+        <Field Name="HeadValue">
+          <DataField>HeadValue</DataField>
+        </Field>
+        <Field Name="HeadValueFormat">
+          <DataField>HeadValueFormat</DataField>
+        </Field>
+        <Field Name="LocationCode">
+          <DataField>LocationCode</DataField>
+        </Field>
+        <Field Name="QtyInStoreAtRequest">
+          <DataField>QtyInStoreAtRequest</DataField>
+        </Field>
+        <Field Name="QtyInStoreAtRequestFormat">
+          <DataField>QtyInStoreAtRequestFormat</DataField>
+        </Field>
+        <Field Name="QtyInStoreAtTheMoment">
+          <DataField>QtyInStoreAtTheMoment</DataField>
+        </Field>
+        <Field Name="QtyInStoreAtTheMomentFormat">
+          <DataField>QtyInStoreAtTheMomentFormat</DataField>
+        </Field>
+        <Field Name="GenPostingGroup">
+          <DataField>GenPostingGroup</DataField>
+        </Field>
+        <Field Name="DocNoLb">
+          <DataField>DocNoLb</DataField>
+        </Field>
+        <Field Name="StockCodeLb">
+          <DataField>StockCodeLb</DataField>
+        </Field>
+        <Field Name="DescriptionLb">
+          <DataField>DescriptionLb</DataField>
+        </Field>
+        <Field Name="UnitOfIssueLb">
+          <DataField>UnitOfIssueLb</DataField>
+        </Field>
+        <Field Name="RequestedQtyLb">
+          <DataField>RequestedQtyLb</DataField>
+        </Field>
+        <Field Name="IssuedQtyLb">
+          <DataField>IssuedQtyLb</DataField>
+        </Field>
+        <Field Name="UnitPriceLb">
+          <DataField>UnitPriceLb</DataField>
+        </Field>
+        <Field Name="ValueLb">
+          <DataField>ValueLb</DataField>
+        </Field>
+        <Field Name="LocationCodeLb">
+          <DataField>LocationCodeLb</DataField>
+        </Field>
+        <Field Name="QtyInStoreAtRequestLb">
+          <DataField>QtyInStoreAtRequestLb</DataField>
+        </Field>
+        <Field Name="QtyInStoreAtTheMomentLb">
+          <DataField>QtyInStoreAtTheMomentLb</DataField>
+        </Field>
+        <Field Name="Document_No_">
+          <DataField>Document_No_</DataField>
+        </Field>
+        <Field Name="Line_No_">
+          <DataField>Line_No_</DataField>
+        </Field>
+        <Field Name="Stock_Code">
+          <DataField>Stock_Code</DataField>
+        </Field>
+        <Field Name="Description">
+          <DataField>Description</DataField>
+        </Field>
+        <Field Name="Unit_of_Issue">
+          <DataField>Unit_of_Issue</DataField>
+        </Field>
+        <Field Name="Requested_Qty_">
+          <DataField>Requested_Qty_</DataField>
+        </Field>
+        <Field Name="Requested_Qty_Format">
+          <DataField>Requested_Qty_Format</DataField>
+        </Field>
+        <Field Name="Issued_Qty_">
+          <DataField>Issued_Qty_</DataField>
+        </Field>
+        <Field Name="Issued_Qty_Format">
+          <DataField>Issued_Qty_Format</DataField>
+        </Field>
+        <Field Name="Unit_Price">
+          <DataField>Unit_Price</DataField>
+        </Field>
+        <Field Name="Unit_PriceFormat">
+          <DataField>Unit_PriceFormat</DataField>
+        </Field>
+        <Field Name="Location_Code">
+          <DataField>Location_Code</DataField>
+        </Field>
+        <Field Name="Qty_in_Store_at_Request">
+          <DataField>Qty_in_Store_at_Request</DataField>
+        </Field>
+        <Field Name="Qty_in_Store_at_RequestFormat">
+          <DataField>Qty_in_Store_at_RequestFormat</DataField>
+        </Field>
+        <Field Name="Qty_in_Store_at_the_moment">
+          <DataField>Qty_in_Store_at_the_moment</DataField>
+        </Field>
+        <Field Name="Qty_in_Store_at_the_momentFormat">
+          <DataField>Qty_in_Store_at_the_momentFormat</DataField>
+        </Field>
+        <Field Name="Gen_Bus__Posting_Group">
+          <DataField>Gen_Bus__Posting_Group</DataField>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText />
+      </Query>
+    </DataSet>
+  </DataSets>
+</Report>

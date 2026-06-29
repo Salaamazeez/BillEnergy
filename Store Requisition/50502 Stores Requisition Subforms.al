@@ -41,6 +41,7 @@ page 50003 "Stores Requisition Subforms"
                 field("Unit of Issue"; Rec."Unit of Issue")
                 {
                     ApplicationArea = All;
+                    Visible = false;
 
                 }
                 field("Location Code"; Rec."Location Code")
@@ -58,6 +59,7 @@ page 50003 "Stores Requisition Subforms"
                 {
 
                     ApplicationArea = All;
+                    Visible = false;
 
                 }
                 field("Qty issued"; Rec."Qty issued")
@@ -69,30 +71,34 @@ page 50003 "Stores Requisition Subforms"
                 field("Qty. to Issue"; Rec."Qty. to Issue")
                 {
                     ApplicationArea = All;
+                    Visible = false;
                 }
                 field("Unit Price"; Rec."Unit Price")
                 {
                     ApplicationArea = All;
-
+                    Visible = false;
                 }
                 field("Gen Bus. Posting Group"; Rec."Gen Bus. Posting Group")
                 {
                     ApplicationArea = All;
-
+                    Visible = false;
                 }
                 field("Requested Value"; Rec."Requested Value")
                 {
                     ApplicationArea = All;
+                    Visible = false;
 
                 }
                 field(Value; Rec.Value)
                 {
                     ApplicationArea = All;
+                    Visible = false;
 
                 }
                 field("Qty in Store at Request"; Rec."Qty in Store at Request")
                 {
                     ApplicationArea = All;
+                    Visible = false;
 
                 }
                 field("Qty in Store at the moment"; Rec."Qty in Store at the moment")

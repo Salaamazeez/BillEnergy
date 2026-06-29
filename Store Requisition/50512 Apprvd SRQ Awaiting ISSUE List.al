@@ -70,19 +70,19 @@ page 50512 "Apprvd SRQ Awaiting ISSUE List"
         }
     }
 
-    actions
-    {
-        area(Processing)
-        {
-            action(ActionName)
-            {
-                ApplicationArea = All;
+    // actions
+    // {
+    //     area(Processing)
+    //     {
+    //         action(ActionName)
+    //         {
+    //             ApplicationArea = All;
 
-                trigger OnAction();
-                begin
+    //             trigger OnAction();
+    //             begin
 
-                end;
-            }
-        }
-    }
+    //             end;
+    //         }
+    //     }
+    // }
 }

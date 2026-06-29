@@ -1456,7 +1456,7 @@ codeunit 50500 "ESS Management"
         exit(JsonText);
     end;
 
-    procedure CreateOrEditPurchaseInvoice(DocumentNo: Code[20]; VendorNo: Code[20]; Beneficiary: Code[20]; VendorInvoiceNo: Code[35];LocationCode: Code[20];Description:Text[250]; PurchaseLines: Text): Text
+    procedure CreateOrEditPurchaseInvoice(DocumentNo: Code[20]; VendorNo: Code[20]; Beneficiary: Code[20]; VendorInvoiceNo: Code[35]; LocationCode: Code[20]; Description: Text[250]; PurchaseLines: Text): Text
     var
         Header: Record "Purchase Header";
         Line: Record "Purchase Line";
@@ -1606,10 +1606,82 @@ codeunit 50500 "ESS Management"
         exit(ResponseText);
     end;
 
+    // procedure GetPayrolls(PayrollPeriod: Code[10]; EmployeeNo: Code[20]): Text
+    // var
+    //     PayrollHeader: Record PayrollHeader;
+    //     PayrollLine: Record PayrollLine;
+    //     HeaderObject: JsonObject;
+    //     LineObject: JsonObject;
+    //     JsonArray: JsonArray;
+    //     LinesArray: JsonArray;
+    //     JsonText: Text;
+    // begin
+    //     if PayrollPeriod <> '' then
+    //         PayrollHeader.SetRange("Payroll Period", PayrollPeriod);
+
+    //     if PayrollHeader.FindSet() then
+    //         repeat
+    //             //Clear(HeaderObject);
+    //             Clear(LinesArray);
+
+    //             // Header Information
+    //             // HeaderObject.Add('payrollPeriod', PayrollHeader."Payroll Period");
+    //             // HeaderObject.Add('description', PayrollHeader.Description);
+    //             // HeaderObject.Add('payrollCreationDate', Format(PayrollHeader."Payroll Creation Date"));
+    //             // HeaderObject.Add('approvalStatus', Format(PayrollHeader."Approval Status"));
+    //             // HeaderObject.Add('employeeFilter', PayrollHeader."Employee Filter");
+    //             // HeaderObject.Add('dimension1Filter', PayrollHeader."Shortcut Dimension 1 Filter");
+    //             // HeaderObject.Add('dimension2Filter', PayrollHeader."Shortcut Dimension 2 Filter");
+    //             // HeaderObject.Add('salaryCodeFilter', PayrollHeader."Salary Code Filter");
+    //             // HeaderObject.Add('createdBy', PayrollHeader."Created By");
+    //             // HeaderObject.Add('createdTime', Format(PayrollHeader."Created Time"));
+    //             // HeaderObject.Add('lastModifiedBy', PayrollHeader."Last Modified By");
+    //             // HeaderObject.Add('lastModifiedDate', Format(PayrollHeader."Last Modified Date"));
+    //             // HeaderObject.Add('lastModifiedTime', Format(PayrollHeader."Last Modified Time"));
+
+    //             // Lines
+    //             PayrollLine.Reset();
+    //             PayrollLine.SetRange("Payroll Period", PayrollHeader."Payroll Period");
+    //             if EmployeeNo <> '' then
+    //                 PayrollLine.SetRange("Employee Code", EmployeeNo);
+    //             if PayrollLine.FindSet() then
+    //                 repeat
+    //                     Clear(LineObject);
+    //                     LineObject.Add('payrollPeriod', PayrollLine."Payroll Period");
+    //                     LineObject.Add('employeeCode', PayrollLine."Employee Code");
+    //                     LineObject.Add('employeeName', PayrollLine."Employee Name");
+    //                     LineObject.Add('jobTitle', PayrollLine."Job Title");
+    //                     LineObject.Add('salaryCode', PayrollLine."Salary Code");
+    //                     LineObject.Add('dimension1Code', PayrollLine."Global Dimension 1 Code");
+    //                     LineObject.Add('dimension2Code', PayrollLine."Global Dimension 2 Code");
+    //                     LineObject.Add('bookAmount', PayrollLine."Book Amount");
+    //                     LineObject.Add('payableAmount', PayrollLine."Payable Amount");
+    //                     LineObject.Add('lateDays', PayrollLine."Late Days");
+    //                     LineObject.Add('extraDaysWorked', PayrollLine."Extra Days Worked");
+    //                     LineObject.Add('absentDays', PayrollLine."Absent  (Days)");
+    //                     LineObject.Add('employeeType', Format(PayrollLine."Employee Type"));
+    //                     LineObject.Add('employmentDate', Format(PayrollLine."Employment Date"));
+    //                     LineObject.Add('employmentContractCode', PayrollLine."Employment Contract Code");
+
+    //                     LinesArray.Add(LineObject);
+    //                 until PayrollLine.Next() = 0;
+
+    //             HeaderObject.Add('lines', LinesArray);
+    //         //JsonArray.Add(HeaderObject);
+
+    //         until PayrollHeader.Next() = 0;
+
+    //     LinesArray.WriteTo(JsonText);
+    //     //JsonArray.WriteTo(JsonText);
+    //     exit(JsonText);
+    // end;
+
+
+
     procedure GetPayrolls(PayrollPeriod: Code[10]; EmployeeNo: Code[20]): Text
     var
         PayrollHeader: Record PayrollHeader;
-        PayrollLine: Record PayrollLine;
+        PayrollLine: Record PayrollDetailLine;
         HeaderObject: JsonObject;
         LineObject: JsonObject;
         JsonArray: JsonArray;
@@ -1624,45 +1696,25 @@ codeunit 50500 "ESS Management"
                 //Clear(HeaderObject);
                 Clear(LinesArray);
 
-                // Header Information
-                // HeaderObject.Add('payrollPeriod', PayrollHeader."Payroll Period");
-                // HeaderObject.Add('description', PayrollHeader.Description);
-                // HeaderObject.Add('payrollCreationDate', Format(PayrollHeader."Payroll Creation Date"));
-                // HeaderObject.Add('approvalStatus', Format(PayrollHeader."Approval Status"));
-                // HeaderObject.Add('employeeFilter', PayrollHeader."Employee Filter");
-                // HeaderObject.Add('dimension1Filter', PayrollHeader."Shortcut Dimension 1 Filter");
-                // HeaderObject.Add('dimension2Filter', PayrollHeader."Shortcut Dimension 2 Filter");
-                // HeaderObject.Add('salaryCodeFilter', PayrollHeader."Salary Code Filter");
-                // HeaderObject.Add('createdBy', PayrollHeader."Created By");
-                // HeaderObject.Add('createdTime', Format(PayrollHeader."Created Time"));
-                // HeaderObject.Add('lastModifiedBy', PayrollHeader."Last Modified By");
-                // HeaderObject.Add('lastModifiedDate', Format(PayrollHeader."Last Modified Date"));
-                // HeaderObject.Add('lastModifiedTime', Format(PayrollHeader."Last Modified Time"));
+
 
                 // Lines
                 PayrollLine.Reset();
                 PayrollLine.SetRange("Payroll Period", PayrollHeader."Payroll Period");
                 if EmployeeNo <> '' then
-                    PayrollLine.SetRange("Employee Code", EmployeeNo);
+                    PayrollLine.SetRange("Employee No.", EmployeeNo);
                 if PayrollLine.FindSet() then
                     repeat
                         Clear(LineObject);
-                        LineObject.Add('payrollPeriod', PayrollLine."Payroll Period");
-                        LineObject.Add('employeeCode', PayrollLine."Employee Code");
+                        LineObject.Add('employeeNo', PayrollLine."Employee No.");
                         LineObject.Add('employeeName', PayrollLine."Employee Name");
-                        LineObject.Add('jobTitle', PayrollLine."Job Title");
-                        LineObject.Add('salaryCode', PayrollLine."Salary Code");
-                        LineObject.Add('dimension1Code', PayrollLine."Global Dimension 1 Code");
-                        LineObject.Add('dimension2Code', PayrollLine."Global Dimension 2 Code");
+                        LineObject.Add('elementCode', PayrollLine."Element Code");
+                        LineObject.Add('elementName', PayrollLine."Element Name");
+                        LineObject.Add('payrollPeriod', PayrollLine."Payroll Period");
                         LineObject.Add('bookAmount', PayrollLine."Book Amount");
                         LineObject.Add('payableAmount', PayrollLine."Payable Amount");
-                        LineObject.Add('lateDays', PayrollLine."Late Days");
-                        LineObject.Add('extraDaysWorked', PayrollLine."Extra Days Worked");
-                        LineObject.Add('absentDays', PayrollLine."Absent  (Days)");
-                        LineObject.Add('employeeType', Format(PayrollLine."Employee Type"));
-                        LineObject.Add('employmentDate', Format(PayrollLine."Employment Date"));
-                        LineObject.Add('employmentContractCode', PayrollLine."Employment Contract Code");
-
+                        LineObject.Add('noOfWorkedDays', PayrollLine."No of Worked Days");
+                        LineObject.Add('noOfDaysInTheMonth', PayrollLine."No of Days In the Month");
                         LinesArray.Add(LineObject);
                     until PayrollLine.Next() = 0;
 
@@ -1675,7 +1727,6 @@ codeunit 50500 "ESS Management"
         //JsonArray.WriteTo(JsonText);
         exit(JsonText);
     end;
-
 
 
 

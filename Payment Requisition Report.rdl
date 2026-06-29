@@ -24,7 +24,7 @@
               </TablixColumns>
               <TablixRows>
                 <TablixRow>
-                  <Height>6.46056in</Height>
+                  <Height>6.12625in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -629,7 +629,7 @@
                               <rd:DefaultName>Location</rd:DefaultName>
                               <Top>2.21766in</Top>
                               <Left>0.29295in</Left>
-                              <Height>0.44791in</Height>
+                              <Height>0.62152in</Height>
                               <Width>1.64583in</Width>
                               <ZIndex>1</ZIndex>
                               <Style>
@@ -669,9 +669,9 @@
                                 </Paragraph>
                               </Paragraphs>
                               <rd:DefaultName>Textbox24</rd:DefaultName>
-                              <Top>2.66558in</Top>
-                              <Left>2.05337in</Left>
-                              <Height>0.43055in</Height>
+                              <Top>2.83919in</Top>
+                              <Left>2.05338in</Left>
+                              <Height>0.49305in</Height>
                               <Width>4.34026in</Width>
                               <ZIndex>2</ZIndex>
                               <Style>
@@ -705,7 +705,7 @@
                               <rd:DefaultName>Textbox24</rd:DefaultName>
                               <Top>2.21767in</Top>
                               <Left>3.85544in</Left>
-                              <Height>0.44791in</Height>
+                              <Height>0.62152in</Height>
                               <Width>3.90626in</Width>
                               <ZIndex>3</ZIndex>
                               <Style>
@@ -750,9 +750,9 @@
                                 </Paragraph>
                               </Paragraphs>
                               <rd:DefaultName>Textbox24</rd:DefaultName>
-                              <Top>2.66558in</Top>
-                              <Left>0.29295in</Left>
-                              <Height>0.43055in</Height>
+                              <Top>2.83919in</Top>
+                              <Left>0.29296in</Left>
+                              <Height>0.49305in</Height>
                               <Width>1.76042in</Width>
                               <ZIndex>4</ZIndex>
                               <Style>
@@ -801,7 +801,7 @@
                               <rd:DefaultName>Textbox24</rd:DefaultName>
                               <Top>2.21766in</Top>
                               <Left>1.93878in</Left>
-                              <Height>0.44791in</Height>
+                              <Height>0.62152in</Height>
                               <Width>1.91666in</Width>
                               <ZIndex>5</ZIndex>
                               <Style>
@@ -880,14 +880,14 @@
                                 <PaddingBottom>2pt</PaddingBottom>
                               </Style>
                             </Textbox>
-                            <Textbox Name="Name1">
+                            <Textbox Name="Textbox36">
                               <CanGrow>true</CanGrow>
                               <KeepTogether>true</KeepTogether>
                               <Paragraphs>
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value>=First(Fields!Name.Value)</Value>
+                                      <Value>Bill Energy </Value>
                                       <Style>
                                         <FontFamily>Segoe UI</FontFamily>
                                         <FontSize>12pt</FontSize>
@@ -901,7 +901,7 @@
                                   </Style>
                                 </Paragraph>
                               </Paragraphs>
-                              <rd:DefaultName>Name1</rd:DefaultName>
+                              <rd:DefaultName>Textbox36</rd:DefaultName>
                               <Top>1.55791in</Top>
                               <Left>2.63086in</Left>
                               <Height>0.33333in</Height>
@@ -1188,9 +1188,9 @@
                                 </Paragraph>
                               </Paragraphs>
                               <rd:DefaultName>Textbox24</rd:DefaultName>
-                              <Top>2.66558in</Top>
-                              <Left>6.39363in</Left>
-                              <Height>0.43055in</Height>
+                              <Top>2.83919in</Top>
+                              <Left>6.39364in</Left>
+                              <Height>0.49305in</Height>
                               <Width>1.36806in</Width>
                               <ZIndex>16</ZIndex>
                               <Style>
@@ -1265,158 +1265,6 @@
                                 </Border>
                               </Style>
                             </Rectangle>
-                            <Textbox Name="Textbox4">
-                              <CanGrow>true</CanGrow>
-                              <KeepTogether>true</KeepTogether>
-                              <Paragraphs>
-                                <Paragraph>
-                                  <TextRuns>
-                                    <TextRun>
-                                      <Value>=Fields!Request_AmountInwords.Value</Value>
-                                      <Style />
-                                    </TextRun>
-                                  </TextRuns>
-                                  <Style>
-                                    <TextAlign>Center</TextAlign>
-                                  </Style>
-                                </Paragraph>
-                              </Paragraphs>
-                              <rd:DefaultName>Textbox4</rd:DefaultName>
-                              <Top>6.14111in</Top>
-                              <Left>1.93878in</Left>
-                              <Height>0.25in</Height>
-                              <Width>4.7129in</Width>
-                              <ZIndex>18</ZIndex>
-                              <Style>
-                                <Border>
-                                  <Style>None</Style>
-                                </Border>
-                                <PaddingLeft>2pt</PaddingLeft>
-                                <PaddingRight>2pt</PaddingRight>
-                                <PaddingTop>2pt</PaddingTop>
-                                <PaddingBottom>2pt</PaddingBottom>
-                              </Style>
-                            </Textbox>
-                            <Textbox Name="Textbox5">
-                              <CanGrow>true</CanGrow>
-                              <KeepTogether>true</KeepTogether>
-                              <Paragraphs>
-                                <Paragraph>
-                                  <TextRuns>
-                                    <TextRun>
-                                      <Value>Amount in words:</Value>
-                                      <Style>
-                                        <FontWeight>Bold</FontWeight>
-                                      </Style>
-                                    </TextRun>
-                                  </TextRuns>
-                                  <Style />
-                                </Paragraph>
-                              </Paragraphs>
-                              <rd:DefaultName>Textbox5</rd:DefaultName>
-                              <Top>6.14111in</Top>
-                              <Left>0.37028in</Left>
-                              <Height>0.25in</Height>
-                              <Width>1.24561in</Width>
-                              <ZIndex>19</ZIndex>
-                              <Style>
-                                <Border>
-                                  <Style>None</Style>
-                                </Border>
-                                <PaddingLeft>2pt</PaddingLeft>
-                                <PaddingRight>2pt</PaddingRight>
-                                <PaddingTop>2pt</PaddingTop>
-                                <PaddingBottom>2pt</PaddingBottom>
-                              </Style>
-                            </Textbox>
-                            <Textbox Name="Beneficiary">
-                              <CanGrow>true</CanGrow>
-                              <KeepTogether>true</KeepTogether>
-                              <Paragraphs>
-                                <Paragraph>
-                                  <TextRuns>
-                                    <TextRun>
-                                      <Value>Benefiary</Value>
-                                      <Style>
-                                        <FontSize>8pt</FontSize>
-                                        <FontWeight>Bold</FontWeight>
-                                      </Style>
-                                    </TextRun>
-                                    <TextRun>
-                                      <Value>: </Value>
-                                      <Style />
-                                    </TextRun>
-                                    <TextRun>
-                                      <Value>=First(Fields!Beneficiary.Value)</Value>
-                                      <Style>
-                                        <FontSize>9pt</FontSize>
-                                      </Style>
-                                    </TextRun>
-                                  </TextRuns>
-                                  <Style />
-                                </Paragraph>
-                              </Paragraphs>
-                              <rd:DefaultName>Beneficiary</rd:DefaultName>
-                              <Top>3.15168in</Top>
-                              <Left>0.27083in</Left>
-                              <Height>0.25in</Height>
-                              <Width>3.42361in</Width>
-                              <ZIndex>20</ZIndex>
-                              <Style>
-                                <Border>
-                                  <Style>None</Style>
-                                </Border>
-                                <PaddingLeft>2pt</PaddingLeft>
-                                <PaddingRight>2pt</PaddingRight>
-                                <PaddingTop>2pt</PaddingTop>
-                                <PaddingBottom>2pt</PaddingBottom>
-                              </Style>
-                            </Textbox>
-                            <Textbox Name="Beneficiary2">
-                              <CanGrow>true</CanGrow>
-                              <KeepTogether>true</KeepTogether>
-                              <Paragraphs>
-                                <Paragraph>
-                                  <TextRuns>
-                                    <TextRun>
-                                      <Value>Benefiary Name:</Value>
-                                      <Style>
-                                        <FontSize>8pt</FontSize>
-                                        <FontWeight>Bold</FontWeight>
-                                      </Style>
-                                    </TextRun>
-                                    <TextRun>
-                                      <Value xml:space="preserve"> </Value>
-                                      <Style />
-                                    </TextRun>
-                                    <TextRun>
-                                      <Value>=First(Fields!Beneficiary_Name.Value)</Value>
-                                      <Style>
-                                        <FontSize>9pt</FontSize>
-                                      </Style>
-                                    </TextRun>
-                                  </TextRuns>
-                                  <Style>
-                                    <TextAlign>Right</TextAlign>
-                                  </Style>
-                                </Paragraph>
-                              </Paragraphs>
-                              <rd:DefaultName>Beneficiary</rd:DefaultName>
-                              <Top>3.15168in</Top>
-                              <Left>4.33681in</Left>
-                              <Height>0.25in</Height>
-                              <Width>3.40277in</Width>
-                              <ZIndex>21</ZIndex>
-                              <Style>
-                                <Border>
-                                  <Style>None</Style>
-                                </Border>
-                                <PaddingLeft>2pt</PaddingLeft>
-                                <PaddingRight>2pt</PaddingRight>
-                                <PaddingTop>2pt</PaddingTop>
-                                <PaddingBottom>2pt</PaddingBottom>
-                              </Style>
-                            </Textbox>
                           </ReportItems>
                           <KeepTogether>true</KeepTogether>
                           <Style>
@@ -1425,7 +1273,6 @@
                             </Border>
                           </Style>
                         </Rectangle>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                   </TablixCells>
@@ -1452,7 +1299,7 @@
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>DataSet_Result</DataSetName>
-            <Height>6.46056in</Height>
+            <Height>6.12625in</Height>
             <Width>8.01041in</Width>
             <Style>
               <Border>
@@ -1461,7 +1308,7 @@
             </Style>
           </Tablix>
         </ReportItems>
-        <Height>6.46653in</Height>
+        <Height>6.12625in</Height>
         <Style />
       </Body>
       <Width>8.01041in</Width>

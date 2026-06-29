@@ -9,6 +9,7 @@ table 50189 PayrollDetailLine
         {
             Caption = 'Payroll Period';
             TableRelation = PayrollPeriods."Period Code";
+            
         }
         field(2; "Employee No."; Code[20])
         {

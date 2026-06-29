@@ -135,6 +135,7 @@ page 50514 "Apprd SRQ Awaiting PRQ Card"
             action("Cancel Approval Request")
             {
                 ApplicationArea = All;
+                Visible = false;
 
                 trigger OnAction()
                 begin
@@ -149,6 +150,7 @@ page 50514 "Apprd SRQ Awaiting PRQ Card"
             action(Approve)
             {
                 ApplicationArea = All;
+                    Visible = false;
 
                 trigger OnAction()
                 begin
@@ -163,6 +165,7 @@ page 50514 "Apprd SRQ Awaiting PRQ Card"
             action(Reject)
             {
                 ApplicationArea = All;
+                    Visible = false;
 
                 trigger OnAction()
                 begin
@@ -173,6 +176,7 @@ page 50514 "Apprd SRQ Awaiting PRQ Card"
             {
                 Caption = 'Create PRQ';
                 ApplicationArea = All;
+                    Visible = false;
 
                 trigger OnAction()
                 begin

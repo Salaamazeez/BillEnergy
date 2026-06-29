@@ -2,6 +2,7 @@ tableextension 50004 EmployeeExt extends Employee
 {
     fields
     {
+       
         field(50002; "No. 2"; Text[50])
         {
 
@@ -73,4 +74,8 @@ tableextension 50004 EmployeeExt extends Employee
         }
 
     }
+    trigger OnAfterInsert()
+    begin
+        //TestField("Job Title");
+    end;
 }

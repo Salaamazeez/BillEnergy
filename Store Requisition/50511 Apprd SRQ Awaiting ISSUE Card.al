@@ -114,6 +114,7 @@ page 50511 "Apprd SRQ Awaiting ISSUE Card"
             action("Test Report")
             {
                 ApplicationArea = All;
+                Visible = false;
 
                 trigger OnAction()
                 begin
@@ -138,6 +139,7 @@ page 50511 "Apprd SRQ Awaiting ISSUE Card"
             action("Post and &Print")
             {
                 ApplicationArea = All;
+                Visible = false;
 
                 trigger OnAction()
                 begin
@@ -150,6 +152,7 @@ page 50511 "Apprd SRQ Awaiting ISSUE Card"
             action("SRQ SLIP")
             {
                 ApplicationArea = All;
+                Visible = false;
 
                 trigger OnAction()
                 begin
@@ -161,6 +164,7 @@ page 50511 "Apprd SRQ Awaiting ISSUE Card"
             action("Transfer To PRQ Section")
             {
                 ApplicationArea = All;
+                Visible = false;
 
                 trigger OnAction()
                 begin
