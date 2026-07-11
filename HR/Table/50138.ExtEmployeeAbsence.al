@@ -39,7 +39,7 @@ tableextension 50138 ExtEmployeeAbsence extends "Employee Absence"
             DataClassification = ToBeClassified;
         }
         field(50107; "Leave Application"; Boolean)
-        { 
+        {
             Caption = 'Leave Application';
             DataClassification = ToBeClassified;
         }
@@ -66,6 +66,7 @@ tableextension 50138 ExtEmployeeAbsence extends "Employee Absence"
 
                 "Global Dimension 1 Code" := Employee."Global Dimension 1 Code";
                 "Global Dimension 2 Code" := Employee."Global Dimension 2 Code";
+
             end;
         }
     }
