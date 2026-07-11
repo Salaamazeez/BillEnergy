@@ -22,7 +22,8 @@ table 50186 PayrollHeader
         field(5; "Approval Status"; Option)
         {
             Caption = 'Approval Status';
-            OptionMembers = Open,"Pending Approval",Approved,Closed;
+            OptionMembers = Open,"Approved","Pending Approval",Closed;
+            
         }
         field(6; "Employee Filter"; Code[20])
         {

@@ -17,7 +17,7 @@ table 50195 ReimbursableHeader
         field(3; "Approval Status"; Option)
         {
             Caption = 'Approval Status';
-            OptionMembers = ,Open,"Pending Approval",Approved,Closed;
+            OptionMembers = Open,"Approved","Pending Approval",Closed;
         }
         field(4; "Global Dimension 1 Code Filter"; Code[20])
         {
@@ -60,6 +60,12 @@ table 50195 ReimbursableHeader
             FieldClass = FlowField;
             CalcFormula = sum(ReimbursableSalaryLines."Net Pay" where("Payroll Period" = field("Period Code")));
         }
+        // field(11; Status; Option)
+        // {
+        //     Caption = 'Approval Status';
+        //     OptionMembers = Open,Approved,"Pending Approval",Rejected;
+        //     Editable = false;
+        // }
     }
 
     keys

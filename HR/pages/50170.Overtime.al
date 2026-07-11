@@ -3,6 +3,8 @@ using Microsoft.HumanResources.Employee;
 using Microsoft.HumanResources.Setup;
 using System.Security.User;
 using Microsoft.Finance.Dimension;
+using Microsoft.Sales.Comment;
+using System.Automation;
 
 page 50170 Overtime
 {
@@ -258,6 +260,210 @@ page 50170 Overtime
                     end;
                 end;
             }
+
+            group(Approval)
+            {
+                Caption = 'Approval';
+                action(Approve)
+                {
+                    ApplicationArea = Basic;
+                    Caption = 'Approve';
+                    Image = Approve;
+                    Promoted = true;
+                    PromotedCategory = Process;
+                    PromotedIsBig = true;
+                    Visible = OpenApprovalEntriesExistForCurrUser;
+
+                    trigger OnAction()
+                    var
+                        ApprovalsMgmt: Codeunit "Approvals Mgmt.";
+                        ApprovalMgt: Codeunit "Approval Mgt";
+
+                    begin
+                        ApprovalsMgmt.ApproveRecordApprovalRequest(Rec.RecordId);
+                        if ApprovalMgt.ApproveDoc(Rec."Period Code") then begin
+                            Rec."Approval Status" := Rec."Approval Status"::Approved;
+                            Rec.Modify()
+                        end;
+                    end;
+                }
+                action(Reject)
+                {
+                    ApplicationArea = Basic;
+                    Caption = 'Reject';
+                    Image = Reject;
+                    Promoted = true;
+                    PromotedCategory = Process;
+                    PromotedIsBig = true;
+                    Visible = OpenApprovalEntriesExistForCurrUser;
+
+                    trigger OnAction()
+                    var
+                        ApprovalsMgmt: Codeunit "Approvals Mgmt.";
+                        MyApprovalMgt: Codeunit "Approval Mgt";
+                        RecRef: RecordRef;
+                    begin
+                        ApprovalsMgmt.RejectRecordApprovalRequest(Rec.RecordId);
+                        RecRef.GetTable(Rec);
+                        MyApprovalMgt.CheckAndRejectDoc(RecRef)
+                    end;
+                }
+                action(Delegate)
+                {
+                    ApplicationArea = Basic;
+                    Caption = 'Delegate';
+                    Image = Delegate;
+                    Promoted = true;
+                    PromotedCategory = Process;
+                    Visible = OpenApprovalEntriesExistForCurrUser;
+
+                    trigger OnAction()
+                    var
+                        ApprovalsMgmt: Codeunit "Approvals Mgmt.";
+                    begin
+                        ApprovalsMgmt.DelegateRecordApprovalRequest(Rec.RecordId);
+                    end;
+                }
+                action(Comment)
+                {
+                    Visible = false;
+                    ApplicationArea = Basic;
+                    Caption = 'Comments';
+                    Image = ViewComments;
+                    Promoted = true;
+                    PromotedCategory = Process;
+                    RunObject = Page "Approval Comments";
+                    RunPageLink = "Table ID" = const(60021), "Document No." = field("Period Code");
+
+                    //Visible = OpenApprovalEntriesExistForCurrUser;
+                }
+                action("Co&mments")
+                {
+                    ApplicationArea = Basic;
+                    Caption = 'Comments';
+                    Image = ViewComments;
+                    Promoted = true;
+                    PromotedCategory = Process;
+                    RunObject = Page "Sales Comment Sheet";
+                    RunPageLink = "Document Type" = const(0),
+                                  "No." = field("Period Code"),
+                                  "Document Line No." = const(0);
+                    ToolTip = 'View or add comments for the record.';
+                }
+            }
+
+            group(Action13)
+            {
+                Caption = 'Release';
+                Image = ReleaseDoc;
+                group(Release)
+                {
+                    action("Re&lease")
+                    {
+                        ApplicationArea = Basic;
+                        Image = ReleaseDoc;
+                        Promoted = true;
+                        PromotedCategory = Process;
+                        ShortCutKey = 'Ctrl+F9';
+
+                        trigger OnAction()
+                        var
+                            RecRef: RecordRef;
+                            ReleaseDocument: Codeunit "Release Documents";
+
+                        begin
+                            //Rec.TestMandatoryFields();
+                            RecRef.GetTable(Rec);
+                            ReleaseDocument.PerformanualManualDocRelease(RecRef);
+                            CurrPage.Update;
+                        end;
+                    }
+                    action("Re&open")
+                    {
+                        ApplicationArea = Basic;
+                        Image = ReOpen;
+                        Promoted = true;
+                        PromotedCategory = Process;
+
+                        trigger OnAction()
+                        var
+                            RecRef: RecordRef;
+                            ReleaseDocument: Codeunit "Release Documents";
+                        begin
+                            RecRef.GetTable(Rec);
+                            ReleaseDocument.PerformManualReopen(RecRef);
+                            CurrPage.Update;
+                        end;
+                    }
+                }
+            }
+            group("Request Approval")
+            {
+                action("Send &Approval Request")
+                {
+                    ApplicationArea = Basic;
+                    Enabled = not OpenApprovalEntriesExist;
+                    Image = SendApprovalRequest;
+                    Promoted = true;
+                    PromotedCategory = Process;
+
+                    trigger OnAction()
+                    var
+                        RecRef: RecordRef;
+                        ApprovalsMgmt: Codeunit "Approval Mgt";
+                        Err001: Label 'Kindly select a %1 value';
+                        Err002: Label 'Kindly input a %1 value';
+                    begin
+                        //Rec.TestMandatoryFields();
+                        RecRef.GetTable(Rec);
+                        if ApprovalsMgmt.CheckGenericApprovalsWorkflowEnabled(RecRef) then
+                            ApprovalsMgmt.OnSendGenericDocForApproval(RecRef);
+                    end;
+                }
+
+                action("Cancel Approval Re&quest")
+                {
+                    ApplicationArea = Basic;
+                    Enabled = OpenApprovalEntriesExist;
+                    Image = Cancel;
+                    Promoted = true;
+                    PromotedCategory = Process;
+
+                    trigger OnAction()
+                    var
+                        RecRef: RecordRef;
+                        ApprovalsMgmt: Codeunit "Approval Mgt";
+                    begin
+                        RecRef.GetTable(Rec);
+                        ApprovalsMgmt.OnCancelGenericDocForApproval(RecRef);
+                    end;
+                }
+
+
+
+
+            }
+
+
+        }
+
+        area(Navigation)
+        {
+
+            action(Approvals)
+            {
+                ApplicationArea = Basic;
+                Image = Approvals;
+
+                trigger OnAction()
+                var
+                    ApprovalEntries: Page "Approval Entries";
+                begin
+                    ApprovalEntries.SetRecordFilters(Database::OvertimeHeader, 6, Rec."Period Code");
+                    ApprovalEntries.Run;
+                end;
+            }
+
         }
 
     }
@@ -270,6 +476,29 @@ page 50170 Overtime
         //Rec.FilterGroup(2);
         //Rec.SetRange("Global Dimension 1 Filter", UserSteup."Global Dimension 1 Code");
         //Rec.FilterGroup(0);
+    end;
+
+
+    trigger OnAfterGetRecord()
+    begin
+        EnableFields;
+        SetControlAppearance;
+    end;
+
+
+    local procedure SetControlAppearance()
+    var
+        ApprovalsMgmt: Codeunit "Approvals Mgmt.";
+    begin
+        OpenApprovalEntriesExistForCurrUser := ApprovalsMgmt.HasOpenApprovalEntriesForCurrentUser(Rec.RecordId);
+        OpenApprovalEntriesExist := ApprovalsMgmt.HasOpenApprovalEntries(Rec.RecordId);
+    end;
+
+    procedure EnableFields()
+    begin
+        CurrPage.Editable(Rec."Approval Status" <> Rec."Approval Status"::"Pending Approval");
+        //CurrPage.Editable(Rec."Former PR No." = '');
+
     end;
 
     var
@@ -295,7 +524,9 @@ page 50170 Overtime
         Paye: Decimal;
         SumPension: Decimal;
         Pension: Decimal;
-
+        OpenApprovalEntriesExistForCurrUser: Boolean;
+        OpenApprovalEntriesExist: Boolean;
+        EnableControl: Boolean;
 
 
 }

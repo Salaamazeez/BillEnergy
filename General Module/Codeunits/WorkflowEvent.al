@@ -37,13 +37,27 @@ Codeunit 50003 "Workflow Event"
         WorkflowEventHandling.AddEventToLibrary('RunWorkflowOnCancelPaymentVoucherForApprovalCode',
           Database::"Payment Voucher Header", 'An approval request for a payment voucher is cancelled', 0, false);
         WorkflowEventHandling.AddEventToLibrary('RunWorkflowOnSendLeaveApplicationForApprovalCode',
-                 Database::"Payment Voucher Header", 'Approval of a leave application is requested', 0, false);
+                 Database::LeaveApplication, 'Approval of a leave application is requested', 0, false);
         WorkflowEventHandling.AddEventToLibrary('RunWorkflowOnCancelLeaveApplicationForApprovalCode',
-          Database::"Payment Voucher Header", 'An approval request for a leave application is cancelled', 0, false);
+          Database::LeaveApplication, 'An approval request for a leave application is cancelled', 0, false);
         WorkflowEventHandling.AddEventToLibrary('RunWorkflowOnSendPerformanceAppraisalForApprovalCode',
-                        Database::"Payment Voucher Header", 'Approval of a performance appraisal is requested', 0, false);
+          Database::PerformanceAppraisalHeader, 'Approval of a performance appraisal is requested', 0, false);
         WorkflowEventHandling.AddEventToLibrary('RunWorkflowOnCancelPerformanceAppraisalForApprovalCode',
-          Database::"Payment Voucher Header", 'An approval request for a performance appraisal is cancelled', 0, false);
+          Database::PerformanceAppraisalHeader, 'An approval request for a performance appraisal is cancelled', 0, false);
+        // WorkflowEventHandling.AddEventToLibrary('RunWorkflowOnSendPerformanceAppraisalForApprovalCode',
+        //   Database::OvertimeHeader, 'Approval of a over time is requested', 0, false);
+        WorkflowEventHandling.AddEventToLibrary('RunWorkflowOnSendOvertimeForApprovalCode',
+          Database::OvertimeHeader, 'Approval of a over time is requested', 0, false);
+        WorkflowEventHandling.AddEventToLibrary('RunWorkflowOnCancelOvertimeForApprovalCode',
+          Database::OvertimeHeader, 'An approval request for a over time is cancelled', 0, false);
+        WorkflowEventHandling.AddEventToLibrary('RunWorkflowOnSendReimbursableForApprovalCode',
+          Database::ReimbursableHeader, 'Approval of a reimbursable is requested', 0, false);
+        WorkflowEventHandling.AddEventToLibrary('RunWorkflowOnCancelReimbursableForApprovalCode',
+          Database::ReimbursableHeader, 'An approval request for a reimbursable is cancelled', 0, false);
+        WorkflowEventHandling.AddEventToLibrary('RunWorkflowOnSendPayrollForApprovalCode',
+          Database::PayrollHeader, 'Approval of a payroll is requested', 0, false);
+        WorkflowEventHandling.AddEventToLibrary('RunWorkflowOnCancelPayrollForApprovalCode',
+          Database::PayrollHeader, 'An approval request for a payroll is cancelled', 0, false);
 
     end;
 
@@ -58,6 +72,9 @@ Codeunit 50003 "Workflow Event"
         PaymentVoucherHeader: Record "Payment Voucher Header";
         LeaveApplication: Record LeaveApplication;
         PerformanceAppraisal: Record PerformanceAppraisalHeader;
+        OvertimeHeader: Record OvertimeHeader;
+        ReimbursableHeader: Record ReimbursableHeader;
+        PayrollHeader: Record PayrollHeader;
     begin
         //WorkflowManagement.SetMobileUserID(GlobalUserSetup."User ID");
         case RecRef.Number of
@@ -103,6 +120,25 @@ Codeunit 50003 "Workflow Event"
                     DocName := 'PERFORMANCEAPPRAISAL';
                     WorkflowManagement.HandleEvent(RunWorkflowOnSendGenericDocForApprovalCode(DocName), PerformanceAppraisal);
                 end;
+            Database::OvertimeHeader:
+                begin
+                    RecRef.SetTable(OvertimeHeader);
+                    DocName := 'OVERTIME';
+                    WorkflowManagement.HandleEvent(RunWorkflowOnSendGenericDocForApprovalCode(DocName), OvertimeHeader);
+                end;
+            Database::ReimbursableHeader:
+                begin
+                    RecRef.SetTable(ReimbursableHeader);
+                    DocName := 'REIMBURSABLE';
+                    WorkflowManagement.HandleEvent(RunWorkflowOnSendGenericDocForApprovalCode(DocName), ReimbursableHeader);
+                end;
+
+            Database::PayrollHeader:
+                begin
+                    RecRef.SetTable(PayrollHeader);
+                    DocName := 'PAYROLL';
+                    WorkflowManagement.HandleEvent(RunWorkflowOnSendGenericDocForApprovalCode(DocName), PayrollHeader);
+                end;
         end;
     end;
 
@@ -116,6 +152,9 @@ Codeunit 50003 "Workflow Event"
         PaymentVoucherHeader: Record "Payment Voucher Header";
         LeaveApplication: Record LeaveApplication;
         PerformanceAppraisal: Record PerformanceAppraisalHeader;
+        OvertimeHeader: Record OvertimeHeader;
+        ReimbursableHeader: Record ReimbursableHeader;
+        PayrollHeader: Record PayrollHeader;
     begin
 
         //WorkflowManagement.SetMobileUserID(GlobalUserSetup."User ID");
@@ -161,6 +200,24 @@ Codeunit 50003 "Workflow Event"
                     RecRef.SetTable(PerformanceAppraisal);
                     DocName := 'PERFORMANCEAPPRAISAL';
                     WorkflowManagement.HandleEvent(RunWorkflowOnCancelGenericDocForApprovalCode(DocName), PerformanceAppraisal);
+                end;
+            Database::OvertimeHeader:
+                begin
+                    RecRef.SetTable(OvertimeHeader);
+                    DocName := 'OVERTIME';
+                    WorkflowManagement.HandleEvent(RunWorkflowOnCancelGenericDocForApprovalCode(DocName), OvertimeHeader);
+                end;
+            Database::ReimbursableHeader:
+                begin
+                    RecRef.SetTable(ReimbursableHeader);
+                    DocName := 'REIMBURSABLE';
+                    WorkflowManagement.HandleEvent(RunWorkflowOnCancelGenericDocForApprovalCode(DocName), ReimbursableHeader);
+                end;
+            Database::PayrollHeader:
+                begin
+                    RecRef.SetTable(PayrollHeader);
+                    DocName := 'PAYROLL';
+                    WorkflowManagement.HandleEvent(RunWorkflowOnCancelGenericDocForApprovalCode(DocName), PayrollHeader);
                 end;
         end;
 

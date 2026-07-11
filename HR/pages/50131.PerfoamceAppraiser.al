@@ -406,6 +406,27 @@ page 50131 PerfoamceAppraiser
                 end;
             }
         }
+
+
+        area(Navigation)
+        {
+
+            action(Approvals)
+            {
+                ApplicationArea = Basic;
+                Image = Approvals;
+
+                trigger OnAction()
+                var
+                    ApprovalEntries: Page "Approval Entries";
+                begin
+                    ApprovalEntries.SetRecordFilters(Database::PerformanceAppraisalHeader, 6, Format(Rec."Appraisal Year"));
+                    ApprovalEntries.Run;
+                end;
+            }
+
+        }
+
     }
     trigger OnOpenPage()
     begin
@@ -456,6 +477,26 @@ page 50131 PerfoamceAppraiser
             CurrPage.Editable(false)
         else
             CurrPage.Editable(true);
+
+
+        EnableFields;
+        SetControlAppearance;
+    end;
+
+
+    local procedure SetControlAppearance()
+    var
+        ApprovalsMgmt: Codeunit "Approvals Mgmt.";
+    begin
+        OpenApprovalEntriesExistForCurrUser := ApprovalsMgmt.HasOpenApprovalEntriesForCurrentUser(Rec.RecordId);
+        OpenApprovalEntriesExist := ApprovalsMgmt.HasOpenApprovalEntries(Rec.RecordId);
+    end;
+
+    procedure EnableFields()
+    begin
+        CurrPage.Editable(Rec."Status" <> Rec."Status"::"Pending Approval");
+        //CurrPage.Editable(Rec."Former PR No." = '');
+
     end;
 
     var
