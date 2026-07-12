@@ -163,6 +163,12 @@ pageextension 50138 ExtHumanResourceSetup extends "Human Resources Setup"
                     Caption = 'Overtime Rate';
                     ApplicationArea = All;
                 }
+
+                field("PH-WK Overtime Rate"; Rec."PH-WK Overtime Rate")
+                {
+                    Caption = 'PH-Wk Overtime Rate';
+                    ApplicationArea = All;
+                }
                 field("NHF %"; Rec."NHF %")
                 {
                     Caption = 'NHF %';

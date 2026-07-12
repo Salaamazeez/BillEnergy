@@ -45,6 +45,16 @@ pageextension 50009 EmployeeExt extends "Employee Card"
                 Caption = 'Blocked';
                 ApplicationArea = All;
             }
+            field("Job Function Code"; Rec."Job Function Code")
+            {
+                Caption = 'Job Function Code';
+                ApplicationArea = All;
+            }
+            field("Is Rig Employee"; Rec."Is Rig Employee")
+            {
+                Caption = 'Is Rig Employee';
+                ApplicationArea = All;
+            }
         }
 
         addafter("Birth Date")
@@ -80,12 +90,18 @@ pageextension 50009 EmployeeExt extends "Employee Card"
                 ApplicationArea = All;
                 CaptionClass = '1,1,2';
             }
+
+        }
+        modify("Board Member")
+        {
+            Visible = false;
         }
         modify("Social Security No.")
         {
             Caption = 'NIN';
             ApplicationArea = All;
         }
+
         modify("Union Code")
         {
             Visible = false;

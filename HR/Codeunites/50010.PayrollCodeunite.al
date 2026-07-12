@@ -7,7 +7,7 @@ using Microsoft.Finance.GeneralLedger.Journal;
 codeunit 50010 PayrollCodeunite
 {
     var
-
+        DaysInMonth: Integer;
         Window: Dialog;
         DaysWorked: Integer;
         NoOfDaysInPayPeriod: Integer;
@@ -100,7 +100,8 @@ codeunit 50010 PayrollCodeunite
         Text007: Label '%1 was not selected in Payroll Element setup';
         Text008: Label 'Processing Reimbursabl Salary Journal for department. #1######\';
         Text009: Label 'Reimbursabl Salary journal';
-        Text011: Label 'Previous Reimbursabl Payroll period %1 must be close before you can run the current payroll';
+        Text011: Label 'Previous Reimbursabl Payroll %1 must be close before you can run the current payroll';
+        Text012: Label 'Previous Payroll %1 must be close before you can run the current payroll';
         Text01: Label 'Salary Control Account';
 
     trigger OnRun()
@@ -134,17 +135,21 @@ codeunit 50010 PayrollCodeunite
         ELSE
             PrevPeriod := FORMAT(PayYear) + '-' + FORMAT(PrevMonth);
 
+        /*    
         IF PrevPeriod <> '' THEN BEGIN
             PayrollHead.RESET;
             PayrollHead.SETRANGE("Payroll Period", PrevPeriod);
             PayrollHead.SETFILTER("Approval Status", '<>%1', PayrollHead."Approval Status"::Closed);
             IF PayrollHead.FINDFIRST THEN
-                ERROR(Text011, PrevPeriod);
+                ERROR(Text012, PrevPeriod);
         END;
+        */
 
         //Filter for only Active Employee
         Employee.RESET;
         Employee.SETFILTER(Status, '<>%1', Employee.Status::Terminated);
+        Employee.SetFilter(Blocked, '%1', false);
+        Employee.SETFILTER("Employment Date", '<>%1', 0D);
 
         IF (EmployeeNo <> '') THEN
             Employee.SETRANGE("No.", EmployeeNo);
@@ -182,7 +187,11 @@ codeunit 50010 PayrollCodeunite
                 //Employee.TESTFIELD("Employee Category");
                 Employee.TESTFIELD("Employment Date");
 
-                NoOfDaysInPayPeriod := GetNoOfDaysInPayPeriod(PayPeriods);
+                if (Employee."Is Rig Employee") then
+                    NoOfDaysInPayPeriod := GetNoOfWorkDaysForRigStaff(PayPeriods)
+                else
+                    NoOfDaysInPayPeriod := GetNoOfDaysInPayPeriod(PayPeriods);
+
                 DaysWorked := GetTotalDaysWorked(PayPeriods, Employee);
 
                 //Create the Payroll Line for an Employee
@@ -302,11 +311,21 @@ codeunit 50010 PayrollCodeunite
     END;
 
     PROCEDURE CalculateAmount(EmployeeL: Record Employee; PayrollElementL: Record PayrollElement; SalarySetupLineL: Record SalarySetupLine; PayPeriodCode: Code[20]): Decimal;
+
+    var
+        TextBasic: Label 'Basic Pay Element code is not setup in the Payroll Element page';
+        PayElement: Record PayrollElement;
+
+        SalSetupLine: Record SalarySetupLine;
+
     BEGIN
 
         HRSetup.GET;
         ElementAmount := 0;
         OtherEarnAmt := 0;
+        DaysInMonth := 0;
+        Clear(SalSetupLine);
+        clear(PayElement);
 
         /*
         IF (PayrollElementL."Function of Poration") THEN BEGIN //Need to add element to be porated
@@ -322,12 +341,8 @@ codeunit 50010 PayrollCodeunite
         IF (PayrollElementL."Is Basic") THEN
             BasicAmt := ElementAmount;
 
-        //Get other Earnings from Other Deduction Tables
-        /*
-        IF PayrollOtherVar.GET(EmployeeL."No.", PayPeriodCode, PayrollElementL."Element Code") THEN BEGIN
-              ElementAmount := ROUND((PayrollOtherVar.Amount), 0.01, '>');
-          END;
-        */
+        //Get other Earnings from Other Payroll Variables Tables
+
 
         //Sum For TotalGross/Taxaxable
         IF PayrollElementL."Function of Paye" THEN BEGIN
@@ -368,7 +383,6 @@ codeunit 50010 PayrollCodeunite
             SumDeduction := SumDeduction + ElementAmount;
         END;
 
-
         //Get Other None Taxable & other taxable Earning from Payroll Other variable Table
         IF PayrollOtherVar.GET(EmployeeL."No.", PayPeriodCode, PayrollElementL."Element Code") THEN BEGIN
             IF PayrollOtherVar.Earning THEN BEGIN
@@ -378,6 +392,53 @@ codeunit 50010 PayrollCodeunite
             END;
         END;
 
+        IF PayrollOtherVar.GET(EmployeeL."No.", PayPeriodCode, PayrollElementL."Element Code") THEN BEGIN
+            if PayrollElementL."Element Code" = '65' then
+                error('error 65 ound');
+
+            IF HRSetup.Get() then begin
+                HRSetup.TestField("Overtime Rate");
+                HRSetup.TestField("PH-WK Overtime Rate");
+                HRSetup.TestField("Working Hours");
+            end;
+
+            //Get Basic Element Code
+            PayElement.Reset();
+            PayElement.SetFilter("Is basic", '%1', True);
+            If (Not PayElement.FindFirst()) then
+                Error(Textbasic);
+
+            //Check Employment contract code in Employee needed to get Basic pay In Salary Setup
+            EmployeeL.TestField("Emplymt. Contract Code");
+
+            //Get Basic Pay from Salary Setup line
+            SalSetupLine.Reset();
+            SalSetupLine.SetRange("Salary Code", EmployeeL."Emplymt. Contract Code");
+            SalSetupLine.SetRange("Element Code", PayElement."Element Code");
+            If SalSetupLine.FindFirst() then
+                SalSetupLine.TestField(Amount);
+
+            //Get Days In Month base on Rig Staff and Office Staff
+
+            IF (EmployeeL."Is Rig Employee") then
+                DaysInMonth := GetNoOfWorkDaysForRigStaff(PayPeriodCode)
+            else
+                DaysInMonth := GetNoOfDaysInPayPeriod(PayPeriodCode);
+
+
+            if (PayrollElementL."Is Overtime") then begin
+                ElementAmount := ROUND((((SalSetupLine.Amount / DaysInMonth) / HRSetup."Working Hours") *
+                                                                ((HRSetup."Overtime Rate" / 100) * PayrollOtherVar."Hours/Days Late")), 0.01, '>');
+                SumGross := SumGross + ElementAmount;
+            end;
+
+            if (PayrollElementL."Is Overtime WKE-PH") then begin
+                if (PayrollElementL."Is Overtime") then
+                    ElementAmount := ROUND((((SalSetupLine.Amount / DaysInMonth) / HRSetup."Working Hours") *
+                                                                    ((HRSetup."PH-WK Overtime Rate" / 100) * PayrollOtherVar."Hours/Days Late")), 0.01, '>');
+                SumGross := SumGross + ElementAmount;
+            END;
+        end;
 
         //Get other Deduction from Payroll Other Variable Table and Loan
         IF PayrollOtherVar.GET(EmployeeL."No.", PayPeriodCode, PayrollElementL."Element Code") THEN BEGIN
@@ -442,6 +503,7 @@ codeunit 50010 PayrollCodeunite
             EXIT(0);
     END;
 
+
     PROCEDURE GetNoOfDaysInPayPeriod(PayPeriodCode: Code[20]): Integer;
     var
         JC: Record JourneyCalendar;
@@ -498,6 +560,7 @@ codeunit 50010 PayrollCodeunite
             EVALUATE(PayYear, FORMAT(COPYSTR(PayPeriodCode, 1, 4)));
 
         IF PayRollPeriod.GET(PayPeriodCode) THEN BEGIN
+
             /*
             IF (((PayRollPeriod."End Date" - EmployeeRec."Employment Date") + 1) < GetNoOfDaysInPayPeriod(PayPeriodCode)) THEN BEGIN
                 DaysWorked := ((PayRollPeriod."End Date" - EmployeeRec."Employment Date") + 1);
@@ -521,6 +584,9 @@ codeunit 50010 PayrollCodeunite
                 PoratePay := TRUE;
 
             end else begin
+                LastDateOfMonth := PayRollPeriod."End Date";
+                StartDate := PayRollPeriod."Start Date";
+
                 JC.SetRange(Year, Format(PayYear));
                 JC.SetRange("Start Date", StartDate, LastDateOfMonth);
                 JC.SetFilter(Sunday, '%1', false);
@@ -534,6 +600,50 @@ codeunit 50010 PayrollCodeunite
             exit(DaysWorked);
         END;
     END;
+
+
+    PROCEDURE GetNoOfWorkDaysForRigStaff(PayPeriodCode: Code[20]): Integer;
+    var
+        JC: Record JourneyCalendar;
+        ErrorJC: Label 'Periods Calendar needs to be created for the Period %1';
+
+    BEGIN
+
+        NoOfDaysInPayPeriod := 0;
+        CLEAR(LastDateOfMonth);
+        CLEAR(StartDate);
+
+        if (PayYear = 0) then
+            EVALUATE(PayYear, FORMAT(COPYSTR(PayPeriodCode, 1, 4)));
+
+        PayRollPeriod.RESET;
+        IF PayRollPeriod.GET(PayPeriodCode) THEN BEGIN
+            LastDateOfMonth := PayRollPeriod."End Date";
+            StartDate := PayRollPeriod."Start Date";
+            WHILE StartDate <= PayRollPeriod."End Date" DO BEGIN
+                NoOfDaysInPayPeriod += 1;
+                StartDate := CALCDATE('+1D', StartDate);
+            END;
+            EXIT(NoOfDaysInPayPeriod);
+        END;
+
+        /*PayRollPeriod.RESET;
+        IF PayRollPeriod.GET(PayPeriodCode) THEN BEGIN
+            LastDateOfMonth := PayRollPeriod."End Date";
+            StartDate := PayRollPeriod."Start Date";
+            JC.SetRange(Year, Format(PayYear));
+            JC.SetRange("Start Date", StartDate, LastDateOfMonth);
+            JC.SetFilter(Sunday, '%1', false);
+            JC.SetFilter(Saturday, '%1', false);
+            if JC.FindSet() then
+                NoOfDaysInPayPeriod := JC.Count
+            else
+                ERROR(ErrorJC, PayPeriodCode);
+        end;
+        EXIT(NoOfDaysInPayPeriod);
+        */
+    END;
+
 
     PROCEDURE InsertPayrollDetailLine(EmployeeL: Record Employee; PayrollElementL: Record PayrollElement; SalarySetupLineL: Record SalarySetupLine; PayPeriodCode: Code[20]; ElementAmt: Decimal);
     BEGIN
@@ -557,7 +667,7 @@ codeunit 50010 PayrollCodeunite
         PayrollDetailLine."Payroll Bank" := EmployeeL."Payroll Bank";
         PayrollDetailLine."Bank Account No." := EmployeeL."Bank Account No.";
 
-        If PayrollElementL."Element Code" IN ['330', '340'] then
+        If PayrollElementL."Element Code" IN ['60', '65', '330', '340'] then
             PayrollDetailLine."No of Late/Absent (Hr)" := PayrollOtherVar."Hours/Days Late";
         //PayrollDetailLine."Absent (Days)" := PayrollOtherVar."Hours/Days Late";
         //PayrollDetailLine."Late Days" := PayrollOtherVar."Hours/Days Late";
@@ -958,6 +1068,7 @@ codeunit 50010 PayrollCodeunite
         ELSE
             PrevPeriod := FORMAT(PayYear) + '-' + FORMAT(PrevMonth);
 
+        /*
         IF PrevPeriod <> '' THEN BEGIN
             ReimbursableSalary.RESET;
             ReimbursableSalary.SETRANGE(ReimbursableSalary."Period Code", PrevPeriod);
@@ -965,11 +1076,14 @@ codeunit 50010 PayrollCodeunite
             IF ReimbursableSalary.FINDFIRST THEN
                 ERROR(Text011, PrevPeriod);
         END;
+        */
 
         //Filter for only Active Employee
         Employee.RESET;
         Employee.SETFILTER(Status, '<>%1', Employee.Status::Terminated);
         Employee.SetFilter(Blocked, '%1', false);
+        Employee.SETFILTER("Employment Date", '<>%1', 0D);
+
         //Employee.SETFILTER("Reimbursable Amount", '<>%1', 0);
 
         IF (EmployeeNo <> '') THEN
@@ -991,7 +1105,11 @@ codeunit 50010 PayrollCodeunite
                 //Employee.TESTFIELD("Employee Category");
                 Employee.TESTFIELD("Employment Date");
 
-                NoOfDaysInPayPeriod := GetNoOfDaysInPayPeriod(PayPeriods);
+                if (Employee."Is Rig Employee") then
+                    NoOfDaysInPayPeriod := GetNoOfWorkDaysForRigStaff(PayPeriods)
+                else
+                    NoOfDaysInPayPeriod := GetNoOfDaysInPayPeriod(PayPeriods);
+
                 DaysWorked := GetTotalDaysWorked(PayPeriods, Employee);
 
                 //Create the Payroll Line for an Employee
@@ -1024,6 +1142,10 @@ codeunit 50010 PayrollCodeunite
 
         //IF (PayrollElementL."Function of Poration") THEN BEGIN //Need to add element to be porated
         IF (PoratePay) THEN BEGIN
+
+            // if (EmployeeL."Is Rig Employee") then
+            //   ReimbAmtPorate := ROUND(((EmployeeL."Reimbursable Amount" / DaysInMonth) * DaysWorked), 0.01, '>')
+            //else
             ReimbAmtPorate := ROUND(((EmployeeL."Reimbursable Amount" / NoOfDaysInPayPeriod) * DaysWorked), 0.01, '>');
             ElementAmount += ReimbAmtPorate;
         END ELSE BEGIN
@@ -1058,6 +1180,9 @@ codeunit 50010 PayrollCodeunite
         ReimbursableSalarylines."Payroll Bank Account No." := EmployeeL."Bank Account No.";
         ReimbursableSalarylines."Net Pay" := ElementAmt;
         ReimbursableSalarylines."Book Value" := EmployeeL."Reimbursable Amount";
+        //if (EmployeeL."Is Rig Employee") then
+        //  ReimbursableSalarylines."No. of Days In the Month" := DaysInMonth
+        //else
         ReimbursableSalarylines."No. of Days In the Month" := NoOfDaysInPayPeriod;
         ReimbursableSalarylines."No. of Days Worked" := DaysWorked;
 

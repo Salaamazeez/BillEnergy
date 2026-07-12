@@ -221,6 +221,7 @@ page 50155 PayrollHeader
                     SendPayslip.RunSendPaySlip(rec."Payroll Period");
                 end;
             }
+
         }
     }
 
@@ -233,6 +234,8 @@ page 50155 PayrollHeader
                 //Rec.FilterGroup(2);
                 //Rec.SetRange("Shortcut Dimension 1 Filter", UserSteup."Global Dimension 1 Code");
                 //Rec.FilterGroup(0);
+                IF (Rec."Approval Status" = Rec."Approval Status"::Closed) then
+                    CurrPage.Editable := false;
             end;
     end;
 
@@ -257,4 +260,5 @@ page 50155 PayrollHeader
         PayrollHead: Record PayrollHeader;
         PayrollLines: Record PayrollLine;
         PayrollDetLines: Record PayrollDetailLine;
+        CheckPrevPeriodClose: Codeunit CheckPreviousPeriodClose;
 }

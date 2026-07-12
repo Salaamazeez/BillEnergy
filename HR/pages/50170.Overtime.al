@@ -172,6 +172,8 @@ page 50170 Overtime
                 begin
                     //If (PayPeriods = '') then
                     //Error(Text002);
+                    //IF (Not CheckPrevPeriodClose.CheckPreviouOvertime(Rec."Period Code")) then
+                    //  Error(LabelClose);
 
                     Rec."Approval Status" := Rec."Approval Status"::Open;
                     Rec.TestField("Global Dimension 1 Filter");
@@ -258,6 +260,26 @@ page 50170 Overtime
                     end;
                 end;
             }
+            action(CloseOvertime)
+            {
+                ApplicationArea = All;
+                Caption = 'Close Overtime';
+                ToolTip = 'Close the Overtime';
+                Image = Closed;
+
+                // 3. Make the action easy to find in the action bar
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedOnly = true;
+
+                // 4. Run your custom logic when clicked
+                trigger OnAction()
+                begin
+                    Rec.TestField("Approval Status", Rec."Approval Status"::Approved);
+                    Rec."Approval Status" := Rec."Approval Status"::Closed;
+                    rec.Modify();
+                end;
+            }
         }
 
     }
@@ -270,9 +292,14 @@ page 50170 Overtime
         //Rec.FilterGroup(2);
         //Rec.SetRange("Global Dimension 1 Filter", UserSteup."Global Dimension 1 Code");
         //Rec.FilterGroup(0);
+
+        IF (Rec."Approval Status" = Rec."Approval Status"::Closed) then
+            CurrPage.Editable := false;
     end;
 
     var
+        CheckPrevPeriodClose: Codeunit CheckPreviousPeriodClose;
+        LabelClose: Label 'Previous Overtime must be close first';
         UserSteup: Record "User Setup";
         Text001: Label 'Processing overtime for Rig Employee No. #1######\';
         Text002: Label 'Period Filter cannot be empty';

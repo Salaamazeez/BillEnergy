@@ -133,6 +133,10 @@ table 50184 PayrollElement
         {
             Caption = 'Is Overtime';
         }
+        field(38; "Is Overtime WKE-PH"; Boolean)
+        {
+            Caption = 'Is Overtime WKE-PH';
+        }
     }
     keys
     {

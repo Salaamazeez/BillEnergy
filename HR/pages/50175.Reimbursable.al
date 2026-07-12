@@ -115,6 +115,10 @@ page 50175 Reimbursable
                 trigger OnAction()
 
                 begin
+
+                    // IF (Not CheckPrevPeriodClose.CheckPreviouReimb(Rec."Period Code")) then
+                    //   Error(LabelClose);
+
                     Rec."Approval Status" := Rec."Approval Status"::Open;
                     Rec.TestField("Global Dimension 1 Code Filter");
                     Rec.TestField("Period Code");
@@ -143,6 +147,27 @@ page 50175 Reimbursable
                         Report.Run(Report::ReimbursableSummary, true, false, ReimbursLine);
                 end;
             }
+
+            action(CloseReimb)
+            {
+                ApplicationArea = All;
+                Caption = 'Close Reimbursable';
+                ToolTip = 'Close the Reimbursable';
+                Image = Closed;
+
+                // 3. Make the action easy to find in the action bar
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedOnly = true;
+
+                // 4. Run your custom logic when clicked
+                trigger OnAction()
+                begin
+                    Rec.TestField("Approval Status", Rec."Approval Status"::Approved);
+                    Rec."Approval Status" := Rec."Approval Status"::Closed;
+                    rec.Modify();
+                end;
+            }
         }
     }
 
@@ -154,9 +179,14 @@ page 50175 Reimbursable
         //Rec.FilterGroup(2);
         //Rec.SetRange("Global Dimension 1 Code Filter", UserSteup."Global Dimension 1 Code");
         //Rec.FilterGroup(0);
+
+        IF (Rec."Approval Status" = Rec."Approval Status"::Closed) then
+            CurrPage.Editable := false;
     end;
 
     var
+        LabelClose: Label 'Previous Reimbursable must be close first.';
+        CheckPrevPeriodClose: Codeunit CheckPreviousPeriodClose;
         UserSteup: Record "User Setup";
         EmployeeRec: Record Employee;
         PayrollCodeunit: Codeunit "PayrollCodeunite";

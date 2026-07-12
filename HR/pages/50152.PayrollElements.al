@@ -102,6 +102,12 @@ page 50030 PayrollElements
                     ToolTip = 'Specifies the value of the Is Overtime field.', Comment = '%';
                     ApplicationArea = All;
                 }
+
+                field("Is Overtime WKE-PH"; Rec."Is Overtime WKE-PH")
+                {
+                    ToolTip = 'Specifies the value of the Is Overtime Week End or Public Holiday field.', Comment = '%';
+                    ApplicationArea = All;
+                }
                 field("Is Paye"; Rec."Is Paye")
                 {
                     ToolTip = 'Specifies the value of the Is Paye field.', Comment = '%';

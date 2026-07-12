@@ -161,6 +161,8 @@ tableextension 50139 ExtHumanResourceSetup extends "Human Resources Setup"
             Caption = 'Overtime Rate';
             DataClassification = ToBeClassified;
         }
+
+
         field(50162; "NSITF % "; Decimal)
         {
             Caption = 'NSITF %';
@@ -169,6 +171,11 @@ tableextension 50139 ExtHumanResourceSetup extends "Human Resources Setup"
         field(50163; "ITF % "; Decimal)
         {
             Caption = 'ITF %';
+            DataClassification = ToBeClassified;
+        }
+        field(50164; "PH-WK Overtime Rate"; Decimal)
+        {
+            Caption = 'PH-WeekDays Overtime Rate';
             DataClassification = ToBeClassified;
         }
 
