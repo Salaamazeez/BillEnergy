@@ -17,7 +17,7 @@ table 50194 OvertimeHeader
         field(3; "Approval Status"; Option)
         {
             Caption = 'Approval Status';
-            OptionMembers = ,Open,"Pending Approval",Approved,Closed;
+            OptionMembers = Open,"Approved","Pending Approval",Closed;
         }
         field(4; "Global Dimension 1 Filter"; Code[50])
         {
@@ -59,6 +59,7 @@ table 50194 OvertimeHeader
             FieldClass = FlowField;
             CalcFormula = sum(OvertimeLine."Overtime Amount" where("Period Code" = field("Period Code")));
         }
+       
     }
 
 

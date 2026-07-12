@@ -393,8 +393,6 @@ codeunit 50010 PayrollCodeunite
         END;
 
         IF PayrollOtherVar.GET(EmployeeL."No.", PayPeriodCode, PayrollElementL."Element Code") THEN BEGIN
-            if PayrollElementL."Element Code" = '65' then
-                error('error 65 ound');
 
             IF HRSetup.Get() then begin
                 HRSetup.TestField("Overtime Rate");
@@ -437,6 +435,10 @@ codeunit 50010 PayrollCodeunite
                     ElementAmount := ROUND((((SalSetupLine.Amount / DaysInMonth) / HRSetup."Working Hours") *
                                                                     ((HRSetup."PH-WK Overtime Rate" / 100) * PayrollOtherVar."Hours/Days Late")), 0.01, '>');
                 SumGross := SumGross + ElementAmount;
+
+                if PayrollElementL."Element Code" = '65' then
+                    error('error 65 ound   %1', ElementAmount);
+
             END;
         end;
 

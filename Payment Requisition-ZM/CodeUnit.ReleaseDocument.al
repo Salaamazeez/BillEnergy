@@ -90,7 +90,7 @@ Codeunit 50000 "Release Documents"
         for i := 1 to RecRef.FieldCount do begin
             FldRef := RecRef.FieldIndex(i);
             if UpperCase(Format(FldRef.CLASS)) = 'NORMAL' then begin
-                if (RecRef.Number = Database::Job) or (RecRef.Number = Database::"Transfer Header") then begin
+                if (RecRef.Number = Database::Job) or (RecRef.Number = Database::"Transfer Header") or (RecRef.Number = Database::PerformanceAppraisalHeader) or (RecRef.Number = Database::OvertimeHeader) or (RecRef.Number = Database::ReimbursableHeader) or (RecRef.Number = Database::PayrollHeader) then begin
                     if FldRef.Name = 'Approval Status' then
                         exit(i);
                 end else begin

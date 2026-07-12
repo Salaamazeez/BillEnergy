@@ -30,6 +30,9 @@ Codeunit 50002 "Approval Mgt"
         PaymentVoucherHeader: Record "Payment Voucher Header";
         LeaveApplication: Record LeaveApplication;
         PerformanceAppraisal: Record PerformanceAppraisalHeader;
+        OvertimeHeader: Record OvertimeHeader;
+        ReimbursableHeader: Record ReimbursableHeader;
+        PayrollHeader: Record PayrollHeader;
         WorkflowEvent: Codeunit "Workflow Event";
     begin
         case RecRef.Number of
@@ -82,6 +85,29 @@ Codeunit 50002 "Approval Mgt"
                     exit(WorkflowManagement.CanExecuteWorkflow(PerformanceAppraisal, WorkflowEvent.RunWorkflowOnSendGenericDocForApprovalCode(
                       DocName)));
                 end;
+
+            Database::OvertimeHeader:
+                begin
+                    RecRef.SetTable(OvertimeHeader);
+                    DocName := 'OVERTIME';
+                    exit(WorkflowManagement.CanExecuteWorkflow(OvertimeHeader, WorkflowEvent.RunWorkflowOnSendGenericDocForApprovalCode(
+                      DocName)));
+                end;
+            Database::ReimbursableHeader:
+                begin
+                    RecRef.SetTable(ReimbursableHeader);
+                    DocName := 'REIMBURSABLE';
+                    exit(WorkflowManagement.CanExecuteWorkflow(ReimbursableHeader, WorkflowEvent.RunWorkflowOnSendGenericDocForApprovalCode(
+                      DocName)));
+                end;
+            Database::PayrollHeader:
+                begin
+                    RecRef.SetTable(PayrollHeader);
+                    DocName := 'PAYROLL';
+                    exit(WorkflowManagement.CanExecuteWorkflow(PayrollHeader, WorkflowEvent.RunWorkflowOnSendGenericDocForApprovalCode(
+                      DocName)));
+                end;
+
         end;
     end;
 
@@ -94,6 +120,9 @@ Codeunit 50002 "Approval Mgt"
         PaymentVoucherHeader: Record "Payment Voucher Header";
         LeaveApplication: Record LeaveApplication;
         PerformanceAppraisal: Record PerformanceAppraisalHeader;
+        OvertimeHeader: Record OvertimeHeader;
+        ReimbursableHeader: Record ReimbursableHeader;
+        PayrollHeader: Record PayrollHeader;
         WorkflowEvent: Codeunit "Workflow Event";
     begin
         case RecRef.Number of
@@ -150,9 +179,34 @@ Codeunit 50002 "Approval Mgt"
                     RecRef.SetTable(PerformanceAppraisal);
                     if not ApproveDoc(Format(PerformanceAppraisal."Appraisal Year")) then
                         exit;
-                    LeaveApplication.Validate(Status, LeaveApplication.Status::Approved);
-                    LeaveApplication.Modify(true);
+                    PerformanceAppraisal.Validate(Status, PerformanceAppraisal.Status::Approved);
+                    PerformanceAppraisal.Modify(true);
                 end;
+            Database::OvertimeHeader:
+                begin
+                    RecRef.SetTable(OvertimeHeader);
+                    if not ApproveDoc(Format(OvertimeHeader."Period Code")) then
+                        exit;
+                    OvertimeHeader.Validate("Approval Status", OvertimeHeader."Approval Status"::Approved);
+                    OvertimeHeader.Modify(true);
+                end;
+            Database::ReimbursableHeader:
+                begin
+                    RecRef.SetTable(ReimbursableHeader);
+                    if not ApproveDoc(Format(ReimbursableHeader."Period Code")) then
+                        exit;
+                    ReimbursableHeader.Validate("Approval Status", ReimbursableHeader."Approval Status"::Approved);
+                    ReimbursableHeader.Modify(true);
+                end;
+            Database::PayrollHeader:
+                begin
+                    RecRef.SetTable(PayrollHeader);
+                    if not ApproveDoc(Format(PayrollHeader."Payroll Period")) then
+                        exit;
+                    PayrollHeader.Validate("Approval Status", PayrollHeader."Approval Status"::Approved);
+                    PayrollHeader.Modify(true);
+                end;
+
         end;
     end;
 
@@ -200,6 +254,9 @@ Codeunit 50002 "Approval Mgt"
         PaymentVoucherHeader: Record "Payment Voucher Header";
         LeaveApplication: Record LeaveApplication;
         PerformanceAppraisal: Record PerformanceAppraisalHeader;
+        OvertimeHeader: Record OvertimeHeader;
+        ReimbursableHeader: Record ReimbursableHeader;
+        PayrollHeader: Record PayrollHeader;
     Begin
         if WorkflowStepArgument.Get(WorkflowStepInstance.Argument) then
             ApprovalEntryArgument."Workflow User Group" := WorkflowStepArgument."Workflow User Group Code";
@@ -276,6 +333,27 @@ Codeunit 50002 "Approval Mgt"
                     ApprovalEntryArgument."Salespers./Purch. Code" := '';
                     ApprovalEntryArgument.Description := LeaveApplication.Description;
                 end;
+            Database::OvertimeHeader:
+                begin
+                    RecRef.SetTable(OvertimeHeader);
+                    ApprovalEntryArgument."Document No." := Format(OvertimeHeader."Period Code");
+                    ApprovalEntryArgument."Salespers./Purch. Code" := '';
+                    ApprovalEntryArgument.Description := OvertimeHeader.Description;
+                end;
+            Database::ReimbursableHeader:
+                begin
+                    RecRef.SetTable(ReimbursableHeader);
+                    ApprovalEntryArgument."Document No." := Format(ReimbursableHeader."Period Code");
+                    ApprovalEntryArgument."Salespers./Purch. Code" := '';
+                    ApprovalEntryArgument.Description := ReimbursableHeader.Description;
+                end;
+            Database::PayrollHeader:
+                begin
+                    RecRef.SetTable(PayrollHeader);
+                    ApprovalEntryArgument."Document No." := Format(PayrollHeader."Payroll Period");
+                    ApprovalEntryArgument."Salespers./Purch. Code" := '';
+                    ApprovalEntryArgument.Description := PayrollHeader.Description;
+                end;
         end;
 
     end;
@@ -292,6 +370,9 @@ Codeunit 50002 "Approval Mgt"
         PaymentVoucherHeader: Record "Payment Voucher Header";
         LeaveApplication: Record LeaveApplication;
         PerformanceAppraisal: Record PerformanceAppraisalHeader;
+        OvertimeHeader: Record OvertimeHeader;
+        ReimbursableHeader: Record ReimbursableHeader;
+        PayrollHeader: Record PayrollHeader;
     begin
         case RecRef.Number of
             Database::"Payment Requisition":
@@ -348,6 +429,30 @@ Codeunit 50002 "Approval Mgt"
                     PerformanceAppraisal.Validate(Status, PerformanceAppraisal.Status::"Pending Approval");
                     PerformanceAppraisal.Modify(true);
                     Variant := PerformanceAppraisal;
+                    IsHandled := true;
+                end;
+            Database::OvertimeHeader:
+                begin
+                    RecRef.SetTable(OvertimeHeader);
+                    OvertimeHeader.Validate("Approval Status", OvertimeHeader."Approval Status"::"Pending Approval");
+                    OvertimeHeader.Modify(true);
+                    Variant := OvertimeHeader;
+                    IsHandled := true;
+                end;
+            Database::ReimbursableHeader:
+                begin
+                    RecRef.SetTable(ReimbursableHeader);
+                    ReimbursableHeader.Validate("Approval Status", ReimbursableHeader."Approval Status"::"Pending Approval");
+                    ReimbursableHeader.Modify(true);
+                    Variant := ReimbursableHeader;
+                    IsHandled := true;
+                end;
+            Database::PayrollHeader:
+                begin
+                    RecRef.SetTable(PayrollHeader);
+                    PayrollHeader.Validate("Approval Status", PayrollHeader."Approval Status"::"Pending Approval");
+                    PayrollHeader.Modify(true);
+                    Variant := PayrollHeader;
                     IsHandled := true;
                 end;
         end;
@@ -478,6 +583,12 @@ Codeunit 50002 "Approval Mgt"
                 exit(Database::LeaveApplication);
             Database::PerformanceAppraisalHeader:
                 exit(Database::PerformanceAppraisalHeader);
+            Database::OvertimeHeader:
+                exit(Database::OvertimeHeader);
+            Database::ReimbursableHeader:
+                exit(Database::ReimbursableHeader);
+            Database::PayrollHeader:
+                exit(Database::PayrollHeader);
         end;
     end;
 
@@ -493,6 +604,9 @@ Codeunit 50002 "Approval Mgt"
         ApprovalComment: Record "Sales Comment Line";
         LeaveApplication: Record LeaveApplication;
         PerformanceAppraisal: Record PerformanceAppraisalHeader;
+        OvertimeHeader: Record OvertimeHeader;
+        ReimbursableHeader: Record ReimbursableHeader;
+        PayrollHeader: Record PayrollHeader;
         DocNo: Code[20];
     begin
         case RecRef.Number of
@@ -558,6 +672,33 @@ Codeunit 50002 "Approval Mgt"
                     PerformanceAppraisal.Status := PerformanceAppraisal.Status::Open;
                     PerformanceAppraisal.Modify();
                     DocNo := Format(PerformanceAppraisal."Appraisal Year");
+                end;
+            Database::OvertimeHeader:
+                begin
+                    RecRef.SetTable(OvertimeHeader);
+                    if not ApproveDoc(Format(OvertimeHeader."Period Code")) then
+                        exit;
+                    OvertimeHeader."Approval Status" := OvertimeHeader."Approval Status"::Open;
+                    OvertimeHeader.Modify();
+                    DocNo := Format(OvertimeHeader."Period Code");
+                end;
+            Database::ReimbursableHeader:
+                begin
+                    RecRef.SetTable(ReimbursableHeader);
+                    if not ApproveDoc(Format(ReimbursableHeader."Period Code")) then
+                        exit;
+                    ReimbursableHeader."Approval Status" := ReimbursableHeader."Approval Status"::Open;
+                    ReimbursableHeader.Modify();
+                    DocNo := Format(ReimbursableHeader."Period Code");
+                end;
+                Database::PayrollHeader:
+                begin
+                    RecRef.SetTable(PayrollHeader);
+                    if not ApproveDoc(Format(PayrollHeader."Payroll Period")) then
+                        exit;
+                    PayrollHeader."Approval Status" := PayrollHeader."Approval Status"::Open;
+                    PayrollHeader.Modify();
+                    DocNo := Format(PayrollHeader."Payroll Period");
                 end;
         end;
         if DocNo = '' then
