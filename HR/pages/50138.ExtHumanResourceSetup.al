@@ -158,6 +158,11 @@ pageextension 50138 ExtHumanResourceSetup extends "Human Resources Setup"
                     ApplicationArea = All;
                 }
 
+                field("Maximum Work Days"; Rec."Maximum Work Days")
+                {
+                    Caption = 'Maximum Work Days';
+                    ApplicationArea = All;
+                }
                 field("Overtime Rate"; Rec."Overtime Rate")
                 {
                     Caption = 'Overtime Rate';

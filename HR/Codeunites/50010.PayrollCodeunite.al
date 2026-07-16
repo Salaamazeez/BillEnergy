@@ -183,6 +183,8 @@ codeunit 50010 PayrollCodeunite
                 LifeRelief := 0;
                 NHISRelief := 0;
                 ITFAmt := 0;
+                DaysWorked := 0;
+                PoratePay := False;
 
                 //Employee.TESTFIELD("Employee Category");
                 Employee.TESTFIELD("Employment Date");
@@ -302,7 +304,8 @@ codeunit 50010 PayrollCodeunite
             PayrollLine."Salary Code" := EmpLRec."Emplymt. Contract Code";
 
             PayrollLine."No. of Worked Days" := DaysWorked;
-            PayrollLine."Working Days" := NoOfDaysInPayPeriod;
+            PayrollLine."Working Days" := HRSetup."Maximum Work Days";
+            //PayrollLine."Working Days" := NoOfDaysInPayPeriod;
             //PayrollLine."Late/Absent Hour":=PayrollOtherVar."Hours/Days Late";
             //payrollline."Book Amount" := Round(AnnualGross / 12, 0.01, '>');
             //PayrollLine."Employee Type" := EmpLRec."Engagement Type";
@@ -315,28 +318,30 @@ codeunit 50010 PayrollCodeunite
     var
         TextBasic: Label 'Basic Pay Element code is not setup in the Payroll Element page';
         PayElement: Record PayrollElement;
-
         SalSetupLine: Record SalarySetupLine;
 
     BEGIN
 
-        HRSetup.GET;
+        IF HRSetup.GET then
+            HRSetup.TestField("Maximum Work Days");
+
         ElementAmount := 0;
         OtherEarnAmt := 0;
         DaysInMonth := 0;
         Clear(SalSetupLine);
         clear(PayElement);
 
-        /*
-        IF (PayrollElementL."Function of Poration") THEN BEGIN //Need to add element to be porated
-            IF ((PoratePay) AND (PayrollElementL."Function of Poration")) THEN
-                ElementAmount := ROUND(((SalarySetupLineL.Amount / NoOfDaysInPayPeriod) * DaysWorked), 0.01, '>')
-            ELSE
-                ElementAmount := ROUND(SalarySetupLineL.Amount, 0.01, '>');
-        END;
-        */
 
-        ElementAmount := ROUND(SalarySetupLineL.Amount, 0.01, '>');
+        //IF (PayrollElementL."Function of Poration") THEN BEGIN //Need to add element to be porated
+
+        IF ((PoratePay) AND (PayrollElementL."Function of Poration")) THEN
+            ElementAmount := ROUND(((SalarySetupLineL.Amount / HRSetup."Maximum Work Days") * DaysWorked), 0.01, '>')
+        ELSE
+            ElementAmount := ROUND(SalarySetupLineL.Amount, 0.01, '>');
+        //END;
+
+
+        //ElementAmount := ROUND(SalarySetupLineL.Amount, 0.01, '>');
 
         IF (PayrollElementL."Is Basic") THEN
             BasicAmt := ElementAmount;
@@ -417,27 +422,27 @@ codeunit 50010 PayrollCodeunite
                 SalSetupLine.TestField(Amount);
 
             //Get Days In Month base on Rig Staff and Office Staff
-
+            /*
             IF (EmployeeL."Is Rig Employee") then
                 DaysInMonth := GetNoOfWorkDaysForRigStaff(PayPeriodCode)
             else
                 DaysInMonth := GetNoOfDaysInPayPeriod(PayPeriodCode);
-
+             */
 
             if (PayrollElementL."Is Overtime") then begin
-                ElementAmount := ROUND((((SalSetupLine.Amount / DaysInMonth) / HRSetup."Working Hours") *
+                //ElementAmount := ROUND((((SalSetupLine.Amount / DaysInMonth) / HRSetup."Working Hours") *
+                //((HRSetup."Overtime Rate" / 100) * PayrollOtherVar."Hours/Days Late")), 0.01, '>');
+                ElementAmount := ROUND((((SalSetupLine.Amount / HRSetup."Maximum Work Days") / HRSetup."Working Hours") *
                                                                 ((HRSetup."Overtime Rate" / 100) * PayrollOtherVar."Hours/Days Late")), 0.01, '>');
                 SumGross := SumGross + ElementAmount;
             end;
 
             if (PayrollElementL."Is Overtime WKE-PH") then begin
-                if (PayrollElementL."Is Overtime") then
-                    ElementAmount := ROUND((((SalSetupLine.Amount / DaysInMonth) / HRSetup."Working Hours") *
-                                                                    ((HRSetup."PH-WK Overtime Rate" / 100) * PayrollOtherVar."Hours/Days Late")), 0.01, '>');
+                //ElementAmount := ROUND((((SalSetupLine.Amount / DaysInMonth) / HRSetup."Working Hours") *
+                //((HRSetup."PH-WK Overtime Rate" / 100) * PayrollOtherVar."Hours/Days Late")), 0.01, '>');
+                ElementAmount := ROUND((((SalSetupLine.Amount / HRSetup."Maximum Work Days") / HRSetup."Working Hours") *
+                                                                ((HRSetup."PH-WK Overtime Rate" / 100) * PayrollOtherVar."Hours/Days Late")), 0.01, '>');
                 SumGross := SumGross + ElementAmount;
-
-                if PayrollElementL."Element Code" = '65' then
-                    error('error 65 ound   %1', ElementAmount);
 
             END;
         end;
@@ -446,11 +451,13 @@ codeunit 50010 PayrollCodeunite
         IF PayrollOtherVar.GET(EmployeeL."No.", PayPeriodCode, PayrollElementL."Element Code") THEN BEGIN
             //IF PayrollOtherVar.Deducted THEN BEGIN
             IF PayrollElementL."Is Absence" THEN begin
-                ElementAmount := ((PayrollOtherVar."Gross Pay" - (PensionAmt + Paye)) / (PayrollOtherVar."Maximum Working Hour" * NoOfDaysInPayPeriod) * PayrollOtherVar."Hours/Days Late");
+                //ElementAmount := ((PayrollOtherVar."Gross Pay" - (PensionAmt + Paye)) / (PayrollOtherVar."Maximum Working Hour" * NoOfDaysInPayPeriod) * PayrollOtherVar."Hours/Days Late");
+                ElementAmount := ((PayrollOtherVar."Gross Pay" - (PensionAmt + Paye)) / (PayrollOtherVar."Maximum Working Hour" * HRSetup."Maximum Work Days") * PayrollOtherVar."Hours/Days Late");
             end;
 
             if PayrollElementL."Is Late" then begin
-                ElementAmount := ((PayrollOtherVar."Gross Pay" - (PensionAmt + Paye)) / (PayrollOtherVar."Maximum Working Hour" * NoOfDaysInPayPeriod) * PayrollOtherVar."Hours/Days Late");
+                //ElementAmount := ((PayrollOtherVar."Gross Pay" - (PensionAmt + Paye)) / (PayrollOtherVar."Maximum Working Hour" * NoOfDaysInPayPeriod) * PayrollOtherVar."Hours/Days Late");
+                ElementAmount := ((PayrollOtherVar."Gross Pay" - (PensionAmt + Paye)) / (PayrollOtherVar."Maximum Working Hour" * HRSetup."Maximum Work Days") * PayrollOtherVar."Hours/Days Late");
             end;
             //ElementAmount:=ROUND(((SumGross/30)*(PayrollOtherVar.Quantity)),0.01,'>')
             //ELSE
@@ -549,10 +556,11 @@ codeunit 50010 PayrollCodeunite
         EXIT(NoOfDaysInPayPeriod);
     END;
 
-    PROCEDURE GetTotalDaysWorked(PayPeriodCode: Code[20]; EmployeeRec: Record 5200): Integer;
+    PROCEDURE GetTotalDaysWorked(PayPeriodCode: Code[20]; EmployeeRec: Record Employee): Integer;
     var
         JC: Record JourneyCalendar;
         ErrorJC: Label 'Periods Calendar needs to be created for the Period %1';
+    //PoratePay: Boolean;
 
     BEGIN
         DaysWorked := 0;
@@ -576,14 +584,16 @@ codeunit 50010 PayrollCodeunite
                 StartDate := PayRollPeriod."Start Date";
                 JC.SetRange(Year, Format(PayYear));
                 JC.SetRange("Start Date", EmployeeRec."Employment Date", LastDateOfMonth);
-                JC.SetFilter(Sunday, '%1', false);
-                JC.SetFilter(Saturday, '%1', false);
+                //JC.SetFilter(Sunday, '%1', false);
+                //JC.SetFilter(Saturday, '%1', false);
 
-                if JC.FindSet() then
-                    DaysWorked := JC.Count
+                if JC.FindSet() then begin
+                    DaysWorked := JC.Count;
+                    PoratePay := TRUE;
+                end
                 else
                     ERROR(ErrorJC, PayPeriodCode);
-                PoratePay := TRUE;
+
 
             end else begin
                 LastDateOfMonth := PayRollPeriod."End Date";
@@ -591,8 +601,8 @@ codeunit 50010 PayrollCodeunite
 
                 JC.SetRange(Year, Format(PayYear));
                 JC.SetRange("Start Date", StartDate, LastDateOfMonth);
-                JC.SetFilter(Sunday, '%1', false);
-                JC.SetFilter(Saturday, '%1', false);
+                //JC.SetFilter(Sunday, '%1', false);
+                //JC.SetFilter(Saturday, '%1', false);
 
                 if JC.FindSet() then
                     DaysWorked := JC.Count
@@ -675,7 +685,8 @@ codeunit 50010 PayrollCodeunite
         //PayrollDetailLine."Late Days" := PayrollOtherVar."Hours/Days Late";
 
         PayrollDetailLine."Payable Amount" := ElementAmt;
-        PayrollDetailLine."No of Days In the Month" := NoOfDaysInPayPeriod;
+        //PayrollDetailLine."No of Days In the Month" := NoOfDaysInPayPeriod;
+        PayrollDetailLine."No of Days In the Month" := HRSetup."Maximum Work Days";
         PayrollDetailLine."No of Worked Days" := DaysWorked;
 
         IF PayrollElementL.Earning THEN BEGIN
@@ -1107,13 +1118,14 @@ codeunit 50010 PayrollCodeunite
                 //Employee.TESTFIELD("Employee Category");
                 Employee.TESTFIELD("Employment Date");
 
+                /*
                 if (Employee."Is Rig Employee") then
                     NoOfDaysInPayPeriod := GetNoOfWorkDaysForRigStaff(PayPeriods)
                 else
                     NoOfDaysInPayPeriod := GetNoOfDaysInPayPeriod(PayPeriods);
+                */
 
                 DaysWorked := GetTotalDaysWorked(PayPeriods, Employee);
-
                 //Create the Payroll Line for an Employee
                 //CreatePayrollLine(PayPeriods,Employee);
 
@@ -1137,7 +1149,8 @@ codeunit 50010 PayrollCodeunite
     VAR
         ReimbAmtPorate: Decimal;
     BEGIN
-        HRSetup.GET;
+        If HRSetup.GET then
+            HRSetup.TestField("Maximum Work Days");
 
         ElementAmount := 0;
         ReimbAmtPorate := 0;
@@ -1148,7 +1161,8 @@ codeunit 50010 PayrollCodeunite
             // if (EmployeeL."Is Rig Employee") then
             //   ReimbAmtPorate := ROUND(((EmployeeL."Reimbursable Amount" / DaysInMonth) * DaysWorked), 0.01, '>')
             //else
-            ReimbAmtPorate := ROUND(((EmployeeL."Reimbursable Amount" / NoOfDaysInPayPeriod) * DaysWorked), 0.01, '>');
+            //ReimbAmtPorate := ROUND(((EmployeeL."Reimbursable Amount" / NoOfDaysInPayPeriod) * DaysWorked), 0.01, '>');
+            ReimbAmtPorate := ROUND(((EmployeeL."Reimbursable Amount" / HRSetup."Maximum Work Days") * DaysWorked), 0.01, '>');
             ElementAmount += ReimbAmtPorate;
         END ELSE BEGIN
 
@@ -1185,7 +1199,8 @@ codeunit 50010 PayrollCodeunite
         //if (EmployeeL."Is Rig Employee") then
         //  ReimbursableSalarylines."No. of Days In the Month" := DaysInMonth
         //else
-        ReimbursableSalarylines."No. of Days In the Month" := NoOfDaysInPayPeriod;
+        //ReimbursableSalarylines."No. of Days In the Month" := NoOfDaysInPayPeriod;
+        ReimbursableSalaryLines."No. of Days In the Month" := HRSetup."Maximum Work Days";
         ReimbursableSalarylines."No. of Days Worked" := DaysWorked;
 
         ReimbursableSalarylines.INSERT(TRUE);

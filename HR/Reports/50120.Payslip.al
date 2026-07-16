@@ -51,7 +51,10 @@ report 50120 Payslip
             { }
             column(Utility; EPayAmount[4])
             { }
-
+            column(Overtime; EPayAmount[5])
+            { }
+            column(OvertimePHWKD; EPayAmount[6])
+            { }
             column(PAYE; DPayAmount[1])
             { }
             column(PensionEmp; DPayAmount[2])

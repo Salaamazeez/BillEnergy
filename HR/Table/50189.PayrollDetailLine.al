@@ -9,7 +9,7 @@ table 50189 PayrollDetailLine
         {
             Caption = 'Payroll Period';
             TableRelation = PayrollPeriods."Period Code";
-            
+
         }
         field(2; "Employee No."; Code[20])
         {
@@ -132,7 +132,7 @@ table 50189 PayrollDetailLine
 
         field(30; "No of Late/Absent (Hr)"; Decimal)
         {
-            Caption = 'No of Late/Absent (Hr)';
+            Caption = 'No of Late/Absent/Overtime (Hr)';
             Editable = false;
         }
 

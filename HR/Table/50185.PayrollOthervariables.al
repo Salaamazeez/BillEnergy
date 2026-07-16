@@ -130,7 +130,7 @@ table 50188 PayrollOthervariables
         }
         field(11; "Hours/Days Late"; decimal)
         {
-            Caption = 'Hours Late/Days Absence';
+            Caption = 'Hours Late/Days Absence/Overtime';
             Editable = false;
         }
 
