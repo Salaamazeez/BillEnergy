@@ -296,7 +296,7 @@ codeunit 50010 PayrollCodeunite
             PayrollLine."Working Days" := NoOfDaysInPayPeriod;
             //PayrollLine."Late/Absent Hour":=PayrollOtherVar."Hours/Days Late";
             //payrollline."Book Amount" := Round(AnnualGross / 12, 0.01, '>');
-            //PayrollLine."Employee Type" := EmpLRec."Engagement Type";
+            PayrollLine."Employee Type" := EmpLRec."Engagement Type";
             PayrollLine.INSERT();
         END;
     END;
