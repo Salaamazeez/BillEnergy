@@ -29,6 +29,7 @@ page 50168 PayrollOthervariables
 
                     trigger OnValidate()
                     begin
+                        ApplyPayrollPeriodFilter();
                     end;
                 }
                 field(EmployeeNo; EmployeeNo)
@@ -152,13 +153,6 @@ page 50168 PayrollOthervariables
                 trigger OnAction()
 
                 begin
-                    IF (PayPeriods = '') then
-                        error(ErrorPeriod);
-
-                    //IF (GlobalDim1Code = '') then
-                    //  error(ErrorBranch);
-                    IF PayPeriods = '' then
-                        error('Period filter must not be empty');
                     Report.Run(Report::ImportPayrollOtherVar);
                 end;
 
@@ -173,6 +167,32 @@ page 50168 PayrollOthervariables
             Rec.SetRange("Global Dimension 1 Code", UserSteup."Global Dimension 1 Code");
             Rec.FilterGroup(0);
         end;
+
+        ApplyPayrollPeriodFilter();
+
+    end;
+
+    trigger OnAfterGetRecord()
+    begin
+
+    end;
+
+    local procedure ApplyPayrollPeriodFilter()
+
+    begin
+        // FilterGroup(2) hides the code-applied filter from the user's manual filter pane 
+        // to prevent them from accidentally clearing it out.
+        Rec.FilterGroup(2);
+
+        if (PayPeriods <> '') then
+            Rec.SetRange("Payroll Period", PayPeriods) // Replace with your actual table field
+        else
+            Rec.SetRange("Payroll Period"); // Clears filter if global variable is deleted
+
+        Rec.FilterGroup(0); // Return back to standard UI filter group
+
+        // 4. Forces the Business Central UI layout grid to instantly refresh data
+        CurrPage.Update(false);
     end;
 
     var

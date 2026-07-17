@@ -53,6 +53,10 @@ report 50121 PayrollSummary
             { }
             column(Utility; EPayAmount[4])
             { }
+            column(Overtime; EPayAmount[5])
+            { }
+            column(OvertimePHWKD; EPayAmount[6])
+            { }
 
             column(PAYE; DPayAmount[1])
             { }

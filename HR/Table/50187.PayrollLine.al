@@ -50,14 +50,14 @@ table 50187 PayrollLine
 
         field(9; "Book Amount"; Decimal)
         {
-            Caption = 'Book Amount';
+            Caption = 'Gross Amount';
             Editable = false;
             FieldClass = FlowField;
             CalcFormula = sum(SalarySetupLine.Amount where("Salary Code" = field("Employment Contract Code"), "Element Code" = filter(600)));
         }
         field(10; "Payable Amount"; Decimal)
         {
-            Caption = 'Payable Amount';
+            Caption = 'Net Amount';
             Editable = false;
             FieldClass = FlowField;
             CalcFormula = sum(PayrollDetailLine."Payable Amount" where("Payroll Period" = field("Payroll Period"), "Employee No." = field("Employee Code"), "Part of Payable Value" = filter(true)));
@@ -97,7 +97,7 @@ table 50187 PayrollLine
         }
         field(24; "Late/Absent Hour"; Decimal)
         {
-            Caption = 'Late/Absent Hour';
+            Caption = 'Late/Absent/Overtime Hour';
             Editable = false;
         }
 

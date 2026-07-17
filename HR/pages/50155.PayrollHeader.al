@@ -430,6 +430,7 @@ page 50155 PayrollHeader
                 end;
             }
 
+
         }
     }
 
@@ -442,9 +443,11 @@ page 50155 PayrollHeader
                 //Rec.FilterGroup(2);
                 //Rec.SetRange("Shortcut Dimension 1 Filter", UserSteup."Global Dimension 1 Code");
                 //Rec.FilterGroup(0);
+                IF (Rec."Approval Status" = Rec."Approval Status"::Closed) then
+                    CurrPage.Editable := false;
             end;
     end;
-    
+
     trigger OnAfterGetRecord()
     begin
         EnableFields;
@@ -491,4 +494,5 @@ page 50155 PayrollHeader
         OpenApprovalEntriesExistForCurrUser: Boolean;
         OpenApprovalEntriesExist: Boolean;
         EnableControl: Boolean;
+        CheckPrevPeriodClose: Codeunit CheckPreviousPeriodClose;
 }

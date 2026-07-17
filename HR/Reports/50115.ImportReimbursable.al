@@ -18,11 +18,14 @@ report 50115 ImportReimbursablePay
 
                 WindowDialog.Update(1, EmployeeRec."No.");
 
-                EmployeeRec.Init();
-                //EmployeeRec.VALIDATE("Employee No.", ColText[1]);
-                Evaluate(EmployeeRec."Reimbursable Amount", ColText[2]);
-                IF (NOT EmployeeRec.INSERT(True)) then
+                //EmployeeRec.Init();
+                //EmployeeRec.VALIDATE("No.", ColText[1]);
+                If EmployeeRec.Get(Format(ColText[1])) then begin
+
+                    Evaluate(EmployeeRec."Reimbursable Amount", ColText[2]);
+                    //IF (NOT EmployeeRec.INSERT(True)) then
                     EmployeeRec.Modify();
+                end;
             end;
 
             trigger OnPreDataItem()

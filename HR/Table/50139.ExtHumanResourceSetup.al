@@ -100,6 +100,12 @@ tableextension 50139 ExtHumanResourceSetup extends "Human Resources Setup"
             DataClassification = ToBeClassified;
         }
 
+        field(50132; "Maximum Work Days"; Integer)
+        {
+            Caption = 'Maximum work Days';
+            DataClassification = ToBeClassified;
+        }
+
         field(50150; "Rig Basic %"; Decimal)
         {
             Caption = 'Rig Basic %';
@@ -161,6 +167,8 @@ tableextension 50139 ExtHumanResourceSetup extends "Human Resources Setup"
             Caption = 'Overtime Rate';
             DataClassification = ToBeClassified;
         }
+
+
         field(50162; "NSITF % "; Decimal)
         {
             Caption = 'NSITF %';
@@ -171,6 +179,13 @@ tableextension 50139 ExtHumanResourceSetup extends "Human Resources Setup"
             Caption = 'ITF %';
             DataClassification = ToBeClassified;
         }
+        field(50164; "PH-WK Overtime Rate"; Decimal)
+        {
+            Caption = 'PH-WeekDays Overtime Rate';
+            DataClassification = ToBeClassified;
+        }
+
+
 
 
     }

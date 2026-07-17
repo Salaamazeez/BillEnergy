@@ -2,7 +2,7 @@ tableextension 50004 EmployeeExt extends Employee
 {
     fields
     {
-       
+
         field(50002; "No. 2"; Text[50])
         {
 
@@ -63,6 +63,25 @@ tableextension 50004 EmployeeExt extends Employee
             DataClassification = ToBeClassified;
             Caption = 'Rent Amount';
         }
+        field(50011; "Job Function Code"; Code[50])
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Job Function Code';
+            TableRelation = JobFunction."Job Title";
+
+            trigger OnValidate()
+            begin
+                //clear("Job Title");
+
+                //if JobFunction.Get("Job Title Code") then
+                //  "Job Title" := JobFunction."Job Title";
+            end;
+        }
+        field(50012; "Is Rig Employee"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+            Caption = 'Is Rig Employee';
+        }
 
         modify("Bank Account No.")
         {
@@ -78,4 +97,8 @@ tableextension 50004 EmployeeExt extends Employee
     begin
         //TestField("Job Title");
     end;
+
+    var
+
+        JobFunction: Record JobFunction;
 }

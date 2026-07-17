@@ -47,7 +47,11 @@ table 50188 PayrollOthervariables
 
             trigger OnValidate()
             begin
-                "Days in the Month" := PayrollCodeUnit.GetNoOfDaysInPayPeriod("Payroll Period");
+
+                If (EmpRec."Is Rig Employee") then
+                    "Days in the Month" := PayrollCodeUnit.GetNoOfWorkDaysForRigStaff("Payroll Period")
+                else
+                    "Days in the Month" := PayrollCodeUnit.GetNoOfDaysInPayPeriod("Payroll Period");
 
                 if HRSetup.Get() then begin
                     HRSetup.TestField("Working Hours");
@@ -126,7 +130,7 @@ table 50188 PayrollOthervariables
         }
         field(11; "Hours/Days Late"; decimal)
         {
-            Caption = 'Hours Late/Days Absence';
+            Caption = 'Hours Late/Days Absence/Overtime';
             Editable = false;
         }
 
