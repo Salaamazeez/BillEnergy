@@ -7,6 +7,7 @@ page 50553 "Stores Returns Card"
     SourceTable = "Stores Return";
     RefreshOnActivate = true;
     SourceTableView = WHERE(Status = CONST(Open), Posted = CONST(false));
+    ApplicationArea = All;
 
     // AutoSplitKey = true;
     layout

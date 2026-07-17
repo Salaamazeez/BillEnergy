@@ -7,6 +7,7 @@ page 50157 PayrollDetailLines
     PageType = List;
     SourceTable = PayrollDetailLine;
     UsageCategory = Lists;
+    ApplicationArea = All;
 
     layout
     {

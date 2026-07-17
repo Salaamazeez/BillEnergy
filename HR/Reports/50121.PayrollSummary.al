@@ -9,6 +9,7 @@ report 50121 PayrollSummary
     UsageCategory = ReportsAndAnalysis;
     DefaultLayout = RDLC;
     RDLCLayout = 'PayrollSummary.rdl';
+    ApplicationArea = All;
 
 
     dataset

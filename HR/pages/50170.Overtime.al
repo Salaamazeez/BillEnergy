@@ -15,6 +15,7 @@ page 50170 Overtime
     //UsageCategory = tasks;
     InsertAllowed = true;
     ModifyAllowed = true;
+    ApplicationArea = All;
 
     layout
     {
@@ -66,30 +67,30 @@ page 50170 Overtime
                     ToolTip = 'Specifies the value of the Overtime Paid field.', Comment = '%';
                     ApplicationArea = All;
                 }
-                field(SystemCreatedBy; Rec.SystemCreatedBy)
-                {
-                    ToolTip = 'Specifies the value of the SystemCreatedBy field.', Comment = '%';
-                    ApplicationArea = All;
-                    //Visible = false;
-                }
-                field(SystemCreatedAt; Rec.SystemCreatedAt)
-                {
-                    ToolTip = 'Specifies the value of the SystemCreatedAt field.', Comment = '%';
-                    ApplicationArea = All;
-                    //Visible = false;
-                }
-                field(SystemModifiedBy; Rec.SystemModifiedBy)
-                {
-                    ToolTip = 'Specifies the value of the SystemModifiedBy field.', Comment = '%';
-                    ApplicationArea = All;
-                    //Visible = false;
-                }
-                field(SystemModifiedAt; Rec.SystemModifiedAt)
-                {
-                    ToolTip = 'Specifies the value of the SystemModifiedAt field.', Comment = '%';
-                    ApplicationArea = All;
-                    //Visible = false;
-                }
+                // field(SystemCreatedBy; Rec.SystemCreatedBy)
+                // {
+                //     ToolTip = 'Specifies the value of the SystemCreatedBy field.', Comment = '%';
+                //     ApplicationArea = All;
+                //     //Visible = false;
+                // }
+                // field(SystemCreatedAt; Rec.SystemCreatedAt)
+                // {
+                //     ToolTip = 'Specifies the value of the SystemCreatedAt field.', Comment = '%';
+                //     ApplicationArea = All;
+                //     //Visible = false;
+                // }
+                // field(SystemModifiedBy; Rec.SystemModifiedBy)
+                // {
+                //     ToolTip = 'Specifies the value of the SystemModifiedBy field.', Comment = '%';
+                //     ApplicationArea = All;
+                //     //Visible = false;
+                // }
+                // field(SystemModifiedAt; Rec.SystemModifiedAt)
+                // {
+                //     ToolTip = 'Specifies the value of the SystemModifiedAt field.', Comment = '%';
+                //     ApplicationArea = All;
+                //     //Visible = false;
+                // }
                 field("Total Amount"; Rec."Total Amount")
                 {
                     ToolTip = 'Specifies the value of the Total Amount field.', Comment = '%';

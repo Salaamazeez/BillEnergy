@@ -13,6 +13,7 @@ page 50175 Reimbursable
     UsageCategory = Tasks;
     InsertAllowed = true;
     ModifyAllowed = true;
+    ApplicationArea = All;
 
     layout
     {

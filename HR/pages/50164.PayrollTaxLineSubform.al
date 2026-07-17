@@ -7,6 +7,7 @@ page 50164 PayrollTaxLineSubform
     PageType = ListPart;
     SourceTable = PayrollTaxLine;
     AutoSplitKey = true;
+    ApplicationArea = All;
 
     layout
     {

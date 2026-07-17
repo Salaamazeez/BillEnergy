@@ -6,6 +6,7 @@ page 50516 "Apprv. Stores Req.s Subform"
     //UsageCategory = Lists;
     SourceTable = "Store Requisition Line";
     AutoSplitKey = true;
+    ApplicationArea = All;
 
     layout
     {

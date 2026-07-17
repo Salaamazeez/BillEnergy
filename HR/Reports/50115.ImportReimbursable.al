@@ -5,6 +5,7 @@ report 50115 ImportReimbursablePay
     Caption = 'Import Reimbursable';
     UsageCategory = Tasks;
     ProcessingOnly = true;
+    ApplicationArea = All;
     //DefaultLayout = RDLC;
     //RDLCLayout = 'Import Employee Data.rdl';
     dataset

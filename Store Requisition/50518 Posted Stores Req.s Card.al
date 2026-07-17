@@ -7,6 +7,7 @@ page 50518 "Posted Stores Req.s Card"
     SourceTable = "Store Requisition";
     // SourceTableView = WHERE(Status = CONST(Approved), Posted = CONST(false), "PRQ Processing?" = CONST(false));
     Editable = false;
+    ApplicationArea = All;
     // AutoSplitKey = true;
     layout
     {

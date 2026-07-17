@@ -6,6 +6,7 @@ page 50019 "Pending Purch. Requisition Car"
     // ApplicationArea = All;
     //UsageCategory = Administration;
     SourceTable = "Purch. Requistion";
+    ApplicationArea = All;
     // SourceTableView = WHERE(Status = CONST(" "), "Purchase Order Posted" = CONST(false), "Purch. Order Created?" = CONST(false));
     layout
     {

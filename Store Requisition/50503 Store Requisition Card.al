@@ -4,6 +4,7 @@ page 50503 "Store REquisition Card"
     PageType = Card;
     SourceTable = "Store Requisition";
     SourceTableView = WHERE(Status = const(Open));
+    ApplicationArea = All;
 
     // AutoSplitKey = true;
     layout

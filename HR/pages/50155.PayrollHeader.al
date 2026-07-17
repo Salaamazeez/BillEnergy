@@ -11,6 +11,7 @@ page 50155 PayrollHeader
     PageType = Document;
     SourceTable = PayrollHeader;
     UsageCategory = ReportsAndAnalysis;
+    ApplicationArea = All;
 
     layout
     {
@@ -80,28 +81,28 @@ page 50155 PayrollHeader
                     ToolTip = 'Specifies the value of the Closed Time field.', Comment = '%';
 
                 }
-                field(SystemCreatedBy; Rec.SystemCreatedBy)
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the SystemCreatedBy field.', Comment = '%';
+                // field(SystemCreatedBy; Rec.SystemCreatedBy)
+                // {
+                //     ApplicationArea = All;
+                //     ToolTip = 'Specifies the value of the SystemCreatedBy field.', Comment = '%';
 
-                }
-                field(SystemCreatedAt; Rec.SystemCreatedAt)
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the SystemCreatedAt field.', Comment = '%';
+                // }
+                // field(SystemCreatedAt; Rec.SystemCreatedAt)
+                // {
+                //     ApplicationArea = All;
+                //     ToolTip = 'Specifies the value of the SystemCreatedAt field.', Comment = '%';
 
-                }
-                field(SystemModifiedBy; Rec.SystemModifiedBy)
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the SystemModifiedBy field.', Comment = '%';
+                // }
+                // field(SystemModifiedBy; Rec.SystemModifiedBy)
+                // {
+                //     ApplicationArea = All;
+                //     ToolTip = 'Specifies the value of the SystemModifiedBy field.', Comment = '%';
 
-                }
-                field(SystemModifiedAt; Rec.SystemModifiedAt)
-                {
-                    ToolTip = 'Specifies the value of the SystemModifiedAt field.', Comment = '%';
-                }
+                // }
+                // field(SystemModifiedAt; Rec.SystemModifiedAt)
+                // {
+                //     ToolTip = 'Specifies the value of the SystemModifiedAt field.', Comment = '%';
+                // }
                 field("Total Amount"; Rec."Total Amount")
                 {
                     ToolTip = 'Specifies the value of the Total Amount field.', Comment = '%';

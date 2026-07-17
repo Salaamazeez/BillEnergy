@@ -122,30 +122,30 @@ page 50124 LeaveApplicationCard
                 {
                     ToolTip = 'Specifies the value of the HR Comment.';
                 }
-                field(SystemCreatedBy; Rec.SystemCreatedBy)
-                {
-                    ToolTip = 'Specifies the value of the Created By.';
-                    Caption = 'Created By';
-                    Editable = false;
-                }
-                field(SystemCreatedAt; Rec.SystemCreatedAt)
-                {
-                    ToolTip = 'Specifies the value of the Created Date.';
-                    Caption = 'Created Date';
-                    Editable = false;
-                }
-                field(SystemModifiedBy; Rec.SystemModifiedBy)
-                {
-                    ToolTip = 'Specifies the value of the Modified By.';
-                    Caption = 'Modified By';
-                    Editable = false;
-                }
-                field(SystemModifiedAt; Rec.SystemModifiedAt)
-                {
-                    ToolTip = 'Specifies the value of the Modified Date.';
-                    Caption = 'Modified Date';
-                    Editable = false;
-                }
+                // field(SystemCreatedBy; Rec.SystemCreatedBy)
+                // {
+                //     ToolTip = 'Specifies the value of the Created By.';
+                //     Caption = 'Created By';
+                //     Editable = false;
+                // }
+                // field(SystemCreatedAt; Rec.SystemCreatedAt)
+                // {
+                //     ToolTip = 'Specifies the value of the Created Date.';
+                //     Caption = 'Created Date';
+                //     Editable = false;
+                // }
+                // field(SystemModifiedBy; Rec.SystemModifiedBy)
+                // {
+                //     ToolTip = 'Specifies the value of the Modified By.';
+                //     Caption = 'Modified By';
+                //     Editable = false;
+                // }
+                // field(SystemModifiedAt; Rec.SystemModifiedAt)
+                // {
+                //     ToolTip = 'Specifies the value of the Modified Date.';
+                //     Caption = 'Modified Date';
+                //     Editable = false;
+                // }
             }
         }
 

@@ -4,6 +4,7 @@ report 50102 PayrollPeriodSetup
     Caption = 'Payroll Periods Setup';
     UsageCategory = Tasks;
     ProcessingOnly = true;
+    ApplicationArea = All;
 
     requestpage
     {

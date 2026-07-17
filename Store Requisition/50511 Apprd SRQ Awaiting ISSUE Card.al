@@ -6,6 +6,7 @@ page 50511 "Apprd SRQ Awaiting ISSUE Card"
     // UsageCategory = Administration;
     SourceTable = "Store Requisition";
     SourceTableView = WHERE(Status = CONST(Approved), Posted = CONST(false), "PRQ Processing?" = CONST(false));
+    ApplicationArea = All;
 
     // AutoSplitKey = true;
     layout

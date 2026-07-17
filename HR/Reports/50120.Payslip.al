@@ -9,6 +9,7 @@ report 50120 Payslip
     UsageCategory = ReportsAndAnalysis;
     DefaultLayout = RDLC;
     RDLCLayout = 'Payslip.rdl';
+    ApplicationArea = All;
 
 
     dataset

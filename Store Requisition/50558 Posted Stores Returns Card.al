@@ -7,6 +7,7 @@ page 50558 "Posted Stores Returns Card"
     // UsageCategory = Administration;
     SourceTable = "Stores Return";
     RefreshOnActivate = true;
+    ApplicationArea = All;
     //SourceTableView = WHERE(Status = CONST(Approved), Posted = CONST(false), "PRQ Processing?" = CONST(false));
 
     // AutoSplitKey = true;

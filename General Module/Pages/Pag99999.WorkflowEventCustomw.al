@@ -52,14 +52,14 @@ page 99999 "Workflow Event Customw"
                 {
                     ToolTip = 'Specifies the value of the SystemId field.', Comment = '%';
                 }
-                field(SystemModifiedAt; Rec.SystemModifiedAt)
-                {
-                    ToolTip = 'Specifies the value of the SystemModifiedAt field.', Comment = '%';
-                }
-                field(SystemModifiedBy; Rec.SystemModifiedBy)
-                {
-                    ToolTip = 'Specifies the value of the SystemModifiedBy field.', Comment = '%';
-                }
+                //field(SystemModifiedAt; Rec.SystemModifiedAt)
+                // {
+                //     ToolTip = 'Specifies the value of the SystemModifiedAt field.', Comment = '%';
+                // }
+                // field(SystemModifiedBy; Rec.SystemModifiedBy)
+                // {
+                //     ToolTip = 'Specifies the value of the SystemModifiedBy field.', Comment = '%';
+                // }
                
                 field("Used for Record Change"; Rec."Used for Record Change")
                 {

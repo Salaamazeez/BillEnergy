@@ -5,6 +5,7 @@ report 50114 ImportOvertimeVariables
     Caption = 'Import Overtime Variables';
     UsageCategory = Tasks;
     ProcessingOnly = true;
+    ApplicationArea = All;
     //DefaultLayout = RDLC;
     //RDLCLayout = 'Import Employee Data.rdl';
 

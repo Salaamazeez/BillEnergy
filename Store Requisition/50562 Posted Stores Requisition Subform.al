@@ -7,6 +7,7 @@ page 50562 "Posted Stores Req. Subform"
     //UsageCategory = Lists;
     SourceTable = "Store Requisition Line";
     AutoSplitKey = true;
+    ApplicationArea = All;
 
     layout
     {

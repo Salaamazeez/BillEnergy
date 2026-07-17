@@ -10,6 +10,7 @@ page 50560 "Pending Store Returns Card"
     SourceTable = "Stores Return";
     RefreshOnActivate = true;
     SourceTableView = WHERE(Status = CONST("Pending Approval"));
+    ApplicationArea = All;
 
     layout
     {

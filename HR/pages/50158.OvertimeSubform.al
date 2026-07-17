@@ -92,30 +92,30 @@ page 50159 OvertimeSubform
                     ApplicationArea = All;
                 }
 
-                field(SystemCreatedBy; Rec.SystemCreatedBy)
-                {
-                    ToolTip = 'Specifies the value of the SystemCreatedBy field.', Comment = '%';
-                    Visible = false;
-                    ApplicationArea = All;
-                }
-                field(SystemCreatedAt; Rec.SystemCreatedAt)
-                {
-                    ToolTip = 'Specifies the value of the SystemCreatedAt field.', Comment = '%';
-                    Visible = false;
-                    ApplicationArea = All;
-                }
-                field(SystemModifiedAt; Rec.SystemModifiedAt)
-                {
-                    ToolTip = 'Specifies the value of the SystemModifiedAt field.', Comment = '%';
-                    Visible = false;
-                    ApplicationArea = All;
-                }
-                field(SystemModifiedBy; Rec.SystemModifiedBy)
-                {
-                    ToolTip = 'Specifies the value of the SystemModifiedBy field.', Comment = '%';
-                    Visible = false;
-                    ApplicationArea = All;
-                }
+                // field(SystemCreatedBy; Rec.SystemCreatedBy)
+                // {
+                //     ToolTip = 'Specifies the value of the SystemCreatedBy field.', Comment = '%';
+                //     Visible = false;
+                //     ApplicationArea = All;
+                // }
+                // field(SystemCreatedAt; Rec.SystemCreatedAt)
+                // {
+                //     ToolTip = 'Specifies the value of the SystemCreatedAt field.', Comment = '%';
+                //     Visible = false;
+                //     ApplicationArea = All;
+                // }
+                // field(SystemModifiedAt; Rec.SystemModifiedAt)
+                // {
+                //     ToolTip = 'Specifies the value of the SystemModifiedAt field.', Comment = '%';
+                //     Visible = false;
+                //     ApplicationArea = All;
+                // }
+                // field(SystemModifiedBy; Rec.SystemModifiedBy)
+                // {
+                //     ToolTip = 'Specifies the value of the SystemModifiedBy field.', Comment = '%';
+                //     Visible = false;
+                //     ApplicationArea = All;
+                // }
             }
         }
 

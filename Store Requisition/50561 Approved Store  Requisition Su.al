@@ -7,6 +7,7 @@ page 50561 "Approved Store  Requisition Su"
     //UsageCategory = Lists;
     SourceTable = "Store Requisition Line";
     AutoSplitKey = true;
+    ApplicationArea = All;
 
     layout
     {

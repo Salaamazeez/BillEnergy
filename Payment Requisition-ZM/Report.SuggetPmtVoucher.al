@@ -2,6 +2,7 @@ report 50002 "KBS Suggest Vendor Payments"
 {
     Caption = 'Suggest Vendor Payments';
     ProcessingOnly = true;
+    ApplicationArea = All;
 
     dataset
     {

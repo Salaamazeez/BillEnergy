@@ -9,6 +9,7 @@ page 50162 ReimbursableSalarySubform
     //UsageCategory = Tasks;
     //Editable = false;
     AutoSplitKey = true;
+    ApplicationArea = All;
 
     layout
     {

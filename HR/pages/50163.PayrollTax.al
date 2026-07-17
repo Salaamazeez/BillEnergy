@@ -49,30 +49,30 @@ page 50163 PayrollTax
                     ToolTip = 'Specifies the value of the Open field.', Comment = '%';
 
                 }
-                field(SystemCreatedBy; Rec.SystemCreatedBy)
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the SystemCreatedBy field.', Comment = '%';
+                // field(SystemCreatedBy; Rec.SystemCreatedBy)
+                // {
+                //     ApplicationArea = All;
+                //     ToolTip = 'Specifies the value of the SystemCreatedBy field.', Comment = '%';
 
-                }
-                field(SystemCreatedAt; Rec.SystemCreatedAt)
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the SystemCreatedAt field.', Comment = '%';
+                // }
+                // field(SystemCreatedAt; Rec.SystemCreatedAt)
+                // {
+                //     ApplicationArea = All;
+                //     ToolTip = 'Specifies the value of the SystemCreatedAt field.', Comment = '%';
 
-                }
-                field(SystemModifiedBy; Rec.SystemModifiedBy)
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the SystemModifiedBy field.', Comment = '%';
+                // }
+                // field(SystemModifiedBy; Rec.SystemModifiedBy)
+                // {
+                //     ApplicationArea = All;
+                //     ToolTip = 'Specifies the value of the SystemModifiedBy field.', Comment = '%';
 
-                }
-                field(SystemModifiedAt; Rec.SystemModifiedAt)
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the SystemModifiedAt field.', Comment = '%';
+                // }
+                // field(SystemModifiedAt; Rec.SystemModifiedAt)
+                // {
+                //     ApplicationArea = All;
+                //     ToolTip = 'Specifies the value of the SystemModifiedAt field.', Comment = '%';
 
-                }
+                // }
 
 
             }

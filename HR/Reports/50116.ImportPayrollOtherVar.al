@@ -5,6 +5,7 @@ report 50116 ImportPayrollOtherVar
     Caption = 'Import Payroll Other Variables';
     UsageCategory = Tasks;
     ProcessingOnly = true;
+    ApplicationArea = All;
 
     //DefaultLayout = RDLC;
     //RDLCLayout = 'Import Employee Data.rdl';

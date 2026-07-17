@@ -7,6 +7,7 @@ page 50004 "Posted Stores Returns Subform"
     SourceTable = "Stores Return Line";
     AutoSplitKey = true;
     RefreshOnActivate = true;
+    ApplicationArea = All;
 
     layout
     {

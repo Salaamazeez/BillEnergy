@@ -6,6 +6,7 @@ page 50093 "Approved Purch. REQ Page"
     //UsageCategory = Administration;
     SourceTable = "Purch. Requistion";
     Caption = 'Converted Purc. Req. Card';
+    ApplicationArea = All;
 
     layout
     {

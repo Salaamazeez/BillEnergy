@@ -7,6 +7,7 @@ page 50146 "Purch. Requisition Card"
     //UsageCategory = Administration;
     SourceTable = "Purch. Requistion";
     SourceTableView = WHERE(Status = filter(Open | Rejected));
+    ApplicationArea = All;
     layout
     {
         area(Content)

@@ -7,6 +7,7 @@ page 50029 SalarySetup
     PageType = Document;
     SourceTable = SalarySetupHeader;
     UsageCategory = Tasks;
+    ApplicationArea = All;
 
     layout
     {
@@ -38,22 +39,22 @@ page 50029 SalarySetup
                     ApplicationArea = All;
                 }
 
-                field(SystemCreatedBy; Rec.SystemCreatedBy)
-                {
-                    ApplicationArea = All;
-                }
-                field(SystemCreatedAt; Rec.SystemCreatedAt)
-                {
-                    ApplicationArea = All;
-                }
-                field(SystemModifiedBy; Rec.SystemModifiedBy)
-                {
-                    ApplicationArea = All;
-                }
-                field(SystemModifiedAt; Rec.SystemModifiedAt)
-                {
-                    ApplicationArea = All;
-                }
+                // field(SystemCreatedBy; Rec.SystemCreatedBy)
+                // {
+                //     ApplicationArea = All;
+                // }
+                // field(SystemCreatedAt; Rec.SystemCreatedAt)
+                // {
+                //     ApplicationArea = All;
+                // }
+                // field(SystemModifiedBy; Rec.SystemModifiedBy)
+                // {
+                //     ApplicationArea = All;
+                // }
+                // field(SystemModifiedAt; Rec.SystemModifiedAt)
+                // {
+                //     ApplicationArea = All;
+                // }
 
             }
             part(SalarySetuplines; SalarySetupSubform)

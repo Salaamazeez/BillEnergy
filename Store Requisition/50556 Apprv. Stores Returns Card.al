@@ -8,6 +8,7 @@ page 50556 "Apprv. Stores Returns Card"
     SourceTable = "Stores Return";
     RefreshOnActivate = true;
     SourceTableView = WHERE(Status = CONST(Approved), Posted = CONST(false));
+    ApplicationArea = All;
     layout
     {
         area(Content)

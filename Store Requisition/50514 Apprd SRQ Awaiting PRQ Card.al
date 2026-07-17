@@ -5,6 +5,7 @@ page 50514 "Apprd SRQ Awaiting PRQ Card"
     // ApplicationArea = All;
     // UsageCategory = Administration;
     SourceTable = "Store Requisition";
+    ApplicationArea = All;
     //SourceTableView = WHERE(Status = CONST(Approved), Posted = CONST(false), "PRQ Processing?" = CONST(false));
 
     // AutoSplitKey = true;
@@ -150,7 +151,7 @@ page 50514 "Apprd SRQ Awaiting PRQ Card"
             action(Approve)
             {
                 ApplicationArea = All;
-                    Visible = false;
+                Visible = false;
 
                 trigger OnAction()
                 begin
@@ -165,7 +166,7 @@ page 50514 "Apprd SRQ Awaiting PRQ Card"
             action(Reject)
             {
                 ApplicationArea = All;
-                    Visible = false;
+                Visible = false;
 
                 trigger OnAction()
                 begin
@@ -176,7 +177,7 @@ page 50514 "Apprd SRQ Awaiting PRQ Card"
             {
                 Caption = 'Create PRQ';
                 ApplicationArea = All;
-                    Visible = false;
+                Visible = false;
 
                 trigger OnAction()
                 begin

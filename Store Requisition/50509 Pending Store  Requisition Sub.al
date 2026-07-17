@@ -6,6 +6,7 @@ page 50509 "Pending Store  Requisition Sub"
     // UsageCategory = Lists;
     SourceTable = "Store Requisition Line";
     AutoSplitKey = true;
+    ApplicationArea = All;
 
     layout
     {
