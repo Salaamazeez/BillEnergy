@@ -4,7 +4,7 @@ table 60012 "Expense Code"
     DataClassification = ToBeClassified;
     LookupPageId = "Expense Code";
     DrillDownPageId = "Expense Code";
-
+ 
     fields
     {
         field(1; Primary; Code[20])
@@ -20,6 +20,10 @@ table 60012 "Expense Code"
         field(3; Description; Text[50])
         {
 
+        }
+        field(5; "Expense Type"; Option)
+        {
+            OptionMembers = " ","Payment Request","Cash Advance";
         }
         field(34; "Account Type"; Option)
         {

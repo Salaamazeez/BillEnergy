@@ -1,11 +1,11 @@
-page 50008 "Approved Payment Req. List"
+page 50013 "Treated Payment Req. List"
 {
     //Created by Akande
     PageType = List;
     ApplicationArea = All;
     UsageCategory = Administration;
     SourceTable = "Payment Requisition";
-    SourceTableView = WHERE(Posted = CONST(false), Status = CONST(Approved),"Voucher Created?"=const(false));
+    SourceTableView = WHERE(Status = CONST(Approved),"Voucher Created?" = const(true));
     Editable = false;
     DeleteAllowed = false;
     InsertAllowed = false;

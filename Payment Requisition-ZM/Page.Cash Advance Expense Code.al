@@ -1,12 +1,12 @@
 
-page 60016 "Expense Code"
+page 50031 "Cash Adv. Expense Code"
 {
     //Created by Akande
     PageType = List;
     ApplicationArea = All;
     UsageCategory = Administration;
     SourceTable = "Expense Code";
-    SourceTableView = order(ascending) where("Expense Type" = filter(" " | "Payment Request"));
+    SourceTableView = order(ascending) where("Expense Type" = filter("Cash Advance"));
     layout
     {
         area(Content)
@@ -18,6 +18,12 @@ page 60016 "Expense Code"
                     ApplicationArea = All;
 
                 }
+                field("Expense Type"; Rec."Expense Type")
+                {
+                    ApplicationArea = All;
+
+                }
+
                 field("Account Type"; rec."Account Type")
                 {
                     ApplicationArea = All;

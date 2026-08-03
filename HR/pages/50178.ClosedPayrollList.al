@@ -1,16 +1,16 @@
 namespace BILLENERGY.BILLENERGY;
 using System.Security.User;
 
-page 50178 PayrollList
+page 50032 "ClosedPayrollList"
 {
     ApplicationArea = All;
-    Caption = 'Payroll List';
+    Caption = 'Closed Payroll List';
     PageType = List;
     SourceTable = PayrollHeader;
     UsageCategory = Tasks;
     CardPageId = PayrollHeader;
     Editable = false;
-    SourceTableView = sorting("Payroll Period") where("Approval Status" = filter(<> Closed));
+    SourceTableView = sorting("Payroll Period") where("Approval Status" = const(closed));
     layout
     {
         area(Content)

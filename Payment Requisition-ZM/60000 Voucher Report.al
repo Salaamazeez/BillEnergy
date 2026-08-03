@@ -15,7 +15,7 @@ report 60000 "Voucher Report"
             {
 
             }
-            column(Date; Date)
+            column(Date; Format(Date))
             {
 
             }

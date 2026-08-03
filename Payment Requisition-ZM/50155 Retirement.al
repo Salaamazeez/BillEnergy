@@ -318,7 +318,7 @@ table 50155 Retirement
             //DataClassification = ToBeClassified;
             // Description = 'Approved Purchase Requisition';
             DataClassification = ToBeClassified;
-            TableRelation = "Cash Advance" where(Status = filter(Approved), "Debit Account No." = field(Beneficiary), Retired = const(false), Posted = const(true));
+            TableRelation = "Cash Advance" where(Status = filter(Approved), /* "Debit Account No." = field(Beneficiary), */ Retired = const(false), Posted = const(true));
 
             trigger OnValidate()
             begin
@@ -388,7 +388,7 @@ table 50155 Retirement
         field(50004; "Transaction type"; Option)
         {
             OptionMembers = " ",Loan,"Staff Adv";
-            
+
         }
         field(50005; "Loan ID"; Code[20]) { }
         field(50006; "Cash Receipt Status"; Option)
@@ -409,8 +409,8 @@ table 50155 Retirement
             begin
                 if EmplRec.Get(Beneficiary) then begin
                     "Beneficiary Name" := EmplRec.FullName();
-                   Validate("Shortcut Dimension 1 Code" ,EmplRec."Global Dimension 1 Code");
-                   Validate("Shortcut Dimension 2 Code" ,EmplRec."Global Dimension 2 Code");
+                    Validate("Shortcut Dimension 1 Code", EmplRec."Global Dimension 1 Code");
+                    Validate("Shortcut Dimension 2 Code", EmplRec."Global Dimension 2 Code");
                 end;
             end;
         }
@@ -502,7 +502,7 @@ table 50155 Retirement
         GenJournalLine2.SETRANGE("Journal Template Name", '');
         GenJournalLine2.SETRANGE("Journal Batch Name", '');
         //IF GenJournalLine2.FINDFIRST THEN
-            GenJournalLine2.DELETEALL;
+        GenJournalLine2.DELETEALL;
         //Error('a');
         RetirementLine.SETCURRENTKEY("Document No.", "Line No.");
         RetirementLine.SETRANGE("Document No.", "No.");
@@ -823,7 +823,10 @@ DimMgt.EditDimensionSet(
                 RetirementLine.INIT;
                 RetirementLine."Document No." := "No.";
                 RetirementLine."Line No." := LineNo;
-                RetirementLine."Account Type" := RetirementLine."Account Type"::"G/L Account";
+                if CAImprestMgtLine."Account Type" = CAImprestMgtLine."Account Type"::"G/L Account" then
+                    RetirementLine."Account Type" := RetirementLine."Account Type"::"G/L Account";
+                if CAImprestMgtLine."Account Type" = CAImprestMgtLine."Account Type"::"Bank Account" then
+                    RetirementLine."Account Type" := RetirementLine."Account Type"::"Bank Account";
                 RetirementLine.VALIDATE("Account No.", CAImprestMgtLine."Account No.");
                 RetirementLine.Validate("Currency Code", CAImprestMgtLine."Currency Code");
                 RetirementLine.Validate(Amount, CAImprestMgtLine.Amount);

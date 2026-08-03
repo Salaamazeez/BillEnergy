@@ -116,15 +116,14 @@ page 50004 "Posted Stores Returns Subform"
     trigger OnAfterGetRecord()
     begin
         // "Qty issued" := Abs("Issued Qty.");
-        Rec."Qty to Return" := Rec."Issued Qty" - Rec."Qty Returned";
-        Rec.Modify()
+    
     end;
 
     trigger OnClosePage()
     begin
         // "Qty issued" := Abs("Issued Qty.");
-        Rec."Qty to Return" := Rec."Issued Qty" - Rec."Qty Returned";
-        // "Qty. to Issue" := "Requested Qty." - Abs("Issued Qty.");
-        Rec.Modify()
+        // Rec."Qty to Return" := Rec."Issued Qty" - Rec."Qty Returned";
+        // // "Qty. to Issue" := "Requested Qty." - Abs("Issued Qty.");
+        // Rec.Modify()
     end;
 }

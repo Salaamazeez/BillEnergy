@@ -156,7 +156,13 @@ PageExtension 50200 AccountingManagerRoleCenterExt extends "Accounting Manager R
                     Caption = 'Approved Payment Req. List';
                     RunObject = Page "Approved Payment Req. List";
                 }
-
+                action("Treated Payment Req. List")
+                {
+                    Visible = false;
+                    ApplicationArea = Basic;
+                    Caption = 'Approved Payment Req. List';
+                    RunObject = Page "Treated Payment Req. List";
+                }
                 action("Cash Adv. Retirements")
                 {
                     ApplicationArea = Basic;
