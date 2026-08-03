@@ -452,12 +452,12 @@ codeunit 50010 PayrollCodeunite
             //IF PayrollOtherVar.Deducted THEN BEGIN
             IF PayrollElementL."Is Absence" THEN begin
                 //ElementAmount := ((PayrollOtherVar."Gross Pay" - (PensionAmt + Paye)) / (PayrollOtherVar."Maximum Working Hour" * NoOfDaysInPayPeriod) * PayrollOtherVar."Hours/Days Late");
-                ElementAmount := ((PayrollOtherVar."Gross Pay" - (PensionAmt + Paye)) / (PayrollOtherVar."Maximum Working Hour" * HRSetup."Maximum Work Days") * PayrollOtherVar."Hours/Days Late");
+                ElementAmount := ((PayrollOtherVar."Gross Pay") / (PayrollOtherVar."Maximum Working Hour" * HRSetup."Maximum Work Days") * PayrollOtherVar."Hours/Days Late");
             end;
 
             if PayrollElementL."Is Late" then begin
                 //ElementAmount := ((PayrollOtherVar."Gross Pay" - (PensionAmt + Paye)) / (PayrollOtherVar."Maximum Working Hour" * NoOfDaysInPayPeriod) * PayrollOtherVar."Hours/Days Late");
-                ElementAmount := ((PayrollOtherVar."Gross Pay" - (PensionAmt + Paye)) / (PayrollOtherVar."Maximum Working Hour" * HRSetup."Maximum Work Days") * PayrollOtherVar."Hours/Days Late");
+                ElementAmount := ((PayrollOtherVar."Gross Pay") / (PayrollOtherVar."Maximum Working Hour" * HRSetup."Maximum Work Days") * PayrollOtherVar."Hours/Days Late");
             end;
             //ElementAmount:=ROUND(((SumGross/30)*(PayrollOtherVar.Quantity)),0.01,'>')
             //ELSE
