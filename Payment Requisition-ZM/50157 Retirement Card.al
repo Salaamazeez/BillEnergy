@@ -655,6 +655,7 @@ page 50026 "Retirement Card"
                 Image = PostPrint;
                 trigger OnAction()
                 begin
+                    Rec.TestMandatoryFields();
                     Rec.PostPrint;
                 end;
             }

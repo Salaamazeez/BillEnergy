@@ -498,6 +498,7 @@ table 50155 Retirement
 
 
     procedure PostRetirement()
+    var K: Codeunit "Gen. Jnl.-Post Line";
     begin
         GenJournalLine2.SETRANGE("Journal Template Name", '');
         GenJournalLine2.SETRANGE("Journal Batch Name", '');
@@ -549,9 +550,10 @@ table 50155 Retirement
                 GenJournalLine.VALIDATE(Amount, RetirementLine.Amount);
 
                 GenJournalLine.VALIDATE("Currency Code", RetirementLine."Currency Code");
-                GenJournalLine.INSERT;
+                GenJnlPostLine.RunWithCheck(GenJournalLine)
+                //GenJournalLine.INSERT;
             UNTIL RetirementLine.NEXT = 0;
-            CODEUNIT.RUN(CODEUNIT::"Gen. Jnl.-Post", GenJournalLine);
+            //CODEUNIT.RUN(CODEUNIT::"Gen. Jnl.-Post", GenJournalLine);
         END;
         CheckPostedJnl;
         ModifyPostedCAImprest;
@@ -831,7 +833,7 @@ DimMgt.EditDimensionSet(
                 RetirementLine.Validate("Currency Code", CAImprestMgtLine."Currency Code");
                 RetirementLine.Validate(Amount, CAImprestMgtLine.Amount);
                 // RetirementLine."Cash Advance Amount" := RetirementLine.Amount;
-                // RetirementLine."Cash Advance Amount(LCY)" := RetirementLine."Amount (LCY)";
+                // RetirementLinpe."Cash Advance Amount(LCY)" := RetirementLine."Amount (LCY)";
                 RetirementLine."Transaction Details" := CAImprestMgtLine."Payment Details";
                 RetirementLine."Shortcut Dimension 1 Code" := CAImprestMgtLine."Shortcut Dimension 1 Code";
                 RetirementLine."Shortcut Dimension 2 Code" := CAImprestMgtLine."Shortcut Dimension 2 Code";
