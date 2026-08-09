@@ -11,9 +11,16 @@ pageextension 50012 VendorExt extends "Vendor Card"
             }
 
         }
+        addafter("Responsibility Center")
+        {
+            field("Pushed to the Post"; Rec."Pushed to the Post")
+            {
+                ApplicationArea = All;
+            }
+        }
     }
 
-        actions
+    actions
     {
         addafter("Ledger E&ntries")
         {
@@ -31,7 +38,7 @@ pageextension 50012 VendorExt extends "Vendor Card"
                 end;
             }
         }
-    } 
+    }
 
     var
         myInt: Integer;

@@ -55,6 +55,9 @@ pageextension 50009 EmployeeExt extends "Employee Card"
                 Caption = 'Is Rig Employee';
                 ApplicationArea = All;
             }
+            field("Pushed to the Post";Rec."Pushed to the Post"){
+                ApplicationArea = All;
+            }
         }
 
         addafter("Birth Date")

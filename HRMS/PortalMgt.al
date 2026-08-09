@@ -1,6 +1,6 @@
 codeunit 50643 "Portal Mgt"
 {
-    procedure SendEmployeeToHRMS(Employee: Record Employee)
+    procedure SendEmployeeToHRMS(var Employee: Record Employee)
     var
         HttpClient: HttpClient;
         HttpContent: HttpContent;
@@ -13,12 +13,14 @@ codeunit 50643 "Portal Mgt"
         PortalSetup: Record "Portal Mgt";
         JsonString: Text;
         ResponseText: Text;
+        JsonResponse: JsonObject;
+        MessageValue: JsonToken;
     begin
         PortalSetup.Get();
         BaseUrl := PortalSetup."Base Url" + PortalSetup."Employee Url";
-        Employee.TestField("E-Mail");
-        Employee.TestField("First Name");
-        Employee.TestField("Last Name");
+        // Employee.TestField("E-Mail");
+        // Employee.TestField("First Name");
+        // Employee.TestField("Last Name");
         JsonObject.Add('employeeNo', Employee."No.");
         JsonObject.Add('firstName', Employee."First Name");
         JsonObject.Add('lastName', Employee."Last Name");
@@ -40,19 +42,28 @@ codeunit 50643 "Portal Mgt"
         HttpHeaders.Add('X-BC-Webhook-Key', PortalSetup."Authorization Key");
         HttpRequestMessage.Content(HttpContent);
         if HttpClient.Send(HttpRequestMessage, HttpResponseMessage) then begin
-            JsonString := '';
+            HttpResponseMessage.Content.ReadAs(ResponseText);
+
             if HttpResponseMessage.IsSuccessStatusCode() then begin
-                HttpResponseMessage.Content.ReadAs(JsonString);
-                Message(JsonString);
+                JsonResponse.ReadFrom(ResponseText);
+
+                if JsonResponse.Get('data', MessageValue) then begin
+                    if MessageValue.IsObject then begin
+                        JsonObject := MessageValue.AsObject();
+                        if JsonObject.Get('message', MessageValue) then;                            
+                    end;
+                    Message('Message: %1', MessageValue.AsValue().AsText())
+                end;
+                Employee."Pushed to the Post" := true;
+                Employee.Modify()
             end else
-                HttpResponseMessage.Content.ReadAs(ResponseText);
-            Message(ResponseText);
-            // Error('Failed to sync employee to HRMS: %1', HttpResponseMessage.ReasonPhrase());
+                Message('Request failed: %1', HttpResponseMessage.ReasonPhrase());
         end;
+
     end;
 
 
-    procedure SendVendorToHRMS(Vendor: Record Vendor)
+    procedure SendVendorToHRMS(var Vendor: Record Vendor)
     var
         HttpClient: HttpClient;
         HttpContent: HttpContent;
@@ -65,6 +76,8 @@ codeunit 50643 "Portal Mgt"
         PortalSetup: Record "Portal Mgt";
         JsonString: Text;
         ResponseText: Text;
+        JsonResponse: JsonObject;
+        MessageValue: JsonToken;
     begin
         PortalSetup.Get();
         BaseUrl := PortalSetup."Base Url" + PortalSetup."Vendor Url";
@@ -87,16 +100,25 @@ codeunit 50643 "Portal Mgt"
         HttpHeaders.Add('Content-Type', 'application/json');
         HttpHeaders.Add('X-BC-Webhook-Key', PortalSetup."Authorization Key");
         HttpRequestMessage.Content(HttpContent);
-        if HttpClient.Send(HttpRequestMessage, HttpResponseMessage) then begin
-            JsonString := '';
+         if HttpClient.Send(HttpRequestMessage, HttpResponseMessage) then begin
+            HttpResponseMessage.Content.ReadAs(ResponseText);
+
             if HttpResponseMessage.IsSuccessStatusCode() then begin
-                HttpResponseMessage.Content.ReadAs(JsonString);
-                Message(JsonString);
+                JsonResponse.ReadFrom(ResponseText);
+
+                if JsonResponse.Get('data', MessageValue) then begin
+                    if MessageValue.IsObject then begin
+                        JsonObject := MessageValue.AsObject();
+                        if JsonObject.Get('message', MessageValue) then;                            
+                    end;
+                    Message('Message: %1', MessageValue.AsValue().AsText())
+                end;
+                Vendor."Pushed to the Post" := true;
+                Vendor.Modify()
             end else
-                HttpResponseMessage.Content.ReadAs(ResponseText);
-            Message(ResponseText);
-            // Error('Failed to sync employee to HRMS: %1', HttpResponseMessage.ReasonPhrase());
+                Message('Request failed: %1', HttpResponseMessage.ReasonPhrase());
         end;
+
     end;
 
     procedure UpdateEmployeeStatusToHRMS(Employee: Record Employee)
@@ -112,6 +134,8 @@ codeunit 50643 "Portal Mgt"
         PortalSetup: Record "Portal Mgt";
         JsonString: Text;
         ResponseText: Text;
+        JsonResponse: JsonObject;
+        MessageValue: JsonToken;
     begin
         PortalSetup.Get();
         BaseUrl := PortalSetup."Base Url" + PortalSetup."Update Employee Status Url";
@@ -134,16 +158,54 @@ codeunit 50643 "Portal Mgt"
         HttpHeaders.Add('X-BC-Webhook-Key', PortalSetup."Authorization Key");
         HttpRequestMessage.Content(HttpContent);
         if HttpClient.Send(HttpRequestMessage, HttpResponseMessage) then begin
-            JsonString := '';
+            HttpResponseMessage.Content.ReadAs(ResponseText);
+
             if HttpResponseMessage.IsSuccessStatusCode() then begin
-                HttpResponseMessage.Content.ReadAs(JsonString);
-                Message(JsonString);
+                JsonResponse.ReadFrom(ResponseText);
+
+                if JsonResponse.Get('data', MessageValue) then begin
+                    if MessageValue.IsObject then begin
+                        JsonObject := MessageValue.AsObject();
+                        if JsonObject.Get('message', MessageValue) then;                            
+                    end;
+                    Message('Message: %1', MessageValue.AsValue().AsText())
+                end;
             end else
-                HttpResponseMessage.Content.ReadAs(ResponseText);
-            Message(ResponseText);
-            // Error('Failed to sync employee to HRMS: %1', HttpResponseMessage.ReasonPhrase());
+                Message('Request failed: %1', HttpResponseMessage.ReasonPhrase());
         end;
     end;
 
 
+
+    [EventSubscriber(ObjectType::Table, Database::Employee, OnAfterInsertEvent, '', false, false)]
+    local procedure OnAfterEmployeeInsert(var Rec: Record Employee)  // Your logic here end;
+    begin
+        if (Rec."No." <> '') and (Rec."First Name" <> '') and (Rec."Last Name" <> '') and
+          (Rec."E-Mail" <> '') Then
+            if not Rec."Pushed to the Post" then
+                SendEmployeeToHRMS(Rec)
+    end;
+
+    [EventSubscriber(ObjectType::Table, Database::Employee, OnAfterModifyEvent, '', false, false)]
+    local procedure OnAfterEmployeeModify(var Rec: Record Employee)
+    begin
+        if Rec."Pushed to the Post" then
+            UpdateEmployeeStatusToHRMS(Rec)
+    end;
+
+    [EventSubscriber(ObjectType::Table, Database::Vendor, OnAfterInsertEvent, '', false, false)]
+    local procedure OnAfterVendorInsert(var Rec: Record Vendor)
+    begin
+        if (Rec."No." <> '') and (Rec.Name <> '') and (Rec."E-Mail" <> '') Then
+            if not Rec."Pushed to the Post" then
+                SendVendorToHRMS(Rec)
+    end;
+
+    [EventSubscriber(ObjectType::Table, Database::Vendor, OnAfterModifyEvent, '', false, false)]
+    local procedure OnAfterModifyEvent(var Rec: Record Vendor)
+    begin
+        if (Rec."No." <> '') and (Rec.Name <> '') and (Rec."E-Mail" <> '') Then
+            if not Rec."Pushed to the Post" then
+                SendVendorToHRMS(Rec)
+    end;
 }
