@@ -32,7 +32,8 @@ codeunit 50643 "Portal Mgt"
         JsonObject.Add('gender', Format(Employee.Gender));
         JsonObject.Add('dateOfEmployment', Format(Employee."Employment Date", 0, '<Year4>-<Month,2>-<Day,2>'));
         JsonObject.WriteTo(RequestBody);
-        Message(RequestBody);
+        if PortalSetup."Print Payload" then
+            Message(RequestBody + ' ' + BaseUrl);
         HttpRequestMessage.Method := 'POST';
         HttpRequestMessage.SetRequestUri(BaseUrl);
         HttpContent.WriteFrom(RequestBody);
@@ -46,11 +47,12 @@ codeunit 50643 "Portal Mgt"
 
             if HttpResponseMessage.IsSuccessStatusCode() then begin
                 JsonResponse.ReadFrom(ResponseText);
-
+                if PortalSetup."Print Payload" then
+                    Message(ResponseText);
                 if JsonResponse.Get('data', MessageValue) then begin
                     if MessageValue.IsObject then begin
                         JsonObject := MessageValue.AsObject();
-                        if JsonObject.Get('message', MessageValue) then;                            
+                        if JsonObject.Get('message', MessageValue) then;
                     end;
                     Message('Message: %1', MessageValue.AsValue().AsText())
                 end;
@@ -91,7 +93,8 @@ codeunit 50643 "Portal Mgt"
         JsonObject.Add('shortcutDimension1Code', Vendor."Global Dimension 1 Code");
         JsonObject.Add('phoneNo', Vendor."Phone No.");
         JsonObject.WriteTo(RequestBody);
-        //Message(RequestBody);
+        if PortalSetup."Print Payload" then
+            Message(RequestBody + ' ' + BaseUrl);
         HttpRequestMessage.Method := 'POST';
         HttpRequestMessage.SetRequestUri(BaseUrl);
         HttpContent.WriteFrom(RequestBody);
@@ -100,16 +103,17 @@ codeunit 50643 "Portal Mgt"
         HttpHeaders.Add('Content-Type', 'application/json');
         HttpHeaders.Add('X-BC-Webhook-Key', PortalSetup."Authorization Key");
         HttpRequestMessage.Content(HttpContent);
-         if HttpClient.Send(HttpRequestMessage, HttpResponseMessage) then begin
+        if HttpClient.Send(HttpRequestMessage, HttpResponseMessage) then begin
             HttpResponseMessage.Content.ReadAs(ResponseText);
 
             if HttpResponseMessage.IsSuccessStatusCode() then begin
                 JsonResponse.ReadFrom(ResponseText);
-
+                if PortalSetup."Print Payload" then
+                    Message(ResponseText);
                 if JsonResponse.Get('data', MessageValue) then begin
                     if MessageValue.IsObject then begin
                         JsonObject := MessageValue.AsObject();
-                        if JsonObject.Get('message', MessageValue) then;                            
+                        if JsonObject.Get('message', MessageValue) then;
                     end;
                     Message('Message: %1', MessageValue.AsValue().AsText())
                 end;
@@ -147,8 +151,10 @@ codeunit 50643 "Portal Mgt"
             JsonObject.Add('action', 'disable');
             JsonObject.Add('reason', 'Terminated')
         end;
+
         JsonObject.WriteTo(RequestBody);
-        //Message(RequestBody);
+        if PortalSetup."Print Payload" then
+            Message(RequestBody + ' ' + BaseUrl);
         HttpRequestMessage.Method := 'POST';
         HttpRequestMessage.SetRequestUri(BaseUrl);
         HttpContent.WriteFrom(RequestBody);
@@ -162,11 +168,12 @@ codeunit 50643 "Portal Mgt"
 
             if HttpResponseMessage.IsSuccessStatusCode() then begin
                 JsonResponse.ReadFrom(ResponseText);
-
+                if PortalSetup."Print Payload" then
+                    Message(ResponseText);
                 if JsonResponse.Get('data', MessageValue) then begin
                     if MessageValue.IsObject then begin
                         JsonObject := MessageValue.AsObject();
-                        if JsonObject.Get('message', MessageValue) then;                            
+                        if JsonObject.Get('message', MessageValue) then;
                     end;
                     Message('Message: %1', MessageValue.AsValue().AsText())
                 end;

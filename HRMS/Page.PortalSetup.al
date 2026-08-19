@@ -34,6 +34,11 @@ page 50106 "Portal Setup"
                 {
                     ToolTip = 'Specifies the value of the Update Employee Status Url field.', Comment = '%';
                 }
+                 field("Print Payload";Rec."Print Payload")
+                {
+                    ToolTip = 'Specifies the value of the Print Payload field.', Comment = '%';
+                }
+                
             }
         }
     }

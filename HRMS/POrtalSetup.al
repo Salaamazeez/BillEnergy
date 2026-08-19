@@ -27,6 +27,10 @@ table 50383 "Portal Mgt"
         {
 
         }
+        field(7; "Print Payload";Boolean)
+        {
+            
+        }
     }
 
     keys
