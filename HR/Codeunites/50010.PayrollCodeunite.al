@@ -92,15 +92,15 @@ codeunit 50010 PayrollCodeunite
 
         TEXT000: Label 'Lines\#2###############\Detail Lines\#1###############';
         TEXT001: Label 'Do you want to post %1.';
-        TEXT002: Label 'Setup does not exists for element %1.';
+        TEXT002: Label 'Setup does not exist for element %1.';
         Text003: Label 'Processing Reimbursable Payroll for Employee No. #1######\';
-        Text004: Label 'Reimbursabl Payroll Processing completed successfuly.';
-        Text005: Label 'There is not Open Payroll Tax setup';
+        Text004: Label 'Reimbursable Payroll Processing completed successfuly.';
+        Text005: Label 'There is no Open Payroll Tax setup';
         Text006: Label 'There was no active and approved employee, hence payroll was not processed';
         Text007: Label '%1 was not selected in Payroll Element setup';
-        Text008: Label 'Processing Reimbursabl Salary Journal for department. #1######\';
-        Text009: Label 'Reimbursabl Salary journal';
-        Text011: Label 'Previous Reimbursabl Payroll %1 must be close before you can run the current payroll';
+        Text008: Label 'Processing Reimbursable Salary Journal for department. #1######\';
+        Text009: Label 'Reimbursable Salary journal';
+        Text011: Label 'Previous Reimbursable Payroll %1 must be close before you can run the current payroll';
         Text012: Label 'Previous Payroll %1 must be close before you can run the current payroll';
         Text01: Label 'Salary Control Account';
 
@@ -308,7 +308,7 @@ codeunit 50010 PayrollCodeunite
             //PayrollLine."Working Days" := NoOfDaysInPayPeriod;
             //PayrollLine."Late/Absent Hour":=PayrollOtherVar."Hours/Days Late";
             //payrollline."Book Amount" := Round(AnnualGross / 12, 0.01, '>');
-            PayrollLine."Employee Type" := EmpLRec."Engagement Type";
+            //PayrollLine."Employee Type" := EmpLRec."Engagement Type";
             PayrollLine.INSERT();
         END;
     END;
@@ -1012,7 +1012,7 @@ codeunit 50010 PayrollCodeunite
                 EXIT(ROUND(((CumTax / NoOfDaysInPayPeriod) * DaysWorked), 0.01, '>'));
             END ELSE
                 EXIT(0);
-                */
+                *//
         END;
     END;
 
