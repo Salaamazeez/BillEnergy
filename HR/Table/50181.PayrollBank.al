@@ -25,4 +25,12 @@ table 50181 PayrollBank
             Clustered = true;
         }
     }
+    fieldgroups{
+         fieldgroup(DropDown; "Bank Code","Bank Name")
+        {
+        }
+        fieldgroup(Brick; "Bank Code","Bank Name")
+        {
+        }
+    }
 }

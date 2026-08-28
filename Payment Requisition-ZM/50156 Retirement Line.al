@@ -98,7 +98,7 @@ table 50156 "Retirement Line"
                 END;
             end;
         }
-        field(15; "Account No."; Code[10])
+        field(15; "Account No."; Code[20])
         {
             DataClassification = CustomerContent;
             TableRelation = IF ("Account Type" = CONST("G/L Account")) "G/L Account" WHERE("Account Type" = CONST(Posting), Blocked = CONST(false), "Direct Posting" = CONST(true)) ELSE
