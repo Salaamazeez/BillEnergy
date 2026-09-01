@@ -70,8 +70,13 @@ page 50555 "Apprv. Stores Returns List"
                 ApplicationArea = All;
 
                 trigger OnAction();
+                var
+                    ESSMgt: Codeunit "ESS Management";
+                    storeReturnLines: Text;
                 begin
-
+                    storeReturnLines := '[{\"StockCode\":\"ITEM-0001\",\"LocationCode\":\"TEST\",\"RequestedQty\":11,\"IssuedQty\":11,\"QtyToReturn\":10,\"UnitPrice\":3500,\"GenBusPostingGroup\":\"DOMESTIC\"}]';
+                    storeReturnLines := DelChr(storeReturnLines, '=', '\');
+                    ESSMgt.CreateOrEditStoresReturn('', '2026-05-21', 'TRIBASE', '102001', 'TEST', 'SRN-000014', 'Return of unused materials', '', storeReturnLines)
                 end;
             }
         }

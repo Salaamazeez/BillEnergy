@@ -137,7 +137,13 @@ pageextension 50002 ProjectManagerRCExt extends "Job Project Manager RC"
                     Caption = 'Approved Payment Req. List';
                     RunObject = Page "Approved Payment Req. List";
                 }
-
+                action("Treated Payment Req. List")
+                {
+                    Visible = false;
+                    ApplicationArea = Basic;
+                    Caption = 'Approved Payment Req. List';
+                    RunObject = Page "Treated Payment Req. List";
+                }
             }
 
         }

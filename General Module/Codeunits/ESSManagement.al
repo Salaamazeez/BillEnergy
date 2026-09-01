@@ -728,9 +728,8 @@ codeunit 50500 "ESS Management"
             Line.Validate(Amount, LineAmount);
             Line.Modify(true);
         end;
-        Header.Validate(Status, Header.Status::Approved);
+        //Header.Validate(Status, Header.Status::Approved);
         Header.Modify();
-
 
         DataObject.Add('No', Header."No.");
         DataObject.Add('processedLines', LineCount);

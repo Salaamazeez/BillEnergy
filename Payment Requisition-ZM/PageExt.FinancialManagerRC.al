@@ -84,6 +84,13 @@ pageextension 50005 FinanceManagerRCExt extends "Finance Manager Role Center"
                     RunObject = Page "Approved Payment Req. List";
                     Visible = true;
                 }
+                action("Treated Payment Req. List")
+                {
+                    Visible = false;
+                    ApplicationArea = Basic;
+                    Caption = 'Approved Payment Req. List';
+                    RunObject = Page "Treated Payment Req. List";
+                }
                 action("Cash Adv. Retirements")
                 {
                     ApplicationArea = Basic;

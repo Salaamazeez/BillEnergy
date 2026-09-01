@@ -10,7 +10,7 @@ page 50178 PayrollList
     UsageCategory = Tasks;
     CardPageId = PayrollHeader;
     Editable = false;
-
+    SourceTableView = sorting("Payroll Period") where("Approval Status" = filter(<> Closed));
     layout
     {
         area(Content)

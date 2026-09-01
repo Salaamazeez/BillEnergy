@@ -6,7 +6,7 @@ page 60016 "Expense Code"
     ApplicationArea = All;
     UsageCategory = Administration;
     SourceTable = "Expense Code";
-
+    SourceTableView = order(ascending) where("Expense Type" = filter(" " | "Payment Request"));
     layout
     {
         area(Content)

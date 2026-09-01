@@ -85,6 +85,13 @@ pageextension 50000 AccPayablesCoordinatorRCExt extends "Acc. Payables Coordinat
                     Caption = 'Approved Cash Advances';
                     RunObject = Page "Approved Cash Advance List";
                 }
+                action("Treated Payment Req. List")
+                {
+                    Visible = false;
+                    ApplicationArea = Basic;
+                    Caption = 'Approved Payment Req. List';
+                    RunObject = Page "Treated Payment Req. List";
+                }
                 action("Payment Requests")
                 {
                     ApplicationArea = Basic;
@@ -105,6 +112,7 @@ pageextension 50000 AccPayablesCoordinatorRCExt extends "Acc. Payables Coordinat
                     RunObject = Page "Approved Payment Req. List";
                     Visible = true;
                 }
+                
                 action("Cash Adv. Retirements")
                 {
                     ApplicationArea = Basic;

@@ -5,7 +5,7 @@ page 50008 "Approved Payment Req. List"
     ApplicationArea = All;
     UsageCategory = Administration;
     SourceTable = "Payment Requisition";
-    SourceTableView = WHERE(Posted = CONST(false), Status = CONST(Approved));
+    SourceTableView = WHERE(Posted = CONST(false), Status = CONST(Approved),"Voucher Created?"=const(false));
     Editable = false;
     DeleteAllowed = false;
     InsertAllowed = false;

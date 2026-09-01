@@ -792,7 +792,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value>Bal. Accuont Name: </Value>
+                                      <Value>Beneficiary: </Value>
                                       <Style>
                                         <FontFamily>Segoe UI</FontFamily>
                                         <FontSize>8pt</FontSize>
@@ -854,6 +854,7 @@
                                         <FontFamily>Segoe UI</FontFamily>
                                         <FontSize>9pt</FontSize>
                                         <FontWeight>Normal</FontWeight>
+                                        <Format>n2</Format>
                                       </Style>
                                     </TextRun>
                                   </TextRuns>
@@ -1284,6 +1285,7 @@
                             </Border>
                           </Style>
                         </Rectangle>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                   </TablixCells>
