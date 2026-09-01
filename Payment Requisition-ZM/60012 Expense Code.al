@@ -31,7 +31,7 @@ table 60012 "Expense Code"
 
             DataClassification = ToBeClassified;
         }
-        field(27; "Account No."; Code[10])
+        field(27; "Account No."; Code[20])
         {
             TableRelation = IF ("Account Type" = CONST("Bank Account")) "Bank Account"."No." else
             if ("Account Type" = CONST("G/L Account")) "G/L Account"."No." WHERE("Account Type" = CONST(Posting), Blocked = CONST(false), "Direct Posting" = CONST(true)) else

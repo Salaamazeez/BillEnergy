@@ -122,7 +122,7 @@ table 60008 "Payment Voucher Line"
                 END;
             end;
         }
-        field(15; "Account No."; Code[10])
+        field(15; "Account No."; Code[20])
         {
             TableRelation = if ("Account Type" = CONST("G/L Account")) "G/L Account" WHERE("Account Type" = CONST(Posting), Blocked = CONST(false), "Direct Posting" = CONST(true)) else
             if ("Account Type" = CONST(Staff)) Customer where(Type = const(Staff)) else
