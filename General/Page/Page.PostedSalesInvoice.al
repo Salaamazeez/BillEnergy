@@ -26,13 +26,16 @@ page 50042 "Bill Posted Sales Invoice"
 {
     Caption = 'Bill Posted Sales Invoice';
     Editable = true;
-    // InsertAllowed = false;
+    ModifyAllowed = true;
+    InsertAllowed = false;
+    DeleteAllowed = false;
     PageType = Document;
+    Permissions = tabledata "Sales Invoice Header" = rm;
     // RefreshOnActivate = true;
     SourceTable = "Sales Invoice Header";
 
     AboutTitle = 'About posted sales invoice details';
-    AboutText = 'This sales invoice is posted and counting in the books. You can''t edit it directly, but you can post corrections if you have to make adjustments.';
+    AboutText = 'You can edit External Document No. here. Changes do not update the posted ledger entries.';
 
     layout
     {
@@ -43,6 +46,7 @@ page 50042 "Bill Posted Sales Invoice"
                 Caption = 'General';
                 field("No."; Rec."No.")
                 {
+                    Editable = false;
                     ApplicationArea = Basic, Suite;
                     
                     Importance = Promoted;
@@ -50,6 +54,7 @@ page 50042 "Bill Posted Sales Invoice"
                 }
                 field("Sell-to Customer No."; Rec."Sell-to Customer No.")
                 {
+                    Editable = false;
                     ApplicationArea = Basic, Suite;
                     Caption = 'Customer No.';
                     
@@ -57,6 +62,7 @@ page 50042 "Bill Posted Sales Invoice"
                 }
                 field("Sell-to Customer Name"; Rec."Sell-to Customer Name")
                 {
+                    Editable = false;
                     ApplicationArea = Basic, Suite;
                     Caption = 'Customer';
                     
@@ -65,6 +71,7 @@ page 50042 "Bill Posted Sales Invoice"
                 }
                 field("Sell-to Customer Name 2"; Rec."Sell-to Customer Name 2")
                 {
+                    Editable = false;
                     ApplicationArea = Basic, Suite;
                     Caption = 'Customer Name 2';
                     
@@ -72,6 +79,7 @@ page 50042 "Bill Posted Sales Invoice"
                 }
                 field("VAT Registration No."; Rec."VAT Registration No.")
                 {
+                    Editable = false;
                     ApplicationArea = VAT;
                     
                     Importance = Additional;
@@ -82,6 +90,7 @@ page 50042 "Bill Posted Sales Invoice"
                     Caption = 'Sell-to';
                     field("Sell-to Address"; Rec."Sell-to Address")
                     {
+                        Editable = false;
                         ApplicationArea = Basic, Suite;
                         Caption = 'Address';
                         
@@ -89,6 +98,7 @@ page 50042 "Bill Posted Sales Invoice"
                     }
                     field("Sell-to Address 2"; Rec."Sell-to Address 2")
                     {
+                        Editable = false;
                         ApplicationArea = Basic, Suite;
                         Caption = 'Address 2';
                         
@@ -96,6 +106,7 @@ page 50042 "Bill Posted Sales Invoice"
                     }
                     field("Sell-to City"; Rec."Sell-to City")
                     {
+                        Editable = false;
                         ApplicationArea = Basic, Suite;
                         Caption = 'City';
                         
@@ -107,6 +118,7 @@ page 50042 "Bill Posted Sales Invoice"
                         Visible = IsSellToCountyVisible;
                         field("Sell-to County"; Rec."Sell-to County")
                         {
+                            Editable = false;
                             ApplicationArea = Basic, Suite;
                             CaptionClass = '5,1,' + Rec."Sell-to Country/Region Code";
                             
@@ -115,6 +127,7 @@ page 50042 "Bill Posted Sales Invoice"
                     }
                     field("Sell-to Post Code"; Rec."Sell-to Post Code")
                     {
+                        Editable = false;
                         ApplicationArea = Basic, Suite;
                         Caption = 'Post Code';
                         
@@ -123,6 +136,7 @@ page 50042 "Bill Posted Sales Invoice"
                     }
                     field("Sell-to Country/Region Code"; Rec."Sell-to Country/Region Code")
                     {
+                        Editable = false;
                         ApplicationArea = Basic, Suite;
                         Caption = 'Country/Region';
                         
@@ -130,6 +144,7 @@ page 50042 "Bill Posted Sales Invoice"
                     }
                     field("Sell-to Contact No."; Rec."Sell-to Contact No.")
                     {
+                        Editable = false;
                         ApplicationArea = Basic, Suite;
                         Caption = 'Contact No.';
                         
@@ -137,6 +152,7 @@ page 50042 "Bill Posted Sales Invoice"
                     }
                     field(SellToPhoneNo; SellToContact."Phone No.")
                     {
+                        Editable = false;
                         ApplicationArea = Basic, Suite;
                         Caption = 'Phone No.';
                         Importance = Additional;
@@ -146,6 +162,7 @@ page 50042 "Bill Posted Sales Invoice"
                     }
                     field(SellToMobilePhoneNo; SellToContact."Mobile Phone No.")
                     {
+                        Editable = false;
                         ApplicationArea = Basic, Suite;
                         Caption = 'Mobile Phone No.';
                         Importance = Additional;
@@ -155,6 +172,7 @@ page 50042 "Bill Posted Sales Invoice"
                     }
                     field(SellToEmail; SellToContact."E-Mail")
                     {
+                        Editable = false;
                         ApplicationArea = Basic, Suite;
                         Caption = 'Email';
                         Importance = Additional;
@@ -165,6 +183,7 @@ page 50042 "Bill Posted Sales Invoice"
                 }
                 field("Sell-to Contact"; Rec."Sell-to Contact")
                 {
+                    Editable = false;
                     ApplicationArea = Basic, Suite;
                     Caption = 'Contact';
                     
@@ -172,35 +191,41 @@ page 50042 "Bill Posted Sales Invoice"
                 }
                 field("Your Reference"; Rec."Your Reference")
                 {
+                    Editable = false;
                     ApplicationArea = Basic, Suite;
                     Importance = Additional;
                     
                 }
                 field("Document Date"; Rec."Document Date")
                 {
+                    Editable = false;
                     ApplicationArea = Basic, Suite;
                     
                     Importance = Additional;
                 }
                 field("Posting Date"; Rec."Posting Date")
                 {
+                    Editable = false;
                     ApplicationArea = Basic, Suite;
                     
                 }
                 field("VAT Reporting Date"; Rec."VAT Reporting Date")
                 {
+                    Editable = false;
                     ApplicationArea = VAT;
                     
                     Visible = VATDateEnabled;
                 }
                 field("Due Date"; Rec."Due Date")
                 {
+                    Editable = false;
                     ApplicationArea = Basic, Suite;
                     
                     Importance = Promoted;
                 }
                 field("Promised Pay Date"; Rec."Promised Pay Date")
                 {
+                    Editable = false;
                     ApplicationArea = Basic, Suite;
                     
                     Importance = Promoted;
@@ -211,6 +236,7 @@ page 50042 "Bill Posted Sales Invoice"
                     Visible = DocExcStatusVisible;
                     field("Document Exchange Status"; Rec."Document Exchange Status")
                     {
+                        Editable = false;
                         ApplicationArea = Basic, Suite;
                         
                         Importance = Additional;
@@ -226,10 +252,12 @@ page 50042 "Bill Posted Sales Invoice"
                 }
                 field("Quote No."; Rec."Quote No.")
                 {
+                    Editable = false;
                     ApplicationArea = Basic, Suite;
                 }
                 field("Order No."; Rec."Order No.")
                 {
+                    Editable = false;
                     ApplicationArea = Basic, Suite;
                     
                     Importance = Promoted;
@@ -237,6 +265,7 @@ page 50042 "Bill Posted Sales Invoice"
                 }
                 field("Pre-Assigned No."; Rec."Pre-Assigned No.")
                 {
+                    Editable = false;
                     ApplicationArea = Basic, Suite;
                     
                     Importance = Additional;
@@ -249,12 +278,14 @@ page 50042 "Bill Posted Sales Invoice"
                 }
                 field("Salesperson Code"; Rec."Salesperson Code")
                 {
+                    Editable = false;
                     ApplicationArea = Suite;
                     
                     Importance = Additional;
                 }
                 field("Responsibility Center"; Rec."Responsibility Center")
                 {
+                    Editable = false;
                     AccessByPermission = TableData "Responsibility Center" = R;
                     ApplicationArea = Suite;
                     
@@ -262,12 +293,14 @@ page 50042 "Bill Posted Sales Invoice"
                 }
                 field("No. Printed"; Rec."No. Printed")
                 {
+                    Editable = false;
                     ApplicationArea = Basic, Suite;
                     
                     Importance = Additional;
                 }
                 field(Cancelled; Rec.Cancelled)
                 {
+                    Editable = false;
                     ApplicationArea = Basic, Suite;
                     Style = Unfavorable;
                     StyleExpr = Rec.Cancelled;
@@ -281,6 +314,7 @@ page 50042 "Bill Posted Sales Invoice"
                 }
                 field(Corrective; Rec.Corrective)
                 {
+                    Editable = false;
                     ApplicationArea = Basic, Suite;
                     Importance = Additional;
                     Style = Unfavorable;
@@ -293,6 +327,7 @@ page 50042 "Bill Posted Sales Invoice"
                 }
                 field(Closed; Rec.Closed)
                 {
+                    Editable = false;
                     ApplicationArea = Basic, Suite;
                     DrillDown = false;
                     Importance = Promoted;
@@ -301,6 +336,7 @@ page 50042 "Bill Posted Sales Invoice"
                 }
                 field("Dispute Status"; Rec."Dispute Status")
                 {
+                    Editable = false;
                     ApplicationArea = Basic, Suite;
                     
                     DrillDown = false;
@@ -312,6 +348,7 @@ page 50042 "Bill Posted Sales Invoice"
                     Caption = 'Work Description';
                     field(GetWorkDescription; Rec.GetWorkDescription())
                     {
+                        Editable = false;
                         ApplicationArea = Basic, Suite;
                         
                         Importance = Additional;
@@ -322,6 +359,7 @@ page 50042 "Bill Posted Sales Invoice"
             }
             part(SalesInvLines; "Posted Sales Invoice Subform")
             {
+                Editable = false;
                 ApplicationArea = Basic, Suite;
                 SubPageLink = "Document No." = field("No.");
             }
@@ -330,6 +368,7 @@ page 50042 "Bill Posted Sales Invoice"
                 Caption = 'Invoice Details';
                 field("Currency Code"; Rec."Currency Code")
                 {
+                    Editable = false;
                     ApplicationArea = Suite;
                     
                     Importance = Promoted;
@@ -349,24 +388,28 @@ page 50042 "Bill Posted Sales Invoice"
                 }
                 field("Company Bank Account Code"; Rec."Company Bank Account Code")
                 {
+                    Editable = false;
                     ApplicationArea = Suite;
                     
                     Importance = Promoted;
                 }
                 field("Shipment Date"; Rec."Shipment Date")
                 {
+                    Editable = false;
                     ApplicationArea = Basic, Suite;
                     
                     Importance = Promoted;
                 }
                 field("Payment Terms Code"; Rec."Payment Terms Code")
                 {
+                    Editable = false;
                     ApplicationArea = Basic, Suite;
                     
                     Importance = Promoted;
                 }
                 field("Payment Method Code"; Rec."Payment Method Code")
                 {
+                    Editable = false;
                     ApplicationArea = Basic, Suite;
                     
                     Importance = Additional;
@@ -377,6 +420,7 @@ page 50042 "Bill Posted Sales Invoice"
                     Visible = PaymentServiceVisible;
                     field(SelectedPayments; Rec.GetSelectedPaymentsText())
                     {
+                        Editable = false;
                         ApplicationArea = All;
                         Caption = 'Payment Service';
                         
@@ -395,48 +439,57 @@ page 50042 "Bill Posted Sales Invoice"
                 }
                 field("Shortcut Dimension 1 Code"; Rec."Shortcut Dimension 1 Code")
                 {
+                    Editable = false;
                     ApplicationArea = Dimensions;
                     
                 }
                 field("Shortcut Dimension 2 Code"; Rec."Shortcut Dimension 2 Code")
                 {
+                    Editable = false;
                     ApplicationArea = Dimensions;
                     
                 }
                 field("Payment Discount %"; Rec."Payment Discount %")
                 {
+                    Editable = false;
                     ApplicationArea = Basic, Suite;
                     
                 }
                 field("Pmt. Discount Date"; Rec."Pmt. Discount Date")
                 {
+                    Editable = false;
                     ApplicationArea = Basic, Suite;
                     
                     Importance = Additional;
                 }
                 field("Direct Debit Mandate ID"; Rec."Direct Debit Mandate ID")
                 {
+                    Editable = false;
                     ApplicationArea = Basic, Suite;
                     
                 }
                 field("Customer Posting Group"; Rec."Customer Posting Group")
                 {
+                    Editable = false;
                     ApplicationArea = Basic, Suite;
                     
                     Visible = false;
                 }
                 field("Tax Liable"; Rec."Tax Liable")
                 {
+                    Editable = false;
                     ApplicationArea = SalesTax;
                     
                 }
                 field("Tax Area Code"; Rec."Tax Area Code")
                 {
+                    Editable = false;
                     ApplicationArea = SalesTax;
                     
                 }
                 field("Location Code"; Rec."Location Code")
                 {
+                    Editable = false;
                     ApplicationArea = Location;
                     
                     Importance = Additional;
@@ -450,6 +503,7 @@ page 50042 "Bill Posted Sales Invoice"
                     Caption = 'Shipping Details';
                     field("Shipment Method Code"; Rec."Shipment Method Code")
                     {
+                        Editable = false;
                         ApplicationArea = Basic, Suite;
                         Caption = 'Method';
                         
@@ -457,6 +511,7 @@ page 50042 "Bill Posted Sales Invoice"
                     }
                     field("Shipping Agent Code"; Rec."Shipping Agent Code")
                     {
+                        Editable = false;
                         ApplicationArea = Suite;
                         Caption = 'Agent';
                         
@@ -464,6 +519,7 @@ page 50042 "Bill Posted Sales Invoice"
                     }
                     field("Shipping Agent Service Code"; Rec."Shipping Agent Service Code")
                     {
+                        Editable = false;
                         ApplicationArea = Suite;
                         Caption = 'Agent Service';
                         
@@ -471,6 +527,7 @@ page 50042 "Bill Posted Sales Invoice"
                     }
                     field("Package Tracking No."; Rec."Package Tracking No.")
                     {
+                        Editable = false;
                         ApplicationArea = Suite;
                         
                         Importance = Additional;
@@ -481,6 +538,7 @@ page 50042 "Bill Posted Sales Invoice"
                     Caption = 'Ship-to';
                     field("Ship-to Code"; Rec."Ship-to Code")
                     {
+                        Editable = false;
                         ApplicationArea = Basic, Suite;
                         Caption = 'Address Code';
                         
@@ -488,6 +546,7 @@ page 50042 "Bill Posted Sales Invoice"
                     }
                     field("Ship-to Name"; Rec."Ship-to Name")
                     {
+                        Editable = false;
                         ApplicationArea = Basic, Suite;
                         Caption = 'Name';
                         
@@ -495,6 +554,7 @@ page 50042 "Bill Posted Sales Invoice"
                     }
                     field("Ship-to Name 2"; Rec."Ship-to Name 2")
                     {
+                        Editable = false;
                         ApplicationArea = Basic, Suite;
                         Caption = 'Name 2';
                         
@@ -503,18 +563,21 @@ page 50042 "Bill Posted Sales Invoice"
                     }
                     field("Ship-to Address"; Rec."Ship-to Address")
                     {
+                        Editable = false;
                         ApplicationArea = Basic, Suite;
                         Caption = 'Address';
                         
                     }
                     field("Ship-to Address 2"; Rec."Ship-to Address 2")
                     {
+                        Editable = false;
                         ApplicationArea = Basic, Suite;
                         Caption = 'Address 2';
                         
                     }
                     field("Ship-to City"; Rec."Ship-to City")
                     {
+                        Editable = false;
                         ApplicationArea = Basic, Suite;
                         Caption = 'City';
                         
@@ -526,12 +589,14 @@ page 50042 "Bill Posted Sales Invoice"
                     }
                     field("Ship-to County"; Rec."Ship-to County")
                     {
+                        Editable = false;
                         ApplicationArea = Basic, Suite;
                         CaptionClass = '5,1,' + Rec."Ship-to Country/Region Code";
                         
                     }
                     field("Ship-to Post Code"; Rec."Ship-to Post Code")
                     {
+                        Editable = false;
                         ApplicationArea = Basic, Suite;
                         Caption = 'Post Code';
                         
@@ -539,18 +604,21 @@ page 50042 "Bill Posted Sales Invoice"
                     }
                     field("Ship-to Country/Region Code"; Rec."Ship-to Country/Region Code")
                     {
+                        Editable = false;
                         ApplicationArea = Basic, Suite;
                         Caption = 'Country/Region';
                         
                     }
                     field("Ship-to Phone No."; Rec."Ship-to Phone No.")
                     {
+                        Editable = false;
                         ApplicationArea = Basic, Suite;
                         Caption = 'Phone No.';
                         
                     }
                     field("Ship-to Contact"; Rec."Ship-to Contact")
                     {
+                        Editable = false;
                         ApplicationArea = Basic, Suite;
                         Caption = 'Contact';
                         
@@ -561,6 +629,7 @@ page 50042 "Bill Posted Sales Invoice"
                     Caption = 'Bill-to';
                     field("Bill-to Name"; Rec."Bill-to Name")
                     {
+                        Editable = false;
                         ApplicationArea = Basic, Suite;
                         Caption = 'Name';
                         
@@ -569,6 +638,7 @@ page 50042 "Bill Posted Sales Invoice"
                     }
                     field("Bill-to Name 2"; Rec."Bill-to Name 2")
                     {
+                        Editable = false;
                         ApplicationArea = Basic, Suite;
                         Caption = 'Name 2';
                         
@@ -577,6 +647,7 @@ page 50042 "Bill Posted Sales Invoice"
                     }
                     field("Bill-to Address"; Rec."Bill-to Address")
                     {
+                        Editable = false;
                         ApplicationArea = Basic, Suite;
                         Caption = 'Address';
                         
@@ -584,6 +655,7 @@ page 50042 "Bill Posted Sales Invoice"
                     }
                     field("Bill-to Address 2"; Rec."Bill-to Address 2")
                     {
+                        Editable = false;
                         ApplicationArea = Basic, Suite;
                         Caption = 'Address 2';
                         
@@ -591,6 +663,7 @@ page 50042 "Bill Posted Sales Invoice"
                     }
                     field("Bill-to City"; Rec."Bill-to City")
                     {
+                        Editable = false;
                         ApplicationArea = Basic, Suite;
                         Caption = 'City';
                         
@@ -602,6 +675,7 @@ page 50042 "Bill Posted Sales Invoice"
                         Visible = IsBillToCountyVisible;
                         field("Bill-to County"; Rec."Bill-to County")
                         {
+                            Editable = false;
                             ApplicationArea = Basic, Suite;
                             CaptionClass = '5,1,' + Rec."Bill-to Country/Region Code";
                             
@@ -610,6 +684,7 @@ page 50042 "Bill Posted Sales Invoice"
                     }
                     field("Bill-to Post Code"; Rec."Bill-to Post Code")
                     {
+                        Editable = false;
                         ApplicationArea = Basic, Suite;
                         Caption = 'Post Code';
                         
@@ -618,6 +693,7 @@ page 50042 "Bill Posted Sales Invoice"
                     }
                     field("Bill-to Country/Region Code"; Rec."Bill-to Country/Region Code")
                     {
+                        Editable = false;
                         ApplicationArea = Basic, Suite;
                         Caption = 'Country/Region';
                         
@@ -625,6 +701,7 @@ page 50042 "Bill Posted Sales Invoice"
                     }
                     field("Bill-to Contact No."; Rec."Bill-to Contact No.")
                     {
+                        Editable = false;
                         ApplicationArea = Basic, Suite;
                         Caption = 'Contact No.';
                         
@@ -632,6 +709,7 @@ page 50042 "Bill Posted Sales Invoice"
                     }
                     field("Bill-to Contact"; Rec."Bill-to Contact")
                     {
+                        Editable = false;
                         ApplicationArea = Basic, Suite;
                         Caption = 'Contact';
                         
@@ -639,6 +717,7 @@ page 50042 "Bill Posted Sales Invoice"
                     }
                     field(BillToContactPhoneNo; BillToContact."Phone No.")
                     {
+                        Editable = false;
                         ApplicationArea = Basic, Suite;
                         Caption = 'Phone No.';
                         
@@ -648,6 +727,7 @@ page 50042 "Bill Posted Sales Invoice"
                     }
                     field(BillToContactMobilePhoneNo; BillToContact."Mobile Phone No.")
                     {
+                        Editable = false;
                         ApplicationArea = Basic, Suite;
                         Caption = 'Mobile Phone No.';
                         
@@ -657,6 +737,7 @@ page 50042 "Bill Posted Sales Invoice"
                     }
                     field(BillToContactEmail; BillToContact."E-Mail")
                     {
+                        Editable = false;
                         ApplicationArea = Basic, Suite;
                         Caption = 'Email';
                         
@@ -671,26 +752,31 @@ page 50042 "Bill Posted Sales Invoice"
                 Caption = 'Foreign Trade';
                 field("EU 3-Party Trade"; Rec."EU 3-Party Trade")
                 {
+                    Editable = false;
                     ApplicationArea = BasicEU;
                     
                 }
                 field("Transaction Specification"; Rec."Transaction Specification")
                 {
+                    Editable = false;
                     ApplicationArea = BasicEU;
                     
                 }
                 field("Transport Method"; Rec."Transport Method")
                 {
+                    Editable = false;
                     ApplicationArea = BasicEU;
                     
                 }
                 field("Exit Point"; Rec."Exit Point")
                 {
+                    Editable = false;
                     ApplicationArea = BasicEU;
                     
                 }
                 field("Area"; Rec.Area)
                 {
+                    Editable = false;
                     ApplicationArea = BasicEU;
                     
                 }
