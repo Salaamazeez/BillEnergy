@@ -2,6 +2,8 @@ table 50181 PayrollBank
 {
     Caption = 'Payroll Bank';
     DataClassification = ToBeClassified;
+    LookupPageId = PayrollBank;
+    DrillDownPageId = PayrollBank;
 
     fields
     {
