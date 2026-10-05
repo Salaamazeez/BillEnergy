@@ -3,6 +3,14 @@ tableextension 50004 EmployeeExt extends Employee
     fields
     {
 
+        field(50014; "Customer No."; Code[20])
+        {
+            Caption = 'Customer No.';
+            DataClassification = CustomerContent;
+            TableRelation = Customer."No.";
+            Editable = false;
+        }
+
         field(50002; "No. 2"; Text[50])
         {
 
@@ -82,7 +90,7 @@ tableextension 50004 EmployeeExt extends Employee
             DataClassification = ToBeClassified;
             Caption = 'Is Rig Employee';
         }
- field(50013; "Pushed to the Post"; Boolean)
+        field(50013; "Pushed to the Post"; Boolean)
         {
             DataClassification = ToBeClassified;
             Caption = 'Pushed to the Post';

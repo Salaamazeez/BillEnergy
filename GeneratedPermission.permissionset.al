@@ -1,6 +1,7 @@
 namespace GeneratedPermission;
 
 using BILLENERGY.BILLENERGY;
+using Microsoft.Sales.History;
 
 permissionset 50000 GeneratedPermission
 {
@@ -270,5 +271,11 @@ permissionset 50000 GeneratedPermission
         page SalarySetup=X,
         page SalarySetupList=X,
         page SalarySetupSubform=X,
-        page "Workflow Event Customw"=X;
+        page "Workflow Event Customw"=X,
+        report "Trial Balance - New"=X,
+        page "Bill Posted Sales Invoice"=X,
+        page "Bill Posted Sales Invoices"=X,
+        page "Cash Adv. Expense Code"=X,
+        page ClosedPayrollList=X,
+        page "Treated Payment Req. List"=X;
 }

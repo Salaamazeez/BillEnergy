@@ -1455,7 +1455,7 @@ codeunit 50500 "ESS Management"
         exit(JsonText);
     end;
 
-    procedure CreateOrEditPurchaseInvoice(DocumentNo: Code[20]; VendorNo: Code[20]; Beneficiary: Code[20]; VendorInvoiceNo: Code[35]; LocationCode: Code[20]; Description: Text[250]; PurchaseLines: Text): Text
+    procedure CreateOrEditPurchaseInvoice(DocumentNo: Code[20]; VendorNo: Code[20]; Beneficiary: Code[20]; VendorInvoiceNo: Code[35]; LocationCode: Code[20]; Description: Text[250]; PostingDescription: Text[250]; PurchaseLines: Text): Text
     var
         Header: Record "Purchase Header";
         Line: Record "Purchase Line";
@@ -1495,6 +1495,8 @@ codeunit 50500 "ESS Management"
             //Evaluate(Header.Date, DocumentDate);
             if Beneficiary <> '' then
                 Header.Validate(Beneficiary, Beneficiary);
+            if PostingDescription <> '' then
+                Header.Validate("Posting Description", PostingDescription);
             //Header.Validate(, RequestDescription);
             Header.Modify(true);
 
@@ -1511,7 +1513,8 @@ codeunit 50500 "ESS Management"
 
             Header.Validate("Vendor Invoice No.", VendorInvoiceNo);
             Header.Validate("Location Code", LocationCode);
-            Header.Validate(Description, Description);
+            Header.Validate(Description, Description); 
+            Header.Validate("Posting Description", PostingDescription);
 
         end;
 
@@ -1580,6 +1583,7 @@ codeunit 50500 "ESS Management"
             Line.Validate("Location Code", LocationCode);
             Line.Validate(Quantity, Quantity);
             Line.Validate("Direct Unit Cost", UnitCost);
+            Line.Validate( "Description 2", Description);
             // if ShortcutDim1 <> '' then
             //     Line.Validate("Shortcut Dimension 1 Code", ShortcutDim1);
             // if ShortcutDim2 <> '' then

@@ -10,6 +10,12 @@ pageextension 50009 EmployeeExt extends "Employee Card"
                 ApplicationArea = All;
 
             }
+            field("Customer No."; Rec."Customer No.")
+            {
+                ApplicationArea = All;
+                Editable = false;
+                ToolTip = 'Specifies the customer number linked to this employee.';
+            }
 
         }
         addafter(Gender)
@@ -55,7 +61,8 @@ pageextension 50009 EmployeeExt extends "Employee Card"
                 Caption = 'Is Rig Employee';
                 ApplicationArea = All;
             }
-            field("Pushed to the Post";Rec."Pushed to the Post"){
+            field("Pushed to the Post"; Rec."Pushed to the Post")
+            {
                 ApplicationArea = All;
             }
         }
@@ -185,6 +192,26 @@ pageextension 50009 EmployeeExt extends "Employee Card"
         // Add changes to page actions here
         addafter(PayEmployee)
         {
+            action(ConvertEmployeeToCustomer)
+            {
+                Caption = 'Convert to Staff Customer';
+                ApplicationArea = Basic, Suite;
+                Image = Customer;
+                Promoted = true;
+                PromotedCategory = Process;
+                ToolTip = 'Create or open the Staff customer linked to this employee.';
+
+                trigger OnAction()
+                var
+                    EmployeeToCustomerMgt: Codeunit "Employee to Customer Mgt.";
+                    Customer: Record Customer;
+                    CustomerNo: Code[20];
+                begin
+                    CustomerNo := EmployeeToCustomerMgt.ConvertEmployeeToCustomer(Rec);
+                    Customer.Get(CustomerNo);
+                    Page.Run(Page::"Customer Card", Customer);
+                end;
+            }
             action("Sync Employee To HMRS")
             {
                 Promoted = true;

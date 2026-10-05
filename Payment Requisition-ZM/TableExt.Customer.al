@@ -2,6 +2,14 @@ tableextension 50110 CustomerExt extends Customer
 {
     fields
     {
+        field(50002; "Employee No."; Code[20])
+        {
+            Caption = 'Employee No.';
+            DataClassification = CustomerContent;
+            TableRelation = Employee."No.";
+            Editable = false;
+        }
+
         field(50000; Type; Option)
         {
             OptionMembers = Customer,Staff;

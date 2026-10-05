@@ -8,6 +8,12 @@ pageextension 50010 CustomerExt extends "Customer Card"
             {
                 ApplicationArea = All;
             }
+            field("Employee No."; Rec."Employee No.")
+            {
+                ApplicationArea = All;
+                Editable = false;
+                ToolTip = 'Specifies the employee number linked to this staff customer.';
+            }
         }
         addbefore(Blocked)
         {
