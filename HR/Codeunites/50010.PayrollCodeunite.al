@@ -1012,7 +1012,7 @@ codeunit 50010 PayrollCodeunite
                 EXIT(ROUND(((CumTax / NoOfDaysInPayPeriod) * DaysWorked), 0.01, '>'));
             END ELSE
                 EXIT(0);
-                *//
+                */
         END;
     END;
 

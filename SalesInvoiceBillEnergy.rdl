@@ -6615,6 +6615,7 @@
                       <Style>
                         <FontFamily>Segoe UI</FontFamily>
                         <FontSize>9pt</FontSize>
+                        <Color>#3269e1</Color>
                       </Style>
                     </TextRun>
                   </TextRuns>
@@ -6647,6 +6648,7 @@
                       <Style>
                         <FontFamily>Segoe UI</FontFamily>
                         <FontSize>9pt</FontSize>
+                        <Color>#3269e1</Color>
                       </Style>
                     </TextRun>
                   </TextRuns>
@@ -6680,6 +6682,7 @@
                       <Style>
                         <FontFamily>Segoe UI</FontFamily>
                         <FontSize>9pt</FontSize>
+                        <Color>#3269e1</Color>
                       </Style>
                     </TextRun>
                   </TextRuns>
@@ -6713,6 +6716,7 @@
                       <Style>
                         <FontFamily>Segoe UI</FontFamily>
                         <FontSize>9pt</FontSize>
+                        <Color>#3269e1</Color>
                       </Style>
                     </TextRun>
                   </TextRuns>
@@ -6745,6 +6749,7 @@
                       <Style>
                         <FontFamily>Segoe UI</FontFamily>
                         <FontSize>9pt</FontSize>
+                        <Color>#3269e1</Color>
                       </Style>
                     </TextRun>
                   </TextRuns>
@@ -6777,6 +6782,7 @@
                       <Style>
                         <FontFamily>Segoe UI</FontFamily>
                         <FontSize>9pt</FontSize>
+                        <Color>#3269e1</Color>
                       </Style>
                     </TextRun>
                   </TextRuns>
@@ -6806,7 +6812,9 @@
                   <TextRuns>
                     <TextRun>
                       <Value>=First(Fields!CompanyPhoneNo.Value, "DataSet_Result")</Value>
-                      <Style />
+                      <Style>
+                        <Color>#3269e1</Color>
+                      </Style>
                     </TextRun>
                   </TextRuns>
                   <Style>
@@ -6838,7 +6846,9 @@
                   <TextRuns>
                     <TextRun>
                       <Value>=First(Fields!CompanyInfo_HomePage.Value, "DataSet_Result")</Value>
-                      <Style />
+                      <Style>
+                        <Color>#3269e1</Color>
+                      </Style>
                     </TextRun>
                   </TextRuns>
                   <Style>
