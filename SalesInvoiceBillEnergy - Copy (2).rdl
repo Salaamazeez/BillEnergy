@@ -6384,6 +6384,7 @@
                             </Border>
                           </Style>
                         </Rectangle>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                   </TablixCells>
@@ -6422,13 +6423,13 @@
             </Style>
           </Tablix>
         </ReportItems>
-        <Height>23.08463cm</Height>
+        <Height>25.65991cm</Height>
         <Style />
       </Body>
       <Width>18.62954cm</Width>
       <Page>
         <PageHeader>
-          <Height>4.02931cm</Height>
+          <Height>3.8cm</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -6489,26 +6490,10 @@
                     </Border>
                   </Style>
                 </Image>
-                <Image Name="Image4">
-                  <Source>Database</Source>
-                  <Value>=First(Fields!CompanyInfo_Picture.Value, "DataSet_Result")</Value>
-                  <MIMEType>image/bmp</MIMEType>
-                  <Sizing>FitProportional</Sizing>
-                  <Top>1.4cm</Top>
-                  <Left>0.55097cm</Left>
-                  <Height>2.04592cm</Height>
-                  <Width>3.66958cm</Width>
-                  <ZIndex>2</ZIndex>
-                  <Style>
-                    <Border>
-                      <Style>None</Style>
-                    </Border>
-                  </Style>
-                </Image>
               </ReportItems>
               <KeepTogether>true</KeepTogether>
               <Left>12.07857cm</Left>
-              <Height>3.44592cm</Height>
+              <Height>3cm</Height>
               <Width>6.55097cm</Width>
               <ZIndex>1</ZIndex>
               <Style>
