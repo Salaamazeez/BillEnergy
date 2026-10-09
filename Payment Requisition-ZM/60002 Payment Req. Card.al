@@ -114,6 +114,10 @@ page 60008 "Payment Req. Card"
         }
         area(factboxes)
         {
+            systempart(PortalLinks; Links)
+            {
+                ApplicationArea = All;
+            }
             part("Attached Documents"; "Doc. Attachment List Factbox")
             {
                 ApplicationArea = All;

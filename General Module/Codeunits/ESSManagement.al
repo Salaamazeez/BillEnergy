@@ -7,8 +7,9 @@ codeunit 50500 "ESS Management"
 
     end;
 
-    procedure CreateorEditPaymentRequest(DocumentNo: Code[20]; PostingDate: Text; Requester: Code[20]; Beneficiary: Code[20]; BalAccType: Option "G/L Account",Vendor,Staff,"Bank Account"; CurrencyCode: Code[10]; Description: Text; PurchReqNo: Code[20]; ReqAmount: Decimal; VoucherCreated: Boolean; TransactionType: Option " ",Loan,"Staff Adv"; LoanId: Code[20]; PaymentReqLines: Text): Text
+    procedure CreateorEditPaymentRequest(DocumentNo: Code[20]; PostingDate: Text; Requester: Code[20]; Beneficiary: Code[20]; BalAccType: Option "G/L Account",Vendor,Staff,"Bank Account"; CurrencyCode: Code[10]; Description: Text; PurchReqNo: Code[20]; ReqAmount: Decimal; VoucherCreated: Boolean; TransactionType: Option " ",Loan,"Staff Adv"; LoanId: Code[20]; PaymentReqLines: Text; DocumentURLs: Text): Text
     var
+        AttachmentLinks: Codeunit "DocAttchMgt Extension";
         Header: Record "Payment Requisition";
         Line: Record "Payment Requisition Line";
         JsonArray: JsonArray;
@@ -131,6 +132,8 @@ codeunit 50500 "ESS Management"
         Clear(DataObject);
         Clear(ResponseObject);
 
+        AttachmentLinks.StorePortalLinks(Header, DocumentURLs);
+
         DataObject.Add('No', Header."No.");
         DataObject.Add('processedLines', LineCount);
 
@@ -146,8 +149,9 @@ codeunit 50500 "ESS Management"
 
 
 
-    procedure CreateOrEditCashAdvance(DocumentNo: Code[20]; DocumentDate: Text; requester: Text[50]; Description: Text[100]; DueDate: Text; DebitAccountNo: Code[20]; CurrencyCode: Code[10]; CashAdvanceLines: Text): Text
+    procedure CreateOrEditCashAdvance(DocumentNo: Code[20]; DocumentDate: Text; requester: Text[50]; Description: Text[100]; DueDate: Text; DebitAccountNo: Code[20]; CurrencyCode: Code[10]; CashAdvanceLines: Text; DocumentURLs: Text): Text
     var
+        AttachmentLinks: Codeunit "DocAttchMgt Extension";
         Header: Record "Cash Advance";
         Line: Record "Cash Advance Line";
         JsonArray: JsonArray;
@@ -277,6 +281,8 @@ codeunit 50500 "ESS Management"
 
         Clear(DataObject);
         Clear(ResponseObject);
+
+        AttachmentLinks.StorePortalLinks(Header, DocumentURLs);
 
         DataObject.Add('No', Header."No.");
         DataObject.Add('processedLines', LineCount);
@@ -582,8 +588,9 @@ codeunit 50500 "ESS Management"
     end;
 
 
-    procedure CreateOrEditRetirement(DocumentNo: Code[20]; retirementDate: Text; Beneficiary: Code[20]; RetirementRef: Code[50]; CurrencyCode: Code[10]; Purpose: Text[250]; RetirementLines: Text): Text
+    procedure CreateOrEditRetirement(DocumentNo: Code[20]; retirementDate: Text; Beneficiary: Code[20]; RetirementRef: Code[50]; CurrencyCode: Code[10]; Purpose: Text[250]; RetirementLines: Text; DocumentURLs: Text): Text
     var
+        AttachmentLinks: Codeunit "DocAttchMgt Extension";
         Header: Record Retirement;
         Line: Record "Retirement Line";
         JsonArray: JsonArray;
@@ -730,6 +737,8 @@ codeunit 50500 "ESS Management"
         end;
         //Header.Validate(Status, Header.Status::Approved);
         Header.Modify();
+
+        AttachmentLinks.StorePortalLinks(Header, DocumentURLs);
 
         DataObject.Add('No', Header."No.");
         DataObject.Add('processedLines', LineCount);
@@ -1455,8 +1464,9 @@ codeunit 50500 "ESS Management"
         exit(JsonText);
     end;
 
-    procedure CreateOrEditPurchaseInvoice(DocumentNo: Code[20]; VendorNo: Code[20]; Beneficiary: Code[20]; VendorInvoiceNo: Code[35]; LocationCode: Code[20]; Description: Text[250]; PostingDescription: Text[250]; PurchaseLines: Text): Text
+    procedure CreateOrEditPurchaseInvoice(DocumentNo: Code[20]; VendorNo: Code[20]; Beneficiary: Code[20]; VendorInvoiceNo: Code[35]; LocationCode: Code[20]; Description: Text[250]; PostingDescription: Text[250]; PurchaseLines: Text; DocumentURLs: Text): Text
     var
+        AttachmentLinks: Codeunit "DocAttchMgt Extension";
         Header: Record "Purchase Header";
         Line: Record "Purchase Line";
         JsonArray: JsonArray;
@@ -1486,10 +1496,11 @@ codeunit 50500 "ESS Management"
 
     begin
         if DocumentNo <> '' then begin
-            if not Header.Get(DocumentNo) then
+            if not Header.Get(Header."Document Type"::Invoice, DocumentNo) then
                 Error('Purchase Invoice %1 not found', DocumentNo);
 
             Line.Reset();
+            Line.SetRange("Document Type", Header."Document Type");
             Line.SetRange("Document No.", Header."No.");
             Line.DeleteAll();
             //Evaluate(Header.Date, DocumentDate);
@@ -1598,6 +1609,8 @@ codeunit 50500 "ESS Management"
         end;
         //Header.Validate(Status, Header.Status::Released);
         Header.Modify(true);
+        AttachmentLinks.StorePortalLinks(Header, DocumentURLs);
+
         DataObject.Add('No', Header."No.");
         DataObject.Add('processedLines', LineCount);
 

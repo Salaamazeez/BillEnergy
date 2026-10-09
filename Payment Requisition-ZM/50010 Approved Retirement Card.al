@@ -122,6 +122,10 @@ page 50010 "Approved Retirement Card"
         }
         area(factboxes)
         {
+            systempart(PortalLinks; Links)
+            {
+                ApplicationArea = All;
+            }
             part("Attached Documents"; "Doc. Attachment List Factbox")
             {
                 ApplicationArea = All;

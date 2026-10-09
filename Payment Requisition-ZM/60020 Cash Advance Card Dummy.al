@@ -130,6 +130,13 @@ Visible = false;
                 }
             }
         }
+        area(factboxes)
+        {
+            systempart(PortalLinks; Links)
+            {
+                ApplicationArea = All;
+            }
+        }
     }
 
     actions

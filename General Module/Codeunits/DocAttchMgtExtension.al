@@ -1,5 +1,104 @@
 codeunit 50001 "DocAttchMgt Extension"
 {
+    Permissions = tabledata "Record Link" = rim;
+
+    procedure StorePortalLinks(Document: Variant; DocumentURLs: Text)
+    var
+        DocumentRef: RecordRef;
+        URLs: JsonArray;
+        URLToken: JsonToken;
+        URL: Text;
+        Voucher: Record "Payment Voucher Header";
+        CashAdvance: Record "Cash Advance";
+        VoucherRef: RecordRef;
+        NoField: FieldRef;
+        DocumentNo: Code[20];
+    begin
+        if DocumentURLs = '' then
+            exit;
+        if not URLs.ReadFrom(DocumentURLs) then
+            Error('documentURLs must be a JSON array of URL strings.');
+        DocumentRef.GetTable(Document);
+        foreach URLToken in URLs do begin
+            if not URLToken.IsValue() then
+                Error('Each documentURLs entry must be a URL string.');
+            if URLToken.AsValue().IsNull() or URLToken.AsValue().IsUndefined() then
+                Error('Each documentURLs entry must be a URL string.');
+            URL := URLToken.AsValue().AsText();
+            if (StrPos(LowerCase(URL), 'https://') <> 1) and
+               (StrPos(LowerCase(URL), 'http://') <> 1) then
+                Error('Each documentURLs entry must be an absolute HTTP or HTTPS URL.');
+            AddPortalLink(DocumentRef, URL);
+        end;
+        // A portal retry can add links after the voucher has already been created.
+        case DocumentRef.Number of
+            Database::"Payment Requisition":
+                begin
+                    NoField := DocumentRef.Field(1);
+                    DocumentNo := NoField.Value;
+                    Voucher.SetRange("Former PR No.", DocumentNo);
+                    if Voucher.FindSet() then
+                        repeat
+                            VoucherRef.GetTable(Voucher);
+                            CopyPortalLinks(DocumentRef, VoucherRef);
+                        until Voucher.Next() = 0;
+                end;
+            Database::"Cash Advance":
+                begin
+                    DocumentRef.SetTable(CashAdvance);
+                    if (CashAdvance."Voucher No" <> '') and Voucher.Get(CashAdvance."Voucher No") then begin
+                        VoucherRef.GetTable(Voucher);
+                        CopyPortalLinks(DocumentRef, VoucherRef);
+                    end;
+                end;
+        end;
+    end;
+
+    local procedure AddPortalLink(var DocumentRef: RecordRef; URL: Text)
+    var
+        RecordLink: Record "Record Link";
+    begin
+        if DocumentRef.IsTemporary then
+            exit;
+        if StrLen(URL) > MaxStrLen(RecordLink.URL1) then
+            Error('Attachment URL exceeds the supported length of %1 characters.', MaxStrLen(RecordLink.URL1));
+        RecordLink.SetRange("Record ID", DocumentRef.RecordId);
+        RecordLink.SetRange(Company, CompanyName);
+        RecordLink.SetRange(Type, RecordLink.Type::Link);
+        RecordLink.SetRange(URL1, URL);
+        if RecordLink.IsEmpty then
+            DocumentRef.AddLink(URL, 'Portal attachment');
+    end;
+
+    local procedure CopyPortalLinks(var FromRecRef: RecordRef; var ToRecRef: RecordRef)
+    var
+        RecordLink: Record "Record Link";
+    begin
+        if FromRecRef.IsTemporary or ToRecRef.IsTemporary then
+            exit;
+        RecordLink.SetRange("Record ID", FromRecRef.RecordId);
+        RecordLink.SetRange(Company, CompanyName);
+        RecordLink.SetRange(Type, RecordLink.Type::Link);
+        RecordLink.SetRange(Description, 'Portal attachment');
+        if RecordLink.FindSet() then
+            repeat
+                AddPortalLink(ToRecRef, RecordLink.URL1);
+            until RecordLink.Next() = 0;
+    end;
+
+    [EventSubscriber(ObjectType::Codeunit, Codeunit::"Purch.-Post", 'OnAfterPurchInvHeaderInsert', '', false, false)]
+    local procedure CopyLinksToPostedPurchaseInvoice(var PurchInvHeader: Record "Purch. Inv. Header"; var PurchHeader: Record "Purchase Header"; PreviewMode: Boolean)
+    var
+        FromRecRef: RecordRef;
+        ToRecRef: RecordRef;
+    begin
+        if PreviewMode or (PurchHeader."Document Type" <> PurchHeader."Document Type"::Invoice) then
+            exit;
+        FromRecRef.GetTable(PurchHeader);
+        ToRecRef.GetTable(PurchInvHeader);
+        CopyPortalLinks(FromRecRef, ToRecRef);
+    end;
+
     trigger OnRun()
     begin
 
@@ -138,6 +237,7 @@ codeunit 50001 "DocAttchMgt Extension"
         ToRecRef.Open(Database::"Payment Voucher Header");
         ToRecRef.GetTable(Rec2);
 
+        CopyPortalLinks(FromRecRef, ToRecRef);
         CopyAttachments(FromRecRef, ToRecRef);
     end;
 
@@ -153,6 +253,7 @@ codeunit 50001 "DocAttchMgt Extension"
         ToRecRef.Open(Database::"Payment Voucher Header");
         ToRecRef.GetTable(Rec2);
 
+        CopyPortalLinks(FromRecRef, ToRecRef);
         CopyAttachments(FromRecRef, ToRecRef);
     end;
 
@@ -168,6 +269,7 @@ codeunit 50001 "DocAttchMgt Extension"
         ToRecRef.Open(Database::Retirement);
         ToRecRef.GetTable(Rec2);
 
+        CopyPortalLinks(FromRecRef, ToRecRef);
         CopyAttachments(FromRecRef, ToRecRef);
     end;
 

@@ -109,6 +109,10 @@ page 60023 "Approved Cash Advance Card"
         }
         area(factboxes)
         {
+            systempart(PortalLinks; Links)
+            {
+                ApplicationArea = All;
+            }
             part("Attached Documents"; "Doc. Attachment List Factbox")
             {
                 ApplicationArea = All;

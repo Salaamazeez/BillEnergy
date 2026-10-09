@@ -112,6 +112,10 @@ page 50009 "Pending Retirement Card"
         }
         area(factboxes)
         {
+            systempart(PortalLinks; Links)
+            {
+                ApplicationArea = All;
+            }
             part("Attached Documents"; "Doc. Attachment List Factbox")
             {
                 ApplicationArea = All;

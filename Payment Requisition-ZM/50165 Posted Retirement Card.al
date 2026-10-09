@@ -96,6 +96,10 @@ page 50165 "Posted Retirement Card"
         }
         area(factboxes)
         {
+            systempart(PortalLinks; Links)
+            {
+                ApplicationArea = All;
+            }
             part("Attached Documents"; "Doc. Attachment List Factbox")
             {
                 ApplicationArea = All;

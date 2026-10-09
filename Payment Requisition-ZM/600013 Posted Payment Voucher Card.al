@@ -101,6 +101,13 @@ page 60013 "Posted Payment Voucher Card"
                 }
             }
         }
+        area(factboxes)
+        {
+            systempart(PortalLinks; Links)
+            {
+                ApplicationArea = All;
+            }
+        }
     }
 
     actions
