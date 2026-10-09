@@ -2,6 +2,12 @@ pageextension 50102 PurchaseInvoiceExt extends "Purchase Invoice"
 {
     layout
     {
+        modify(Control1900383207)
+        {
+            //ApplicationArea = All;
+            Visible = true;
+        }
+
         addafter("Vendor Invoice No.")
         {
             field("Applies-to Doc. Type"; Rec."Applies-to Doc. Type")

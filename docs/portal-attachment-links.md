@@ -8,7 +8,7 @@ The four ESS Management actions now accept `documentURLs` as Text containing a J
 
 Send `"documentURLs": "[]"` when there are no attachments. An empty string is also accepted. Existing callers should include the new parameter. Other ESS actions are unchanged.
 
-BC stores URLs as native Record Links with description `Portal attachment`. Open them from the Links FactBox on the transaction card. Purchase Invoice and Posted Purchase Invoice use their standard Links FactBoxes. Physical files are not downloaded or stored. Portal authentication and access checks still apply when opening a link.
+BC stores URLs as native Record Links with description `Portal attachment`. Open them from the Links FactBox on the transaction card. The Purchase Invoice and Posted Purchase Invoice page extensions make their standard Links FactBoxes visible for all application areas; the base pages hide them by default. URLs appear under Links, not the Documents/Attachments file list. If user or profile personalization still hides Links, show it through Personalize and reopen the invoice. Physical files are not downloaded or stored. Portal authentication and access checks still apply when opening a link.
 
 URLs are preserved exactly, including encoded query strings. Malformed JSON, null entries, non-HTTP(S) URLs, and URLs exceeding Record Link.URL1 capacity fail the action. Links are appended; duplicate URLs on the same record/company are skipped. Empty arrays do not remove existing links.
 
@@ -24,7 +24,7 @@ URLs are preserved exactly, including encoded query strings. Malformed JSON, nul
 | Retirement | Posted Retirement | Same header record, so links remain. |
 | Purchase Invoice | Posted Purchase Invoice | Copy during purchase invoice posting; skip posting preview. |
 
-Only portal links are copied by this integration. Existing physical attachment handling continues independently. No sales endpoint is changed.
+All URL links on the source record are copied, preserving their descriptions; Notes are excluded. Existing physical attachment handling continues independently. No sales endpoint is changed.
 
 The current Purchase Invoice action also requires `postingDescription`, which is absent from the supplied portal example. Include that existing parameter (an empty string is accepted).
 

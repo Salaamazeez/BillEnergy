@@ -1464,7 +1464,7 @@ codeunit 50500 "ESS Management"
         exit(JsonText);
     end;
 
-    procedure CreateOrEditPurchaseInvoice(DocumentNo: Code[20]; VendorNo: Code[20]; Beneficiary: Code[20]; VendorInvoiceNo: Code[35]; LocationCode: Code[20]; Description: Text[250]; PostingDescription: Text[250]; PurchaseLines: Text; DocumentURLs: Text): Text
+    procedure CreateOrEditPurchaseInvoice(DocumentNo: Code[20]; VendorNo: Code[20]; Beneficiary: Code[20]; VendorInvoiceNo: Code[35]; LocationCode: Code[20]; Description: Text[250];  PurchaseLines: Text; DocumentURLs: Text): Text
     var
         AttachmentLinks: Codeunit "DocAttchMgt Extension";
         Header: Record "Purchase Header";
@@ -1506,8 +1506,8 @@ codeunit 50500 "ESS Management"
             //Evaluate(Header.Date, DocumentDate);
             if Beneficiary <> '' then
                 Header.Validate(Beneficiary, Beneficiary);
-            if PostingDescription <> '' then
-                Header.Validate("Posting Description", PostingDescription);
+            if Description <> '' then
+                Header.Validate("Posting Description", Description);
             //Header.Validate(, RequestDescription);
             Header.Modify(true);
 
@@ -1525,7 +1525,7 @@ codeunit 50500 "ESS Management"
             Header.Validate("Vendor Invoice No.", VendorInvoiceNo);
             Header.Validate("Location Code", LocationCode);
             Header.Validate(Description, Description); 
-            Header.Validate("Posting Description", PostingDescription);
+            Header.Validate("Posting Description", Description);
 
         end;
 

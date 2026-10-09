@@ -28,7 +28,7 @@ codeunit 50001 "DocAttchMgt Extension"
             if (StrPos(LowerCase(URL), 'https://') <> 1) and
                (StrPos(LowerCase(URL), 'http://') <> 1) then
                 Error('Each documentURLs entry must be an absolute HTTP or HTTPS URL.');
-            AddPortalLink(DocumentRef, URL);
+            AddRecordLink(DocumentRef, URL, 'Portal attachment');
         end;
         // A portal retry can add links after the voucher has already been created.
         case DocumentRef.Number of
@@ -40,7 +40,7 @@ codeunit 50001 "DocAttchMgt Extension"
                     if Voucher.FindSet() then
                         repeat
                             VoucherRef.GetTable(Voucher);
-                            CopyPortalLinks(DocumentRef, VoucherRef);
+                            CopyRecordLinks(DocumentRef, VoucherRef);
                         until Voucher.Next() = 0;
                 end;
             Database::"Cash Advance":
@@ -48,13 +48,13 @@ codeunit 50001 "DocAttchMgt Extension"
                     DocumentRef.SetTable(CashAdvance);
                     if (CashAdvance."Voucher No" <> '') and Voucher.Get(CashAdvance."Voucher No") then begin
                         VoucherRef.GetTable(Voucher);
-                        CopyPortalLinks(DocumentRef, VoucherRef);
+                        CopyRecordLinks(DocumentRef, VoucherRef);
                     end;
                 end;
         end;
     end;
 
-    local procedure AddPortalLink(var DocumentRef: RecordRef; URL: Text)
+    local procedure AddRecordLink(var DocumentRef: RecordRef; URL: Text; LinkDescription: Text)
     var
         RecordLink: Record "Record Link";
     begin
@@ -67,10 +67,10 @@ codeunit 50001 "DocAttchMgt Extension"
         RecordLink.SetRange(Type, RecordLink.Type::Link);
         RecordLink.SetRange(URL1, URL);
         if RecordLink.IsEmpty then
-            DocumentRef.AddLink(URL, 'Portal attachment');
+            DocumentRef.AddLink(URL, LinkDescription);
     end;
 
-    local procedure CopyPortalLinks(var FromRecRef: RecordRef; var ToRecRef: RecordRef)
+    local procedure CopyRecordLinks(var FromRecRef: RecordRef; var ToRecRef: RecordRef)
     var
         RecordLink: Record "Record Link";
     begin
@@ -79,10 +79,9 @@ codeunit 50001 "DocAttchMgt Extension"
         RecordLink.SetRange("Record ID", FromRecRef.RecordId);
         RecordLink.SetRange(Company, CompanyName);
         RecordLink.SetRange(Type, RecordLink.Type::Link);
-        RecordLink.SetRange(Description, 'Portal attachment');
         if RecordLink.FindSet() then
             repeat
-                AddPortalLink(ToRecRef, RecordLink.URL1);
+                AddRecordLink(ToRecRef, RecordLink.URL1, RecordLink.Description);
             until RecordLink.Next() = 0;
     end;
 
@@ -96,7 +95,7 @@ codeunit 50001 "DocAttchMgt Extension"
             exit;
         FromRecRef.GetTable(PurchHeader);
         ToRecRef.GetTable(PurchInvHeader);
-        CopyPortalLinks(FromRecRef, ToRecRef);
+        CopyRecordLinks(FromRecRef, ToRecRef);
     end;
 
     trigger OnRun()
@@ -237,7 +236,7 @@ codeunit 50001 "DocAttchMgt Extension"
         ToRecRef.Open(Database::"Payment Voucher Header");
         ToRecRef.GetTable(Rec2);
 
-        CopyPortalLinks(FromRecRef, ToRecRef);
+        CopyRecordLinks(FromRecRef, ToRecRef);
         CopyAttachments(FromRecRef, ToRecRef);
     end;
 
@@ -253,7 +252,7 @@ codeunit 50001 "DocAttchMgt Extension"
         ToRecRef.Open(Database::"Payment Voucher Header");
         ToRecRef.GetTable(Rec2);
 
-        CopyPortalLinks(FromRecRef, ToRecRef);
+        CopyRecordLinks(FromRecRef, ToRecRef);
         CopyAttachments(FromRecRef, ToRecRef);
     end;
 
@@ -269,7 +268,7 @@ codeunit 50001 "DocAttchMgt Extension"
         ToRecRef.Open(Database::Retirement);
         ToRecRef.GetTable(Rec2);
 
-        CopyPortalLinks(FromRecRef, ToRecRef);
+        CopyRecordLinks(FromRecRef, ToRecRef);
         CopyAttachments(FromRecRef, ToRecRef);
     end;
 

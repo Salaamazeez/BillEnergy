@@ -196,6 +196,7 @@ page 50007 "Approved Payment Req. Card"
                             PVLine.Insert();
                         until PRLine.Next() = 0;
                     end;
+                    Rec.OnMoveDocAttachFromPaymentReqToVoucher(Rec, PVHeader);
                     IF CONFIRM('Do you want to open Payment Voucher %1?', FALSE, PVHeaderNo) THEN
                         page.Run(60002, PVHeader)
                     ELSE
