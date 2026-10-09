@@ -1,6 +1,6 @@
 # Portal attachment links
 
-The four ESS Management actions now accept `documentURLs` as Text containing a JSON array of absolute HTTP/HTTPS URL strings, for example:
+The five ESS Management actions now accept `documentURLs` as Text containing a JSON array of absolute HTTP/HTTPS URL strings, for example:
 
 ```json
 "documentURLs": "[\"https://hrms.billenergy.com/documents/view?module=Attachment&type=attachment&id=7c9e6679-7425-40de-944b-e07fc1f90ae7\"]"
@@ -38,3 +38,12 @@ The current Purchase Invoice action also requires `postingDescription`, which is
 6. Submit invalid JSON, null/object entries, a non-HTTP(S) URL and an overlength URL; verify the action fails without committing partial changes.
 
 Compilation does not replace these BC/portal runtime checks. Deploy to a sandbox before production.
+
+## Purchase requisition extension
+
+`ESSManagement_CreateOrEditPurchaseRequisition` now accepts `documentURLs` using the same JSON-array-as-Text format. Supply `[]` when there are no links. Links appear on the open, pending, approved and processed requisition cards.
+
+Creating purchase orders copies all source URL links to every order whose `Purch REQ Ref No.` matches the requisition, including orders created for different vendors. Descriptions are preserved and duplicate URLs are skipped. Subsequent endpoint retries also copy newly supplied links to matching existing orders. Files remain in the portal.
+
+Sandbox check: submit the supplied two-vendor payload with two URLs, verify requisition Links, create orders from the Approved Purchase Requisition Card, and verify both URLs on every resulting Purchase Order. Retry with an additional URL and verify it reaches all orders without duplicates. Also verify malformed `documentURLs` fails the action.
+For an existing Purchase Order, use Actions > Copy Requisition Links after deployment. This copies links from its Purch REQ Ref No., reports how many new links were inserted, and rejects a missing reference or a source requisition with no URL links. The standard Purchase Order Links FactBox is explicitly set to visible.

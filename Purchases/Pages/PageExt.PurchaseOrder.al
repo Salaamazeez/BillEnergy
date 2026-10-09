@@ -2,6 +2,11 @@ pageextension 50207 PurchaseOrderExt extends "Purchase Order"
 {
     layout
     {
+        modify(Control1900383207)
+        {
+            //ApplicationArea = All;
+            Visible = true;
+        }
         modify("Location Code")
         {
             Visible = false;
@@ -49,6 +54,24 @@ pageextension 50207 PurchaseOrderExt extends "Purchase Order"
 
         addafter("Archive Document")
         {
+            action(CopyRequisitionLinks)
+            {
+                ApplicationArea = All;
+                Caption = 'Copy Requisition Links';
+                Image = Links;
+                ToolTip = 'Copy URL links from the source purchase requisition to this order, skipping duplicate URLs.';
+
+                trigger OnAction()
+                var
+                    AttachmentLinks: Codeunit "DocAttchMgt Extension";
+                    CopiedLinks: Integer;
+                begin
+                    CurrPage.SaveRecord();
+                    CopiedLinks := AttachmentLinks.CopyLinksToPurchaseOrder(Rec);
+                    CurrPage.Update(false);
+                    Message('%1 new link(s) copied from purchase requisition %2. Existing URLs are skipped.', CopiedLinks, Rec."Purch REQ Ref No.");
+                end;
+            }
             action(TestCreatePurchaseInvoice)
             {
                 ApplicationArea = All;

@@ -123,6 +123,13 @@ page 50019 "Pending Purch. Requisition Car"
             }
 
         }
+        area(factboxes)
+        {
+            systempart(PortalLinks; Links)
+            {
+                ApplicationArea = All;
+            }
+        }
     }
 
     actions

@@ -129,6 +129,13 @@ page 50146 "Purch. Requisition Card"
             }
 
         }
+        area(factboxes)
+        {
+            systempart(PortalLinks; Links)
+            {
+                ApplicationArea = All;
+            }
+        }
     }
 
     actions

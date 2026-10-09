@@ -13,6 +13,7 @@ codeunit 50001 "DocAttchMgt Extension"
         VoucherRef: RecordRef;
         NoField: FieldRef;
         DocumentNo: Code[20];
+        PurchaseRequisition: Record "Purch. Requistion";
     begin
         if DocumentURLs = '' then
             exit;
@@ -32,6 +33,11 @@ codeunit 50001 "DocAttchMgt Extension"
         end;
         // A portal retry can add links after the voucher has already been created.
         case DocumentRef.Number of
+            Database::"Purch. Requistion":
+                begin
+                    DocumentRef.SetTable(PurchaseRequisition);
+                    CopyPurchaseRequisitionLinks(PurchaseRequisition);
+                end;
             Database::"Payment Requisition":
                 begin
                     NoField := DocumentRef.Field(1);
@@ -52,6 +58,48 @@ codeunit 50001 "DocAttchMgt Extension"
                     end;
                 end;
         end;
+    end;
+
+    procedure CopyPurchaseRequisitionLinks(PurchaseRequisition: Record "Purch. Requistion")
+    var
+        PurchaseOrder: Record "Purchase Header";
+        FromRecRef: RecordRef;
+        ToRecRef: RecordRef;
+    begin
+        if PurchaseRequisition.IsTemporary or (PurchaseRequisition."No." = '') then
+            exit;
+        FromRecRef.GetTable(PurchaseRequisition);
+        PurchaseOrder.SetRange("Document Type", PurchaseOrder."Document Type"::Order);
+        PurchaseOrder.SetRange("Purch REQ Ref No.", PurchaseRequisition."No.");
+        if PurchaseOrder.FindSet() then
+            repeat
+                ToRecRef.GetTable(PurchaseOrder);
+                CopyRecordLinks(FromRecRef, ToRecRef);
+            until PurchaseOrder.Next() = 0;
+    end;
+
+    procedure CopyLinksToPurchaseOrder(PurchaseOrder: Record "Purchase Header"): Integer
+    var
+        PurchaseRequisition: Record "Purch. Requistion";
+        RecordLink: Record "Record Link";
+        FromRecRef: RecordRef;
+        ToRecRef: RecordRef;
+        LinksBefore: Integer;
+    begin
+        PurchaseOrder.TestField("Document Type", PurchaseOrder."Document Type"::Order);
+        PurchaseOrder.TestField("Purch REQ Ref No.");
+        PurchaseRequisition.Get(PurchaseOrder."Purch REQ Ref No.");
+        FromRecRef.GetTable(PurchaseRequisition);
+        ToRecRef.GetTable(PurchaseOrder);
+        RecordLink.SetRange("Record ID", FromRecRef.RecordId);
+        RecordLink.SetRange(Company, CompanyName);
+        RecordLink.SetRange(Type, RecordLink.Type::Link);
+        if RecordLink.IsEmpty then
+            Error('Purchase requisition %1 has no URL links to copy.', PurchaseRequisition."No.");
+        RecordLink.SetRange("Record ID", ToRecRef.RecordId);
+        LinksBefore := RecordLink.Count();
+        CopyRecordLinks(FromRecRef, ToRecRef);
+        exit(RecordLink.Count() - LinksBefore);
     end;
 
     local procedure AddRecordLink(var DocumentRef: RecordRef; URL: Text; LinkDescription: Text)

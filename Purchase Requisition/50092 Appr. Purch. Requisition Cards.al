@@ -124,6 +124,13 @@ page 50092 "Appr. Purch. Requisition Cards"
                 //  SubPageLink = "Document No." = field("No.");
             }
         }
+        area(factboxes)
+        {
+            systempart(PortalLinks; Links)
+            {
+                ApplicationArea = All;
+            }
+        }
     }
 
     actions

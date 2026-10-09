@@ -125,6 +125,13 @@ page 50093 "Approved Purch. REQ Page"
                 //  SubPageLink = "Document No." = field("No.");
             }
         }
+        area(factboxes)
+        {
+            systempart(PortalLinks; Links)
+            {
+                ApplicationArea = All;
+            }
+        }
     }
 
     actions

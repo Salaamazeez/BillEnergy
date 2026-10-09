@@ -613,6 +613,7 @@ table 50130 "Purch. Requistion"
 
     procedure CreatePurchaseOrder()
     var
+        AttachmentLinks: Codeunit "DocAttchMgt Extension";
         PurchOrd: Record "Purchase Header";
         PurchOrd3: Record "Purchase Header";
         PurchOrd4: Record "Purchase Header";
@@ -707,6 +708,7 @@ table 50130 "Purch. Requistion"
                         // end;
                     end;
                 UNTIL PurchReqlines.NEXT = 0;
+            AttachmentLinks.CopyPurchaseRequisitionLinks(Rec);
             COMMIT;
             // PurchOrderReport.SetTableView(PurchOrd);
 

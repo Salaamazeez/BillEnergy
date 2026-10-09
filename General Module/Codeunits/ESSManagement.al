@@ -964,8 +964,9 @@ codeunit 50500 "ESS Management"
         exit(ResponseText);
     end;
 
-    procedure CreateOrEditPurchaseRequisition(DocumentNo: Code[20]; Beneficiary: Code[20]; RequestDescription: Text[250]; PurchaseReqLines: Text): Text
+    procedure CreateOrEditPurchaseRequisition(DocumentNo: Code[20]; Beneficiary: Code[20]; RequestDescription: Text[250]; PurchaseReqLines: Text; DocumentURLs: Text): Text
     var
+        AttachmentLinks: Codeunit "DocAttchMgt Extension";
         Header: Record "Purch. Requistion";
         Line: Record "Purchase Requisition Line";
         JsonArray: JsonArray;
@@ -1111,6 +1112,8 @@ codeunit 50500 "ESS Management"
         end;
         Header.Validate(Status, Header.Status::Approved);
         Header.Modify();
+
+        AttachmentLinks.StorePortalLinks(Header, DocumentURLs);
 
         DataObject.Add('No', Header."No.");
         DataObject.Add('processedLines', LineCount);
