@@ -9,6 +9,7 @@ codeunit 50500 "ESS Management"
 
     procedure CreateorEditPaymentRequest(DocumentNo: Code[20]; PostingDate: Text; Requester: Code[20]; Beneficiary: Code[20]; BalAccType: Option "G/L Account",Vendor,Staff,"Bank Account"; CurrencyCode: Code[10]; Description: Text; PurchReqNo: Code[20]; ReqAmount: Decimal; VoucherCreated: Boolean; TransactionType: Option " ",Loan,"Staff Adv"; LoanId: Code[20]; PaymentReqLines: Text; DocumentURLs: Text): Text
     var
+        WasApproved: Boolean;
         AttachmentLinks: Codeunit "DocAttchMgt Extension";
         Header: Record "Payment Requisition";
         Line: Record "Payment Requisition Line";
@@ -28,6 +29,10 @@ codeunit 50500 "ESS Management"
         ShortcutDimCode1: Code[20];
         ShortcutDimCode2: Code[20];
     begin
+        if Header.Get(DocumentNo) then
+            WasApproved := Header.Status = Header.Status::Approved;
+        Clear(Header);
+//  Error(userid);
         if DocumentNo <> '' then begin
             if not Header.Get(DocumentNo) then
                 Error('Payment Requisition %1 not found', DocumentNo);
@@ -141,6 +146,9 @@ codeunit 50500 "ESS Management"
         ResponseObject.Add('message', StrSubstNo('Payment Request processed successfully with %1 lines', LineCount));
         ResponseObject.Add('data', DataObject);
 
+        if not WasApproved then
+            QueueApprovedNotification(Header."No.", 'Finance', 'Payment Request', Header."Request Description");
+
         ResponseObject.WriteTo(ResponseText);
 
         exit(ResponseText);
@@ -151,6 +159,7 @@ codeunit 50500 "ESS Management"
 
     procedure CreateOrEditCashAdvance(DocumentNo: Code[20]; DocumentDate: Text; requester: Text[50]; Description: Text[100]; DueDate: Text; DebitAccountNo: Code[20]; CurrencyCode: Code[10]; CashAdvanceLines: Text; DocumentURLs: Text): Text
     var
+        WasApproved: Boolean;
         AttachmentLinks: Codeunit "DocAttchMgt Extension";
         Header: Record "Cash Advance";
         Line: Record "Cash Advance Line";
@@ -173,6 +182,10 @@ codeunit 50500 "ESS Management"
         ErrorNoLines: Label 'No lines provided';
         ErrorInvalidJson: Label 'Invalid JSON format';
     begin
+        if Header.Get(DocumentNo) then
+            WasApproved := Header.Status = Header.Status::Approved;
+        Clear(Header);
+
         if CashAdvanceLines = '' then
             Error(ErrorNoLines);
 
@@ -289,6 +302,9 @@ codeunit 50500 "ESS Management"
         ResponseObject.Add('success', true);
         ResponseObject.Add('message', StrSubstNo(ResponseLbl, LineCount));
         ResponseObject.Add('data', DataObject);
+        if not WasApproved then
+            QueueApprovedNotification(Header."No.", 'Finance', 'Cash Advance', Header.Description);
+
         ResponseObject.WriteTo(ResponseText);
         exit(ResponseText);
     end;
@@ -296,6 +312,7 @@ codeunit 50500 "ESS Management"
 
     procedure CreateOrEditStoreRequisition(DocumentNo: Code[20]; DocumentDate: Text; Requester: Code[50]; Beneficiary: Code[20]; Location: Code[20]; ProjectJobDescription: Text[100]; WorkOrderNo: Code[20]; StoreReqLines: Text): Text
     var
+        WasApproved: Boolean;
         Header: Record "Store Requisition";
         Line: Record "Store Requisition Line";
         JsonArray: JsonArray;
@@ -318,6 +335,10 @@ codeunit 50500 "ESS Management"
         ErrorNoLines: Label 'No lines provided';
         ErrorInvalidJson: Label 'Invalid JSON format';
     begin
+        if Header.Get(DocumentNo) then
+            WasApproved := Header.Status = Header.Status::Approved;
+        Clear(Header);
+
         if StoreReqLines = '' then
             Error(ErrorNoLines);
 
@@ -421,12 +442,16 @@ codeunit 50500 "ESS Management"
         ResponseObject.Add('message', StrSubstNo(ResponseLbl, LineCount));
         ResponseObject.Add('documentNo', Header."No.");
         ResponseObject.Add('data', DataObject);
+        if not WasApproved then
+            QueueApprovedNotification(Header."No.", 'Procurement', 'Store Requisition', Header."Project/Job Description");
+
         ResponseObject.WriteTo(ResponseText);
         exit(ResponseText);
     end;
 
     procedure CreateOrEditStoresReturn(DocumentNo: Code[20]; DocumentDate: Text; Requester: Code[50]; Beneficiary: Code[20]; Location: Code[20]; IssueNo: Code[20]; ProjectJobDescription: Text[100]; WorkOrderNo: Code[20]; StoreReturnLines: Text): Text
     var
+        WasApproved: Boolean;
         Header: Record "Stores Return";
         Line: Record "Stores Return Line";
         StoreReqLine: Record "Store Requisition Line";
@@ -453,6 +478,10 @@ codeunit 50500 "ESS Management"
         ErrorNoLines: Label 'No lines provided';
         ErrorInvalidJson: Label 'Invalid JSON format';
     begin
+        if Header.Get(DocumentNo) then
+            WasApproved := Header.Status = Header.Status::Approved;
+        Clear(Header);
+
         if StoreReturnLines = '' then
             Error(ErrorNoLines);
 
@@ -583,6 +612,9 @@ codeunit 50500 "ESS Management"
         ResponseObject.Add('message', StrSubstNo(ResponseLbl, LineCount));
         ResponseObject.Add('documentNo', Header."No.");
         ResponseObject.Add('data', DataObject);
+        if not WasApproved then
+            QueueApprovedNotification(Header."No.", 'Procurement', 'Stores Return', Header."Project/Job Description");
+
         ResponseObject.WriteTo(ResponseText);
         exit(ResponseText);
     end;
@@ -590,6 +622,7 @@ codeunit 50500 "ESS Management"
 
     procedure CreateOrEditRetirement(DocumentNo: Code[20]; retirementDate: Text; Beneficiary: Code[20]; RetirementRef: Code[50]; CurrencyCode: Code[10]; Purpose: Text[250]; RetirementLines: Text; DocumentURLs: Text): Text
     var
+        WasApproved: Boolean;
         AttachmentLinks: Codeunit "DocAttchMgt Extension";
         Header: Record Retirement;
         Line: Record "Retirement Line";
@@ -615,6 +648,10 @@ codeunit 50500 "ESS Management"
         ErrorNoLines: Label 'No lines provided';
         ErrorInvalidJson: Label 'Invalid JSON format';
     begin
+        if Header.Get(DocumentNo) then
+            WasApproved := Header.Status = Header.Status::Approved;
+        Clear(Header);
+
         if RetirementLines = '' then
             Error(ErrorNoLines);
 
@@ -735,7 +772,7 @@ codeunit 50500 "ESS Management"
             Line.Validate(Amount, LineAmount);
             Line.Modify(true);
         end;
-        //Header.Validate(Status, Header.Status::Approved);
+        Header.Validate(Status, Header.Status::Approved);
         Header.Modify();
 
         AttachmentLinks.StorePortalLinks(Header, DocumentURLs);
@@ -747,17 +784,25 @@ codeunit 50500 "ESS Management"
         ResponseObject.Add('message', StrSubstNo(ResponseLbl, LineCount));
         ResponseObject.Add('documentNo', Header."No.");
         ResponseObject.Add('data', DataObject);
+        if not WasApproved then
+            QueueApprovedNotification(Header."No.", 'Finance', 'Retirement', Header.Purpose);
+
         ResponseObject.WriteTo(ResponseText);
         exit(ResponseText);
     end;
 
     procedure CreateOrEditLeaveApplication(LeaveCode: Code[20]; ApplyingType: Option " ",Self,Surbodinate; EmployeeNo: Code[20]; Description: Text[250]; StartDate: Text; EndDate: Text; LeaveType: Code[20]): Text
     var
+        WasApproved: Boolean;
         Header: Record LeaveApplication;
         ResponseObject: JsonObject;
         DataObject: JsonObject;
         ResponseText: Text;
     begin
+        if Header.Get(LeaveCode) then
+            WasApproved := Header.Status = Header.Status::Approved;
+        Clear(Header);
+
         if LeaveCode <> '' then begin
             if not Header.Get(LeaveCode) then
                 Error('Leave Application %1 not found', LeaveCode);
@@ -787,6 +832,9 @@ codeunit 50500 "ESS Management"
         ResponseObject.Add('success', true);
         ResponseObject.Add('message', 'Leave Application processed successfully');
         ResponseObject.Add('data', DataObject);
+        if not WasApproved then
+            QueueApprovedNotification(Header."Leave Code", 'HR', 'Leave Application', Header.Description);
+
         ResponseObject.WriteTo(ResponseText);
         exit(ResponseText);
     end;
@@ -856,6 +904,7 @@ codeunit 50500 "ESS Management"
 
     procedure CreateOrEditPerformanceAppraisal(EmployeeNo: Code[20]; AppraisalYear: Integer; AppraisalLines: Text): Text
     var
+        WasApproved: Boolean;
         Header: Record PerformanceAppraisalHeader;
         Line: Record PerformanceAppraiserLine;
         JsonArray: JsonArray;
@@ -877,6 +926,10 @@ codeunit 50500 "ESS Management"
         ErrorInvalidJson: Label 'Invalid JSON format';
         ResponseLbl: Label 'Performance Appraisal processed successfully with %1 lines';
     begin
+        if Header.Get(EmployeeNo, AppraisalYear) then
+            WasApproved := Header.Status = Header.Status::Approved;
+        Clear(Header);
+
         if not Header.Get(EmployeeNo, AppraisalYear) then begin
             Header.Init();
             Header.Validate("Employee No.", EmployeeNo);
@@ -960,12 +1013,16 @@ codeunit 50500 "ESS Management"
         ResponseObject.Add('message', StrSubstNo(ResponseLbl, LineCount));
         ResponseObject.Add('data', DataObject);
 
+        if not WasApproved then
+            QueueApprovedNotification(EmployeeNo + '/' + Format(AppraisalYear), 'HR', 'Performance Appraisal', Header."Employee Name");
+
         ResponseObject.WriteTo(ResponseText);
         exit(ResponseText);
     end;
 
     procedure CreateOrEditPurchaseRequisition(DocumentNo: Code[20]; Beneficiary: Code[20]; RequestDescription: Text[250]; PurchaseReqLines: Text; DocumentURLs: Text): Text
     var
+        WasApproved: Boolean;
         AttachmentLinks: Codeunit "DocAttchMgt Extension";
         Header: Record "Purch. Requistion";
         Line: Record "Purchase Requisition Line";
@@ -994,6 +1051,10 @@ codeunit 50500 "ESS Management"
         ErrorNoLines: Label 'No lines provided';
         ErrorInvalidJson: Label 'Invalid JSON format';
     begin
+        if Header.Get(DocumentNo) then
+            WasApproved := Header.Status = Header.Status::Approved;
+        Clear(Header);
+
         if DocumentNo <> '' then begin
             if not Header.Get(DocumentNo) then
                 Error('Purchase Requisition %1 not found', DocumentNo);
@@ -1121,6 +1182,9 @@ codeunit 50500 "ESS Management"
         ResponseObject.Add('success', true);
         ResponseObject.Add('message', StrSubstNo(ResponseLbl, LineCount));
         ResponseObject.Add('data', DataObject);
+
+        if not WasApproved then
+            QueueApprovedNotification(Header."No.", 'Procurement', 'Purchase Requisition', Header."Request Description");
 
         ResponseObject.WriteTo(ResponseText);
         exit(ResponseText);
@@ -1469,6 +1533,8 @@ codeunit 50500 "ESS Management"
 
     procedure CreateOrEditPurchaseInvoice(DocumentNo: Code[20]; VendorNo: Code[20]; Beneficiary: Code[20]; VendorInvoiceNo: Code[35]; LocationCode: Code[20]; Description: Text[250];  PurchaseLines: Text; DocumentURLs: Text): Text
     var
+        WasReleased: Boolean;
+        ReleasePurchDocument: Codeunit "Release Purchase Document";
         AttachmentLinks: Codeunit "DocAttchMgt Extension";
         Header: Record "Purchase Header";
         Line: Record "Purchase Line";
@@ -1501,6 +1567,8 @@ codeunit 50500 "ESS Management"
         if DocumentNo <> '' then begin
             if not Header.Get(Header."Document Type"::Invoice, DocumentNo) then
                 Error('Purchase Invoice %1 not found', DocumentNo);
+
+            WasReleased := Header.Status = Header.Status::Released;
 
             Line.Reset();
             Line.SetRange("Document Type", Header."Document Type");
@@ -1610,9 +1678,10 @@ codeunit 50500 "ESS Management"
             // Line.Insert(true);
             Line.Modify(true);
         end;
-        //Header.Validate(Status, Header.Status::Released);
+        // Release through standard BC checks before queuing the approval email.
         Header.Modify(true);
         AttachmentLinks.StorePortalLinks(Header, DocumentURLs);
+        ReleasePurchDocument.PerformManualRelease(Header);
 
         DataObject.Add('No', Header."No.");
         DataObject.Add('processedLines', LineCount);
@@ -1620,6 +1689,9 @@ codeunit 50500 "ESS Management"
         ResponseObject.Add('success', true);
         ResponseObject.Add('message', StrSubstNo(ResponseLbl, LineCount));
         ResponseObject.Add('data', DataObject);
+
+        if (not WasReleased) and (Header.Status = Header.Status::Released) then
+            QueueApprovedNotification(Header."No.", 'Procurement', 'Purchase Invoice', Header."Posting Description");
 
         ResponseObject.WriteTo(ResponseText);
         exit(ResponseText);
@@ -1749,4 +1821,47 @@ codeunit 50500 "ESS Management"
 
 
 
+    local procedure QueueApprovedNotification(DocumentNo: Text; RecipientRole: Text; DocumentType: Text; DocumentDescription: Text)
+    var
+        UserSetup: Record "User Setup";
+        EmailMessage: Codeunit "Email Message";
+        Email: Codeunit Email;
+        Recipients: List of [Text];
+        EmailAddress: Text;
+        DocumentReference: Text;
+        NewLine: Text[2];
+        SubjectLbl: Label 'Approved %1 Awaiting Processing', Comment = '%1 = document type';
+        BodyLbl: Label 'Dear Manager,%1%1The approved %3 (Doc. %2) is ready and awaiting your processing in Business Central.%1%1Thank you.', Comment = '%1 = line break, %2 = document number and description, %3 = document type';
+    begin
+        case RecipientRole of
+            'Finance':
+                UserSetup.SetRange("Finance Admin", true);
+            'Procurement':
+                UserSetup.SetRange("Procurement Admin", true);
+            'HR':
+                UserSetup.SetRange("HR Admin", true);
+            else
+                exit;
+        end;
+        UserSetup.SetFilter("E-Mail", '<>%1', '');
+        if not UserSetup.FindSet() then
+            exit;
+
+        DocumentReference := DocumentNo;
+        if DocumentDescription <> '' then
+            DocumentReference += ': ' + DocumentDescription;
+
+        NewLine[1] := 13;
+        NewLine[2] := 10;
+        repeat
+            EmailAddress := LowerCase(UserSetup."E-Mail");
+            if not Recipients.Contains(EmailAddress) then begin
+                Recipients.Add(EmailAddress);
+                Clear(EmailMessage);
+                EmailMessage.Create(EmailAddress, StrSubstNo(SubjectLbl, DocumentType), StrSubstNo(BodyLbl, NewLine, DocumentReference, DocumentType), false);
+                // Queue within the portal transaction so failed imports cannot send mail.
+                Email.Enqueue(EmailMessage, Enum::"Email Scenario"::Default);
+            end;
+        until UserSetup.Next() = 0;
+    end;
 }
