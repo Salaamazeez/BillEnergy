@@ -14,20 +14,20 @@ tableextension 50020 ItemExt extends Item
     trigger OnBeforeInsert()
     var
         UserSetup: Record "User Setup";
-        Err0001: Label 'The current user is not g/l account admin';
+        Err0001: Label 'You must be a Master Record Admin or Procurement Admin to create or modify this record.';
     begin
         UserSetup.Get(UserId);
-        if not UserSetup."Master Record Admin" then
+        if not (UserSetup."Master Record Admin" or UserSetup."Procurement Admin") then
             Error(Err0001);
     end;
 
     trigger OnBeforeModify()
     var
         UserSetup: Record "User Setup";
-        Err0001: Label 'The current user is not g/l account admin';
+        Err0001: Label 'You must be a Master Record Admin or Procurement Admin to create or modify this record.';
     begin
         UserSetup.Get(UserId);
-        if not UserSetup."Master Record Admin" then
+        if not (UserSetup."Master Record Admin" or UserSetup."Procurement Admin") then
             Error(Err0001);
     end;
 }
